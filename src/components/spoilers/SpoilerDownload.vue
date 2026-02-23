@@ -6,6 +6,7 @@ import { commonPrefix } from '@/lib/strings'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
 
+const TARGET_SIZE = Math.round(1024 * 1024 * 9.75)
 const spoilerStore = useSpoilerStore()
 
 const downloadEnabled = computed(() => spoilerStore.recordings.length > 0)
@@ -23,7 +24,7 @@ const paddedSize = computed(() => {
     return 0
   }
 
-  return Math.max(...spoilerStore.recordings.map((recording) => recording.size))
+  return Math.max(...spoilerStore.recordings.map((recording) => recording.size), TARGET_SIZE)
 })
 
 const padFile = (file: File, targetSize: number) => {
