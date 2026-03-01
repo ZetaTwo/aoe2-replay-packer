@@ -23,6 +23,9 @@ importers:
       lodash.debounce:
         specifier: ^4.0.8
         version: 4.0.8
+      p-map:
+        specifier: ^7.0.4
+        version: 7.0.4
       pinia:
         specifier: ^3.0.1
         version: 3.0.4(typescript@5.9.3)(vue@3.5.27(typescript@5.9.3))
