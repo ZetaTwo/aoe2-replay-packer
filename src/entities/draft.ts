@@ -7,6 +7,7 @@ enum DraftType {
 export type draft = {
   draftId: string
   presetId: string
+  ts: number
   title: string
   nameHost: string
   nameGuest: string

@@ -4,6 +4,8 @@ import pMap from 'p-map'
 import { type draft, type draftV2, getDraftTypeLabel, extractDraftId } from '../entities/draft'
 
 const MAX_CONCURRENT_API_REQUESTS = 4
+const MAX_DRAFT_AGE_SECONDS = 60 * 60 * 24
+const MAX_DRAFT_ITEMS = 10
 
 const props = defineProps<{
   civPresets: string[] | null
@@ -20,31 +22,42 @@ const civDraftURI = defineModel<string>('civDraft')
 const currentMapDraftId = computed(() => extractDraftId(mapDraftURI.value))
 const currentCivDraftId = computed(() => extractDraftId(civDraftURI.value))
 
-const fetchDraftsFromPresetIds = async (presetId: string) => {
+const fetchDraftsFromPresetIds = async (presetId: string, maxAgeSeconds: number) => {
   const presetURL = `https://aoe2cm.net/api/preset/${presetId}/drafts`
   const response = await fetch(presetURL)
   if (!response.ok) {
     return []
   }
-  const drafts = ((await response.json()) as draftV2[]).map((draft) => {
-    return {
-      draftId: draft.draftId,
-      presetId: presetId,
-      // The preset-specific endpoint does not return a title so we make up a sensible one
-      title: `${draft.host} vs ${draft.guest}`,
-      nameHost: draft.host,
-      nameGuest: draft.guest
-    }
-  })
+  const minTs = Date.now() - maxAgeSeconds * 1000
+  const drafts = ((await response.json()) as draftV2[])
+    .filter((draft) => draft.ts >= minTs)
+    .map((draft) => {
+      return {
+        draftId: draft.draftId,
+        presetId: presetId,
+        ts: draft.ts,
+        // The preset-specific endpoint does not return a title so we make up a sensible one
+        title: `${draft.host} vs ${draft.guest}`,
+        nameHost: draft.host,
+        nameGuest: draft.guest
+      }
+    })
   return drafts
 }
 
 const recentDrafts = await (async () => {
   const drafts = (
-    await pMap(presets.value, fetchDraftsFromPresetIds, {
-      concurrency: MAX_CONCURRENT_API_REQUESTS
-    })
-  ).flat(1)
+    await pMap(
+      presets.value,
+      (presetId) => fetchDraftsFromPresetIds(presetId, MAX_DRAFT_AGE_SECONDS),
+      {
+        concurrency: MAX_CONCURRENT_API_REQUESTS
+      }
+    )
+  )
+    .flat(1)
+    .sort((a, b) => b.ts - a.ts)
+    .slice(0, MAX_DRAFT_ITEMS)
   return drafts
 })()
 
@@ -66,7 +79,7 @@ function selectDraft(draft: draft) {
 </script>
 
 <template>
-  <div class="text-center p-4 border-2 col-span-3 mt-4 h-80 overflow-auto">
+  <div class="text-center p-4 border-2 col-span-3 mt-4 h-85 overflow-auto">
     <h2 class="text-center text-2xl">Recent Drafts</h2>
     <ul
       role="list"
