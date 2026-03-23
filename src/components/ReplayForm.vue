@@ -417,7 +417,7 @@ function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
     <ZipPreviewPane :games="gamesStore.games" :player1="player1" :player2="player2" :meta="meta" />
     <button
       :disabled="!downloadEnabled"
-      class="btn text-2xl text-white dark:text-black"
+      class="btn mt-3 text-2xl text-white dark:text-black"
       :class="{
         'bg-blue-500': downloadEnabled,
         'bg-blue-200': !downloadEnabled,
