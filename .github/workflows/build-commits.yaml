@@ -20,6 +20,8 @@ jobs:
       - name: Setup pnpm
         id: setup-pnpm
         uses: pnpm/action-setup@v5
+        with:
+          version: 10
 
       - name: Install dependencies
         id: install-dependencies
@@ -46,6 +48,8 @@ jobs:
       - name: Setup pnpm
         id: setup-pnpm
         uses: pnpm/action-setup@v5
+        with:
+          version: 10
 
       - name: Install dependencies
         id: install-dependencies
@@ -70,6 +74,8 @@ jobs:
       - name: Setup pnpm
         id: setup-pnpm
         uses: pnpm/action-setup@v5
+        with:
+          version: 10
 
       - name: Install dependencies
         id: install-dependencies
