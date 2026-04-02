@@ -46,13 +46,13 @@ watch(chosenSetDefinition, (newType, oldType) => {
 <template>
   <div class="mt-4 text-center">
     <ul class="w-full gap-6 flex flex-row justify-center">
-      <li class="basis-2/11" v-for="setType in props.setTypes" :key="setType.label()">
+      <li v-for="setType in props.setTypes" :key="setType.label()" class="basis-2/11">
         <input
+          :id="`${setType.type}-${setType.length}`"
+          v-model="chosenSetDefinition"
           name="set-definition"
           type="radio"
-          v-model="chosenSetDefinition"
-          :id="`${setType.type}-${setType.length}`"
-          v-bind:value="setType"
+          :value="setType"
           class="hidden peer"
           required
         />

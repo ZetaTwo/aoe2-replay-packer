@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { toBase26, logn } from './maths'
+import { describe, it, expect, vi } from 'vitest'
+import { toBase26, logn, getRandomInt, readableSize } from './maths'
 
 describe('logn', () => {
   it('calculates logs', () => {
@@ -28,5 +28,35 @@ describe('toBase26', () => {
     expect(toBase26(676, 3)).toBe('baa')
     expect(toBase26(677, 3)).toBe('bab')
     expect(toBase26(678, 3)).toBe('bac')
+  })
+})
+
+describe('readableSize', () => {
+  it('formats bytes under 1 MB as Kb', () => {
+    expect(readableSize(1024)).toBe('1 Kb')
+    expect(readableSize(2048)).toBe('2 Kb')
+  })
+
+  it('rounds Kb to nearest integer', () => {
+    expect(readableSize(1536)).toBe('2 Kb')
+  })
+
+  it('formats bytes over 1 MB as Mb', () => {
+    expect(readableSize(1024 * 1024)).toBe('1 Mb')
+    expect(readableSize(1024 * 1024 * 1.5)).toBe('1.5 Mb')
+  })
+})
+
+describe('getRandomInt', () => {
+  it('returns min when Math.random returns 0', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0)
+    expect(getRandomInt(5, 10)).toBe(5)
+    vi.restoreAllMocks()
+  })
+
+  it('returns max - 1 when Math.random approaches 1', () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.9999)
+    expect(getRandomInt(5, 10)).toBe(9)
+    vi.restoreAllMocks()
   })
 })

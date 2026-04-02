@@ -7,7 +7,7 @@ import type { GameOutcome } from '@/entities/game'
 const gamesStore = useGamesStore()
 
 const { showResults = true } = defineProps<{
-  showResults: boolean
+  showResults?: boolean
 }>()
 </script>
 <template>
@@ -16,11 +16,11 @@ const { showResults = true } = defineProps<{
       No games selected yet.
     </p>
     <component
-      v-else
+      :is="game.isDummy() ? DummyGame : ParsedGame"
       v-for="(game, index) in gamesStore.games"
+      v-else
       :key="game.id"
       class="w-full p-6 bg-white border border-gray-200 rounded-lg shadow-xs dark:bg-gray-800 dark:border-gray-700 relative"
-      :is="game.isDummy() ? DummyGame : ParsedGame"
       :game="game"
       :index="index"
       :num-games="gamesStore.realGamesCount"

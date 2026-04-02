@@ -7,8 +7,10 @@ import {
   Game,
   Player,
   Team,
-  Replay
+  Replay,
+  type DummyReplay
 } from './game'
+import type { SavegameSummary } from 'aoe2rec-js'
 
 function makePlayer(name: string, resigned: boolean): Player {
   return new Player(1, name, name, 'Britons', 1, 1, resigned)
@@ -95,6 +97,31 @@ describe('matchName', () => {
 describe('zipFilename', () => {
   it('generates a correct zip filename', () => {
     expect(zipFilename('Player1', 'Player2')).toBe('Player1_vs_Player2.zip')
+  })
+})
+
+describe('Game.isDummy', () => {
+  it('is true when there are no replays', () => {
+    expect(new Game().isDummy()).toBe(true)
+  })
+
+  it('is true when no replay has a recording', () => {
+    const game = new Game()
+    game.replays.push({} as Replay)
+    expect(game.isDummy()).toBe(true)
+  })
+
+  it('is false when at least one replay has a recording', () => {
+    const game = new Game()
+    game.replays.push({ recording: {} as SavegameSummary } as Replay)
+    expect(game.isDummy()).toBe(false)
+  })
+
+  it('is false when a replay has a dummy recording', () => {
+    const game = new Game()
+    const dummyRecording: DummyReplay = { dummy: true, header: { timestamp: 0 } }
+    game.replays.push({ recording: dummyRecording } as Replay)
+    expect(game.isDummy()).toBe(false)
   })
 })
 

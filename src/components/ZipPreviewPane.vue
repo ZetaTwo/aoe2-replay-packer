@@ -27,7 +27,7 @@ const props = defineProps<{
           :last="gameIdx == props.games.length - 1"
         /><br />
       </template>
-      <template v-else v-for="(replay, replayIdx) in game.replays" :key="replay.id">
+      <template v-for="(replay, replayIdx) in game.replays" v-else :key="replay.id">
         <ZipPreviewFile
           :game="game"
           :player1="player1"

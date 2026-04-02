@@ -80,12 +80,12 @@ watch(boPa, (newBoPa, oldBoPa) => {
         <div class="block">
           <div class="inline-flex w-1/2">
             <input
-              type="radio"
               id="best-of"
+              v-model="boPa"
+              type="radio"
               name="bo-pa"
               class="hidden peer"
               :value="MatchSetType.BestOf"
-              v-model="boPa"
             />
             <label
               for="best-of"
@@ -96,12 +96,12 @@ watch(boPa, (newBoPa, oldBoPa) => {
           </div>
           <div class="inline-flex w-1/2">
             <input
-              type="radio"
               id="play-all"
+              v-model="boPa"
+              type="radio"
               name="bo-pa"
               class="hidden peer"
               :value="MatchSetType.PlayAll"
-              v-model="boPa"
             />
             <label
               for="play-all"
@@ -112,12 +112,12 @@ watch(boPa, (newBoPa, oldBoPa) => {
           </div>
         </div>
       </li>
-      <li class="basis-2/11" v-for="count in [3, 5, 7]" :key="count" :value="count">
+      <li v-for="count in [3, 5, 7]" :key="count" class="basis-2/11" :value="count">
         <input
-          type="radio"
           :id="`bo${count}`"
-          name="bo"
           v-model="bestOf"
+          type="radio"
+          name="bo"
           :value="count"
           class="hidden peer"
           required
@@ -134,10 +134,10 @@ watch(boPa, (newBoPa, oldBoPa) => {
 
       <li class="basis-2/11">
         <input
-          type="radio"
           id="bo-custom"
-          name="bo"
           v-model="bestOf"
+          type="radio"
+          name="bo"
           value="custom"
           class="hidden peer"
           :checked="bestOf == 'custom'"
@@ -149,11 +149,11 @@ watch(boPa, (newBoPa, oldBoPa) => {
           <div class="block w-full">
             <div class="w-full text-lg font-semibold">
               <input
+                v-model="customGameCount"
                 class="p-0 w-8 bg-transparent border text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white"
                 style="-moz-appearance: textfield"
                 type="number"
                 aria-roledescription="Number field"
-                v-model="customGameCount"
                 value="9"
                 data-hs-input-number-input=""
                 min="1"

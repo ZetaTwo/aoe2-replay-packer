@@ -98,7 +98,6 @@ function downloadZip() {
           <td class="border p-1">
             <button
               :disabled="!downloadEnabled"
-              @click="downloadZip"
               class="btn text-1xl text-white dark:text-black"
               :class="{
                 'bg-blue-500': downloadEnabled,
@@ -106,19 +105,19 @@ function downloadZip() {
                 'dark:bg-blue-700': downloadEnabled,
                 'dark:bg-blue-300': !downloadEnabled
               }"
+              @click="downloadZip"
             >
               Download
             </button>
           </td>
         </tr>
-        <tr v-for="recording in spoilerStore.recordings" v-bind:key="recording.name">
+        <tr v-for="recording in spoilerStore.recordings" :key="recording.name">
           <td class="border p-1">{{ formatRecordName(recording.name) }}</td>
           <td class="border p-1">{{ readableSize(recording.size) }}</td>
           <td class="border p-1">{{ readableSize(paddedSize) }}</td>
           <td class="border p-1">
             <button
               :disabled="!downloadEnabled"
-              @click="downloadPadded(recording)"
               class="btn text-1xl text-white dark:text-black"
               :class="{
                 'bg-blue-500': downloadEnabled,
@@ -126,6 +125,7 @@ function downloadZip() {
                 'dark:bg-blue-700': downloadEnabled,
                 'dark:bg-blue-300': !downloadEnabled
               }"
+              @click="downloadPadded(recording)"
             >
               Download
             </button>

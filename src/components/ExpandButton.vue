@@ -8,8 +8,8 @@ const { openText = 'Expand', closeText = 'Hide' } = defineProps<{
 </script>
 <template>
   <button
-    @click="expanded = !expanded"
     class="text-sm mt-2 pl-2 pr-2 rounded-full border-2 cursor-pointer text-gray-500 dark:hover:text-gray-300 hover:text-gray-600 dark:text-gray-400 dark:border-gray-700"
+    @click="expanded = !expanded"
   >
     <svg
       v-if="expanded"

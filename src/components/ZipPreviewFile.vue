@@ -25,8 +25,8 @@ const props = defineProps<{
       )
     }}</span>
     <span
-      class="ml-5 bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2 py-0.5 rounded-sm dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
       v-if="game.isDummy()"
+      class="ml-5 bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2 py-0.5 rounded-sm dark:bg-gray-700 dark:text-blue-400 border border-blue-400"
       >dummy file</span
     >
   </span>

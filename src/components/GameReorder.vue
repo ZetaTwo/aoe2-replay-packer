@@ -12,10 +12,10 @@ const emit = defineEmits<{
   <div class="flex flex-col h-full justify-between">
     <button
       v-if="!props.top"
-      @click="emit('move', 'up')"
       class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-hidden focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5 text-left"
       type="button"
       title="Move up"
+      @click="emit('move', 'up')"
     >
       <svg
         class="w-6 h-6 text-gray-500 dark:text-gray-400 inline-block"
@@ -36,10 +36,10 @@ const emit = defineEmits<{
 
     <button
       v-if="!props.bottom"
-      @click="emit('move', 'down')"
       class="text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-hidden focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5 text-left"
       type="button"
       title="Move down"
+      @click="emit('move', 'down')"
     >
       <svg
         class="w-6 h-6 text-gray-500 dark:text-gray-400 inline-block"

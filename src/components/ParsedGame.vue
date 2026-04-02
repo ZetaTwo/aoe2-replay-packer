@@ -60,8 +60,8 @@ function moveGameReplay(replayId: number, targetGame: number) {
     <GameToolbox class="absolute right-0 top-1" :game-index="props.index" />
     <h3 class="text-center text-2xl">Game {{ props.index + 1 }}</h3>
     <h4
-      class="text-center text-lg text-yellow-500 dark:text-yellow-200"
       v-if="props.game.isUnparseable()"
+      class="text-center text-lg text-yellow-500 dark:text-yellow-200"
     >
       Unparseable game
     </h4>
@@ -78,18 +78,18 @@ function moveGameReplay(replayId: number, targetGame: number) {
         props.game.replays.length > 2 ? 's' : ''
       }}
     </p>
-    <div class="flex mt-6 pl-6 pr-6" v-if="showResults">
+    <div v-if="showResults" class="flex mt-6 pl-6 pr-6">
       <div class="inline-flex w-1/2 h-full">
         <input
-          type="radio"
           :id="`winner-${props.game.id}`"
+          type="radio"
           :name="`winlose-${props.game.id}`"
           class="peer hidden"
+          :checked="props.game.outcome?.side == 'left'"
+          value="left"
           @change="
             emit('setOutcome', props.game.teams[0]?.asGameWinner('left') ?? dummyWinner('left'))
           "
-          :checked="props.game.outcome?.side == 'left'"
-          value="left"
         />
         <label
           :for="`winner-${props.game.id}`"
@@ -106,15 +106,15 @@ function moveGameReplay(replayId: number, targetGame: number) {
       </div>
       <div class="inline-flex w-1/2 h-full">
         <input
-          type="radio"
           :id="`loser-${props.game.id}`"
+          type="radio"
           :name="`winlose-${props.game.id}`"
           class="peer hidden"
+          :checked="props.game.outcome?.side == 'right'"
+          value="right"
           @change="
             emit('setOutcome', props.game.teams[1]?.asGameWinner('right') ?? dummyWinner('right'))
           "
-          :checked="props.game.outcome?.side == 'right'"
-          value="right"
         />
         <label
           :for="`loser-${props.game.id}`"
@@ -147,10 +147,10 @@ function moveGameReplay(replayId: number, targetGame: number) {
     </div>
     <div v-else class="w-full grid grid-cols-2 gap-12 justify-items-between mt-4 mb-12 pl-6 pr-6">
       <GameTeam
-        v-for="(team, index) in props.game.teams"
+        v-for="(team, teamIndex) in props.game.teams"
         :key="team.id"
         :team="team"
-        :position="index % 2 ? 'right' : 'left'"
+        :position="teamIndex % 2 ? 'right' : 'left'"
         class="border-2 p-4"
       />
     </div>
@@ -158,9 +158,9 @@ function moveGameReplay(replayId: number, targetGame: number) {
       <div class="flex flex-col content-end">
         <span class="flex justify-end">
           <expand-button
+            v-model="showReplays"
             :open-text="replayExpandText"
             :close-text="replayExpandText"
-            v-model="showReplays"
           />
         </span>
         <ul
@@ -176,11 +176,11 @@ function moveGameReplay(replayId: number, targetGame: number) {
             <move-button @click="showModal = replay.id" />
             <move-modal
               :show="showModal == replay.id"
-              @close="showModal = null"
               :current-game="props.index"
-              @move="(targetGame) => moveGameReplay(replay.id, targetGame)"
               :total-games="props.numGames"
               :replay="replay"
+              @close="showModal = null"
+              @move="(targetGame) => moveGameReplay(replay.id, targetGame)"
             />
           </li>
         </ul>

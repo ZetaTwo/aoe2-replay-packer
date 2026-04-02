@@ -370,21 +370,21 @@ function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
   <Suspense>
     <RecentDrafts
       v-if="mapPresets || civPresets"
-      :civ-presets="civPresets"
-      :map-presets="mapPresets"
       v-model:map-draft="mapDraft"
       v-model:civ-draft="civDraft"
+      :civ-presets="civPresets"
+      :map-presets="mapPresets"
     />
     <template #fallback>
       <div class="text-center p-4 border-2 col-span-3 mt-4 h-80">Loading Drafts...</div>
     </template>
   </Suspense>
   <GameInfo
-    :expected-games-count="expectedGamesCount"
     v-model:player1="player1"
     v-model:player2="player2"
     v-model:map-draft="mapDraft"
     v-model:civ-draft="civDraft"
+    :expected-games-count="expectedGamesCount"
     :civ-presets="civPresets"
     :map-presets="mapPresets"
     :drafts="drafts"
@@ -407,7 +407,7 @@ function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
     @set-bo-pa="(newBoPa) => (boPa = newBoPa)"
   />
 
-  <ToggleButton class="mt-4" label="Show results (spoilers)" v-model="showResults" />
+  <ToggleButton v-model="showResults" class="mt-4" label="Show results (spoilers)" />
 
   <GameDropzone />
   <GameTable :show-results="showResults" />

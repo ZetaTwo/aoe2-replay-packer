@@ -46,9 +46,9 @@ const replayInfo = computed<Game>(() => new Game([props.replay]))
             </h3>
             <button
               type="button"
-              @click="emit('close')"
               class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-toggle="select-modal"
+              @click="emit('close')"
             >
               <svg
                 class="w-3 h-3"

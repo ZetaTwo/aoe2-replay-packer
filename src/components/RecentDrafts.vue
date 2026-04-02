@@ -82,32 +82,38 @@ function selectDraft(draft: draft) {
   <div class="text-center p-4 border-2 col-span-3 mt-4 h-85 overflow-auto">
     <h2 class="text-center text-2xl">Recent Drafts</h2>
     <ul
+      v-if="recentDrafts.length > 0"
       role="list"
       class="divide-y divide-gray-100 dark:divide-gray-800"
-      v-if="recentDrafts.length > 0"
     >
-      <li class="flex justify-between" v-for="draft in recentDrafts" :key="draft.draftId">
+      <li
+        v-for="recentDraft in recentDrafts"
+        :key="recentDraft.draftId"
+        class="flex justify-between"
+      >
         <button
           class="flex-auto text-start hover:bg-slate-100 dark:hover:bg-slate-900"
           :class="{
-            'bg-slate-300': [currentMapDraftId, currentCivDraftId].includes(draft.draftId),
-            'dark:bg-slate-600': [currentMapDraftId, currentCivDraftId].includes(draft.draftId)
+            'bg-slate-300': [currentMapDraftId, currentCivDraftId].includes(recentDraft.draftId),
+            'dark:bg-slate-600': [currentMapDraftId, currentCivDraftId].includes(
+              recentDraft.draftId
+            )
           }"
-          @click="selectDraft(draft)"
+          @click="selectDraft(recentDraft)"
         >
           <div class="min-w-100 flex-auto px-4">
             <span class="mt-1 text-xs text-gray-500 m-3">
-              {{ getDraftTypeLabel(draft, mapPresets, civPresets) }}</span
+              {{ getDraftTypeLabel(recentDraft, mapPresets, civPresets) }}</span
             >
             <span class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-50">{{
-              draft.nameHost
+              recentDraft.nameHost
             }}</span>
             <span class="mt-1 text-xs leading-5 text-gray-500 dark:text-gray-400 m-3">vs</span>
             <span class="text-sm font-semibold leading-6 text-gray-900 dark:text-gray-50">{{
-              draft.nameGuest
+              recentDraft.nameGuest
             }}</span>
             <span class="mt-1 truncate text-xs leading-5 text-gray-500 dark:text-gray-400 m-3"
-              >{{ draft.title }} ({{ draft.draftId }})</span
+              >{{ recentDraft.title }} ({{ recentDraft.draftId }})</span
             >
           </div>
         </button>

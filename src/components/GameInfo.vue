@@ -17,8 +17,8 @@ const props = defineProps<{
   boPa: MatchSetType | null
 }>()
 
-const player1 = defineModel('player1')
-const player2 = defineModel('player2')
+const player1 = defineModel<string>('player1')
+const player2 = defineModel<string>('player2')
 const mapsDraftURI = defineModel<string>('mapDraft')
 const civDraftURI = defineModel<string>('civDraft')
 const emit = defineEmits<{
@@ -211,16 +211,16 @@ watch(meta, () => {
       {{ expectedGamesCount }}
     </div>
     <input
+      v-model="player1"
       placeholder="Player 1 Name"
       class="border-1 bg-gray-100 dark:bg-gray-800 p-2 rounded-sm"
       type="text"
-      v-model="player1"
     /><span class="mx-10">vs</span>
     <input
+      v-model="player2"
       placeholder="Player 2 Name"
       class="border-1 bg-gray-100 dark:bg-gray-800 p-2 rounded-sm"
       type="text"
-      v-model="player2"
     />
     <template v-if="drafts != 'none'">
       <h3 class="text-center text-xl mt-4">
@@ -228,24 +228,24 @@ watch(meta, () => {
       </h3>
       <p class="text-center">Input aoe2cm.net civ/map draft ID/URL.</p>
       <div class="grid grid-cols-2">
-        <div class="mb-6" v-if="drafts == 'both' || drafts == 'map'">
+        <div v-if="drafts == 'both' || drafts == 'map'" class="mb-6">
           <label class="text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" for="maps">
             Map draft</label
           >
           <input
-            class="border-1 bg-gray-100 dark:bg-gray-800 p-2 rounded-sm ml-2"
             id="maps"
+            v-model="mapsDraftURI"
+            class="border-1 bg-gray-100 dark:bg-gray-800 p-2 rounded-sm ml-2"
             type="text"
             placeholder="e.g. XZedf"
-            v-model="mapsDraftURI"
           />
           <p v-if="errors.maps" class="text-red-500 dark:text-red-500 text-xs italic">
             {{ errors.maps }}
           </p>
-          <div class="text-left px-8 pt-4" v-if="meta.maps">
+          <div v-if="meta.maps" class="text-left px-8 pt-4">
             <p class="text-center">{{ meta.maps.host }} vs {{ meta.maps.guest }}</p>
             <ul class="text-center flex w-full flex-wrap justify-center">
-              <li class="mx-2" v-for="(map, mapIdx) in meta.maps.pickedMaps" :key="mapIdx">
+              <li v-for="(map, mapIdx) in meta.maps.pickedMaps" :key="mapIdx" class="mx-2">
                 <div class="aspect-square h-36">
                   <img
                     class="mx-auto w-full h-full"
@@ -260,16 +260,16 @@ watch(meta, () => {
             </ul>
           </div>
         </div>
-        <div class="mb-6" v-if="drafts == 'both' || drafts == 'civ'">
+        <div v-if="drafts == 'both' || drafts == 'civ'" class="mb-6">
           <label class="text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" for="civs">
             Civ draft</label
           >
           <input
-            class="border-1 bg-gray-100 dark:bg-gray-800 p-2 rounded-sm ml-2"
             id="civs"
+            v-model="civDraftURI"
+            class="border-1 bg-gray-100 dark:bg-gray-800 p-2 rounded-sm ml-2"
             type="text"
             placeholder="e.g. vbvIP"
-            v-model="civDraftURI"
           />
           <p v-if="errors.civs" class="text-red-500 dark:text-red-500 text-xs italic">
             {{ errors.civs }}
@@ -277,7 +277,7 @@ watch(meta, () => {
           <div v-if="meta.civs" class="text-left px-8 pt-4">
             <p>{{ meta.civs.host }} vs {{ meta.civs.guest }}</p>
             <ul class="pl-8">
-              <li class="capitalize mt-2" v-for="(civ, civIdx) in meta.civs.hostCivs" :key="civIdx">
+              <li v-for="(civ, civIdx) in meta.civs.hostCivs" :key="civIdx" class="capitalize mt-2">
                 <CivIcon :civ="civ.toLowerCase()" />
                 {{ civ }}
               </li>
@@ -285,9 +285,9 @@ watch(meta, () => {
             <p class="pl-20">vs</p>
             <ul class="pl-8">
               <li
-                class="capitalize mt-2"
                 v-for="(civ, civIdx) in meta.civs.guestCivs"
                 :key="civIdx"
+                class="capitalize mt-2"
               >
                 <CivIcon :civ="civ.toLowerCase()" />
                 {{ civ }}
