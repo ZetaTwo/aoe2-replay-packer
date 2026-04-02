@@ -19,13 +19,13 @@ jobs:
 
       - name: Install dependencies
         id: install-dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Build site
         id: build
         #env:
         #  BASE_URL: '${{ steps.pages.outputs.base_url }}'
-        run: npm run build
+        run: pnpm run build
 
   lint:
     name: Lint
@@ -41,11 +41,11 @@ jobs:
 
       - name: Install dependencies
         id: install-dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Run linting
         id: lint
-        run: npm run lint
+        run: pnpm run lint
 
   test:
     name: Test
@@ -61,8 +61,8 @@ jobs:
 
       - name: Install dependencies
         id: install-dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Run tests
         id: test
-        run: npm run test:unit
+        run: pnpm run test:unit
