@@ -17,6 +17,10 @@ jobs:
         id: setup-node
         uses: actions/setup-node@v6
 
+      - name: Setup pnpm
+        id: setup-pnpm
+        uses: pnpm/action-setup@v5
+
       - name: Install dependencies
         id: install-dependencies
         run: pnpm install
@@ -39,6 +43,10 @@ jobs:
         id: setup-node
         uses: actions/setup-node@v6
 
+      - name: Setup pnpm
+        id: setup-pnpm
+        uses: pnpm/action-setup@v5
+
       - name: Install dependencies
         id: install-dependencies
         run: pnpm install
@@ -58,6 +66,10 @@ jobs:
       - name: Setup NodeJS
         id: setup-node
         uses: actions/setup-node@v6
+
+      - name: Setup pnpm
+        id: setup-pnpm
+        uses: pnpm/action-setup@v5
 
       - name: Install dependencies
         id: install-dependencies
