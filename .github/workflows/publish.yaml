@@ -40,7 +40,7 @@ jobs:
 
       - name: Setup pnpm
         id: setup-pnpm
-        uses: pnpm/action-setup@v5
+        uses: pnpm/action-setup@v6
         with:
           version: 10
 
@@ -65,7 +65,7 @@ jobs:
 
       - name: Upload artifact
         id: upload-artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
           name: 'github-pages-${{ matrix.page.branch }}'
@@ -98,7 +98,7 @@ jobs:
           tar -C dist/beta -xf "${{ steps.download-beta.outputs.download-path }}/artifact.tar"
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./dist
 
