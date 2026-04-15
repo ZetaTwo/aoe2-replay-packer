@@ -15,6 +15,7 @@ export default defineConfig({
       {
         src: "node_modules/libarchive.js/dist/libarchive.wasm",
         dest: "assets",
+        rename: { stripBase: true },
       }
     ]
   })],
