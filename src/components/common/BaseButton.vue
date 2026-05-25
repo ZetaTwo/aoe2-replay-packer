@@ -33,6 +33,10 @@ withDefaults(
   line-height: 1.2;
   border-radius: var(--radius-sm);
 }
+.btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
 .sm {
   padding: var(--space-1) var(--space-2);
   font-size: var(--font-size-base);
@@ -41,11 +45,10 @@ withDefaults(
   padding: var(--space-2) var(--space-4);
   font-size: var(--font-size-2xl);
   border-radius: var(--radius-md);
-  margin-top: var(--space-3);
 }
 .gray {
-  background-color: var(--color-gray-button-bg);
-  color: var(--color-gray-button-text);
+  background-color: var(--color-bg-subtle);
+  color: var(--color-text-primary);
 }
 .primary {
   background-color: var(--color-accent);
@@ -64,6 +67,6 @@ withDefaults(
 }
 .gray.disabled,
 .gray:disabled {
-  color: var(--color-gray-button-disabled-text);
+  color: var(--color-text-muted);
 }
 </style>

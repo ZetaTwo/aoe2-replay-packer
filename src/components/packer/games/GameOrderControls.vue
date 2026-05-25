@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import BaseIconButton from '@/components/common/BaseIconButton.vue'
+
 const props = defineProps<{
   top: boolean
   bottom: boolean
@@ -10,13 +12,7 @@ const emit = defineEmits<{
 </script>
 <template>
   <div :class="$style.column">
-    <button
-      v-if="!props.top"
-      :class="$style.btn"
-      type="button"
-      title="Move up"
-      @click="emit('move', 'up')"
-    >
+    <BaseIconButton v-if="!props.top" title="Move up" @click="emit('move', 'up')">
       <svg
         :class="$style.icon"
         aria-hidden="true"
@@ -31,16 +27,10 @@ const emit = defineEmits<{
         ></path>
       </svg>
       <span :class="$style.label">Move up</span>
-    </button>
+    </BaseIconButton>
     <div v-else></div>
 
-    <button
-      v-if="!props.bottom"
-      :class="$style.btn"
-      type="button"
-      title="Move down"
-      @click="emit('move', 'down')"
-    >
+    <BaseIconButton v-if="!props.bottom" title="Move down" @click="emit('move', 'down')">
       <svg
         :class="$style.icon"
         aria-hidden="true"
@@ -55,7 +45,7 @@ const emit = defineEmits<{
         ></path>
       </svg>
       <span :class="$style.label">Move down</span>
-    </button>
+    </BaseIconButton>
     <div v-else></div>
   </div>
 </template>
@@ -66,25 +56,6 @@ const emit = defineEmits<{
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  background: transparent;
-  border: 0;
-  padding: 0.375rem;
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-  cursor: pointer;
-  text-align: left;
-}
-.btn:hover {
-  background-color: var(--color-bg-hover);
-}
-.btn:focus-visible {
-  outline: 4px solid var(--color-border-default);
-  outline-offset: -2px;
 }
 .icon {
   width: 1.5rem;

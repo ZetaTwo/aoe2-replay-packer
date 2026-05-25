@@ -52,6 +52,6 @@ const { showResults = true } = defineProps<{
   background-color: var(--color-bg-card);
   border: 1px solid var(--color-border-section);
   border-radius: var(--radius-lg);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
 }
 </style>

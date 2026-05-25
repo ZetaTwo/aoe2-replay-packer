@@ -372,61 +372,34 @@ function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
 <template>
   <Suspense>
     <RecentDrafts
-      v-if="mapPresets || civPresets"
-      v-model:map-draft="mapDraft"
-      v-model:civ-draft="civDraft"
-      :civ-presets="civPresets"
-      :map-presets="mapPresets"
-    />
+v-if="mapPresets || civPresets" v-model:map-draft="mapDraft" v-model:civ-draft="civDraft"
+      :civ-presets="civPresets" :map-presets="mapPresets" />
     <template #fallback>
       <div :class="$style.fallback">Loading Drafts...</div>
     </template>
   </Suspense>
   <MatchInfoForm
-    v-model:player1="player1"
-    v-model:player2="player2"
-    v-model:map-draft="mapDraft"
-    v-model:civ-draft="civDraft"
-    :expected-games-count="expectedGamesCount"
-    :civ-presets="civPresets"
-    :map-presets="mapPresets"
-    :drafts="drafts"
-    :bo-pa="boPa"
-    @update-meta="updateMeta"
-  >
+v-model:player1="player1" v-model:player2="player2" v-model:map-draft="mapDraft"
+    v-model:civ-draft="civDraft" :expected-games-count="expectedGamesCount" :civ-presets="civPresets"
+    :map-presets="mapPresets" :drafts="drafts" :bo-pa="boPa" @update-meta="updateMeta">
     <MatchSetPicker
-      v-if="!setTypeRestrictions"
-      :games-count="expectedGamesCount"
-      @set-games="setExpectedGamesCount"
-      @set-bo-pa="(newBoPa) => (boPa = newBoPa)"
-    />
+v-if="!setTypeRestrictions" :games-count="expectedGamesCount" @set-games="setExpectedGamesCount"
+      @set-bo-pa="(newBoPa) => (boPa = newBoPa)" />
     <TournamentSetPicker
-      v-else
-      :set-types="setTypeRestrictions"
-      :type="boPa"
-      :length="expectedGamesCount"
-      @set-games="setExpectedGamesCount"
-      @set-bo-pa="(newBoPa) => (boPa = newBoPa)"
-    />
+v-else :set-types="setTypeRestrictions" :type="boPa" :length="expectedGamesCount"
+      @set-games="setExpectedGamesCount" @set-bo-pa="(newBoPa) => (boPa = newBoPa)" />
   </MatchInfoForm>
 
   <GameList :show-results="showResults">
-    <ToggleButton
-      v-model="showResults"
-      :class="$style.alignStart"
-      label="Show results (spoilers)"
-    />
+    <ToggleButton v-model="showResults" :class="$style.alignStart" label="Show results (spoilers)" />
     <ReplayDropzone />
   </GameList>
 
   <BaseCard align="center" spacing="top">
     <ZipPreview :games="gamesStore.games" :player1="player1" :player2="player2" :meta="meta" />
     <BaseButton
-      variant="primary"
-      size="lg"
-      :disabled="!downloadEnabled"
-      @click="downloadZip"
-    >
+variant="primary" size="lg" :class="$style.downloadButton" :disabled="!downloadEnabled"
+      @click="downloadZip">
       Download
     </BaseButton>
     <BaseAlert v-if="!downloadEnabled" tone="error">{{ downloadDisabledMessage }}</BaseAlert>
@@ -452,10 +425,16 @@ function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
   text-align: center;
   padding: var(--space-4);
   border: 2px solid var(--color-border-section);
+  border-radius: var(--radius-lg);
   margin-top: var(--space-4);
   height: 20rem;
 }
+
 .alignStart {
   align-self: flex-start;
+}
+
+.downloadButton {
+  margin-top: var(--space-3);
 }
 </style>

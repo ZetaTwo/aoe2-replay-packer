@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useGamesStore } from '@/stores/games'
+import BaseIconButton from '@/components/common/BaseIconButton.vue'
 
 const gamesStore = useGamesStore()
 
@@ -10,13 +11,7 @@ const { gameIndex, showClear = true } = defineProps<{
 </script>
 <template>
   <div :class="$style.actions">
-    <button
-      v-if="showClear"
-      :class="$style.iconBtn"
-      type="button"
-      title="Clear info"
-      @click="gamesStore.clearGame(gameIndex)"
-    >
+    <BaseIconButton v-if="showClear" title="Clear info" @click="gamesStore.clearGame(gameIndex)">
       <svg
         :class="$style.icon"
         aria-hidden="true"
@@ -30,13 +25,8 @@ const { gameIndex, showClear = true } = defineProps<{
         ></path>
       </svg>
       <span :class="$style.label">Clear info</span>
-    </button>
-    <button
-      :class="$style.iconBtn"
-      type="button"
-      title="Remove game"
-      @click="gamesStore.removeGame(gameIndex)"
-    >
+    </BaseIconButton>
+    <BaseIconButton title="Remove game" @click="gamesStore.removeGame(gameIndex)">
       <svg
         :class="[$style.icon, $style.danger]"
         aria-hidden="true"
@@ -60,7 +50,7 @@ const { gameIndex, showClear = true } = defineProps<{
         ></path>
       </svg>
       <span :class="$style.label">Remove game</span>
-    </button>
+    </BaseIconButton>
   </div>
 </template>
 
@@ -69,31 +59,13 @@ const { gameIndex, showClear = true } = defineProps<{
   display: flex;
   justify-content: flex-end;
 }
-.iconBtn {
-  display: inline-flex;
-  align-items: center;
-  background: transparent;
-  border: 0;
-  padding: 0.375rem;
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
-  cursor: pointer;
-}
-.iconBtn:hover {
-  background-color: var(--color-bg-hover);
-}
-.iconBtn:focus-visible {
-  outline: 4px solid var(--color-border-default);
-  outline-offset: -2px;
-}
 .icon {
   width: 1.5rem;
   height: 1.5rem;
   display: inline-block;
 }
 .danger {
-  color: #f87171;
+  color: var(--color-danger);
 }
 .label {
   padding: 0 var(--space-3);

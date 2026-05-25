@@ -115,6 +115,7 @@ function selectDraft(draft: draft) {
   text-align: center;
   padding: var(--space-4);
   border: 2px solid var(--color-border-section);
+  border-radius: var(--radius-lg);
   margin-top: var(--space-4);
   height: 21.25rem;
   overflow: auto;
@@ -147,16 +148,28 @@ function selectDraft(draft: draft) {
 .draftBtn:hover {
   background-color: var(--color-bg-hover);
 }
+.draftBtn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+/* Selected uses a pale-blue accent tint that's clearly stronger than the
+   gray hover state. The bg stays pale in both themes, so force dark text
+   on the descendants for contrast (overrides .name / .meta colors). */
 .selected {
-  background-color: var(--color-bg-subtle);
+  background-color: var(--color-accent-disabled);
+}
+.selected,
+.selected .name,
+.selected .meta {
+  color: #111827;
 }
 .draftBody {
   min-width: 25rem;
   padding: 0 var(--space-4);
 }
 .meta {
-  margin: 0.25rem var(--space-3);
-  font-size: 0.75rem;
+  margin: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs);
   color: var(--color-text-muted);
 }
 .name {

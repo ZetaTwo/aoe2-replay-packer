@@ -42,6 +42,14 @@ body {
 
 a {
   color: inherit;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 50%, transparent);
+  text-underline-offset: 0.2em;
+}
+a:hover {
+  text-decoration-style: solid;
+  text-decoration-color: currentColor;
 }
 
 button {
@@ -66,4 +74,27 @@ textarea {
 ol,
 ul {
   list-style-position: outside;
+}
+
+/* Centered page container — capped at lg breakpoint, full-width below */
+.container {
+  margin-inline: auto;
+}
+@media (min-width: 1024px) {
+  .container {
+    max-width: var(--container-max-width);
+  }
+}
+
+/* Visually hidden but accessible to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

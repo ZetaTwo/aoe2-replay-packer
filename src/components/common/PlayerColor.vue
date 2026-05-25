@@ -10,13 +10,15 @@ const props = defineProps<{
 </template>
 
 <style module>
+/* Swatch backgrounds are fixed AoE2 brand colors that don't flip with the
+   theme, so the number on top stays dark in both light and dark mode. */
 .swatch {
   display: grid;
   align-content: center;
   text-align: center;
   font-weight: 700;
   color: #111827;
-  border: 2px solid var(--color-border-default);
+  border: 2px solid var(--color-border-section);
 }
 .color1 {
   background-color: var(--player-color-1);

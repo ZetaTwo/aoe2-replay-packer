@@ -131,7 +131,7 @@ function downloadZip() {
 }
 .table th,
 .table td {
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-border-section);
   padding: var(--space-1);
 }
 </style>

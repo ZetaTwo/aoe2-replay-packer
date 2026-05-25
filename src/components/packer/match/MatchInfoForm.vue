@@ -213,12 +213,14 @@ watch(meta, () => {
     <input
       v-model="player1"
       placeholder="Player 1 Name"
+      aria-label="Player 1 name"
       :class="$style.input"
       type="text"
     /><span :class="$style.vs">vs</span>
     <input
       v-model="player2"
       placeholder="Player 2 Name"
+      aria-label="Player 2 name"
       :class="$style.input"
       type="text"
     />
@@ -238,7 +240,7 @@ watch(meta, () => {
             placeholder="e.g. XZedf"
           />
           <p v-if="errors.maps" :class="$style.error">{{ errors.maps }}</p>
-          <div v-if="meta.maps" :class="$style.mapPicks">
+          <div v-if="meta.maps" :class="$style.draftPicks">
             <p :class="$style.center">{{ meta.maps.host }} vs {{ meta.maps.guest }}</p>
             <ul :class="$style.mapList">
               <li v-for="(map, mapIdx) in meta.maps.pickedMaps" :key="mapIdx" :class="$style.mapItem">
@@ -266,7 +268,7 @@ watch(meta, () => {
             placeholder="e.g. vbvIP"
           />
           <p v-if="errors.civs" :class="$style.error">{{ errors.civs }}</p>
-          <div v-if="meta.civs" :class="$style.civPicks">
+          <div v-if="meta.civs" :class="$style.draftPicks">
             <p>{{ meta.civs.host }} vs {{ meta.civs.guest }}</p>
             <ul :class="$style.civList">
               <li v-for="(civ, civIdx) in meta.civs.hostCivs" :key="civIdx" :class="$style.civItem">
@@ -304,10 +306,14 @@ watch(meta, () => {
 }
 .input {
   padding: var(--space-2);
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-border-section);
   background-color: var(--color-bg-subtle);
   border-radius: var(--radius-sm);
   color: var(--color-text-primary);
+}
+.input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 .inputSpacer {
   margin-left: var(--space-2);
@@ -337,14 +343,13 @@ watch(meta, () => {
   margin-bottom: var(--space-2);
 }
 .error {
-  color: #ef4444;
-  font-size: 0.75rem;
+  color: var(--color-danger);
+  font-size: var(--font-size-xs);
   font-style: italic;
 }
-.mapPicks {
+.draftPicks {
   text-align: left;
-  padding: 0 var(--space-8);
-  padding-top: var(--space-4);
+  padding: var(--space-4) var(--space-8) 0;
 }
 .mapList {
   text-align: center;
@@ -364,14 +369,8 @@ watch(meta, () => {
   height: 9rem;
 }
 .mapImage {
-  margin: 0 auto;
   width: 100%;
   height: 100%;
-}
-.civPicks {
-  text-align: left;
-  padding: 0 var(--space-8);
-  padding-top: var(--space-4);
 }
 .civList {
   padding-left: var(--space-8);

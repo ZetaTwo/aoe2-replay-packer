@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Game, type Replay } from '@/entities/game'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, useId, watch } from 'vue'
 import GameTeam from './GameTeam.vue'
 import RelativeDate from '@/components/common/RelativeDate.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
@@ -26,18 +26,50 @@ const games = computed<number[]>(() =>
   )
 )
 const replayInfo = computed<Game>(() => new Game([props.replay]))
+
+const titleId = useId()
+const dialogRef = ref<HTMLElement | null>(null)
+let previouslyFocused: HTMLElement | null = null
+
+watch(
+  () => props.show,
+  async (visible) => {
+    if (visible) {
+      previouslyFocused = document.activeElement as HTMLElement | null
+      await nextTick()
+      const focusable = dialogRef.value?.querySelector<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      )
+      focusable?.focus()
+    } else if (previouslyFocused) {
+      previouslyFocused.focus()
+      previouslyFocused = null
+    }
+  }
+)
+
+function onKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape' && props.show) {
+    event.stopPropagation()
+    emit('close')
+  }
+}
 </script>
 <template>
   <Teleport to="#modals">
     <div
-      tabindex="-1"
+      ref="dialogRef"
+      role="dialog"
+      aria-modal="true"
+      :aria-labelledby="titleId"
       :class="[$style.backdrop, { [$style.hidden]: !props.show }]"
       :aria-hidden="!props.show"
+      @keydown="onKeydown"
     >
       <div :class="$style.frame">
         <div :class="$style.dialog">
           <div :class="$style.header">
-            <h3 :class="$style.title">Move recording to a different game</h3>
+            <h3 :id="titleId" :class="$style.title">Move recording to a different game</h3>
             <button type="button" :class="$style.close" @click="emit('close')">
               <svg
                 :class="$style.closeIcon"
@@ -54,7 +86,7 @@ const replayInfo = computed<Game>(() => new Game([props.replay]))
                   d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                 />
               </svg>
-              <span :class="$style.srOnly">Close modal</span>
+              <span class="sr-only">Close modal</span>
             </button>
           </div>
           <div :class="$style.body">
@@ -112,7 +144,7 @@ const replayInfo = computed<Game>(() => new Game([props.replay]))
   border: 2px solid var(--color-border-section);
   background-color: var(--color-bg-card);
   border-radius: var(--radius-lg);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
 }
 .header {
   display: flex;
@@ -147,20 +179,13 @@ const replayInfo = computed<Game>(() => new Game([props.replay]))
   background-color: var(--color-bg-hover);
   color: var(--color-text-primary);
 }
+.close:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
 .closeIcon {
   width: 0.75rem;
   height: 0.75rem;
-}
-.srOnly {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
 .body {
   display: flex;
@@ -185,16 +210,15 @@ const replayInfo = computed<Game>(() => new Game([props.replay]))
 .select {
   display: block;
   width: 100%;
-  padding: 0.625rem;
+  padding: var(--space-3);
   font-size: var(--font-size-sm);
-  background-color: var(--color-bg-input);
+  background-color: var(--color-bg-subtle);
   color: var(--color-text-primary);
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-border-section);
   border-radius: var(--radius-lg);
 }
-.select:focus {
+.select:focus-visible {
   outline: 2px solid var(--color-accent);
-  outline-offset: -1px;
-  border-color: var(--color-accent);
+  outline-offset: 2px;
 }
 </style>

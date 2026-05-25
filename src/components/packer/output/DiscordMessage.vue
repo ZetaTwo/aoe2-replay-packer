@@ -30,7 +30,7 @@ async function copyDiscordMessage() {
         </p>
         <div :class="$style.bubble">
           <div>
-            <pre>{{ discordMessage }}</pre>
+            <pre :class="$style.pre">{{ discordMessage }}</pre>
           </div>
           <div :class="$style.copyWrap">
             <button :class="$style.copyBtn" @click="copyDiscordMessage">
@@ -94,9 +94,13 @@ async function copyDiscordMessage() {
 .bubble {
   position: relative;
   padding: var(--space-4);
-  padding-top: 3rem;
+  padding-top: var(--space-12);
   background-color: var(--color-bg-subtle);
   border-radius: var(--radius-lg);
+}
+.pre {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 .copyWrap {
   position: absolute;
@@ -107,16 +111,19 @@ async function copyDiscordMessage() {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-2) 0.625rem;
-  margin: 0.125rem;
+  padding: var(--space-2) var(--space-3);
   background-color: var(--color-bg-card);
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-border-section);
   border-radius: var(--radius-lg);
   color: var(--color-text-primary);
   cursor: pointer;
 }
 .copyBtn:hover {
   background-color: var(--color-bg-hover);
+}
+.copyBtn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 .inlineIcon {
   display: inline-flex;
@@ -125,13 +132,13 @@ async function copyDiscordMessage() {
 .copyIcon {
   width: 0.75rem;
   height: 0.75rem;
-  margin-inline-end: 0.375rem;
+  margin-inline-end: var(--space-2);
 }
 .copyText {
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   font-weight: 600;
 }
 .success {
-  color: var(--color-accent-hover);
+  color: var(--color-accent-text);
 }
 </style>

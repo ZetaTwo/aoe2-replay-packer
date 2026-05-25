@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { MatchSetType } from '@/entities/matchset'
+import SegmentedOption from '@/components/common/SegmentedOption.vue'
 
 const emit = defineEmits<{
   setGames: [number]
@@ -77,76 +78,50 @@ watch(boPa, (newBoPa, oldBoPa) => {
   <div :class="$style.wrap">
     <ul :class="$style.list">
       <li :class="$style.bopaCell">
-        <div>
+        <div :class="$style.bopaRow">
           <div :class="$style.half">
-            <input
-              id="best-of"
+            <SegmentedOption
               v-model="boPa"
-              type="radio"
+              input-id="best-of"
               name="bo-pa"
-              :class="$style.input"
               :value="MatchSetType.BestOf"
-            />
-            <label for="best-of" :class="[$style.tile, $style.leftJoin]">
-              <div :class="$style.tileLabel">Best of</div>
-            </label>
+              join="left"
+            >
+              Best of
+            </SegmentedOption>
           </div>
           <div :class="$style.half">
-            <input
-              id="play-all"
+            <SegmentedOption
               v-model="boPa"
-              type="radio"
+              input-id="play-all"
               name="bo-pa"
-              :class="$style.input"
               :value="MatchSetType.PlayAll"
-            />
-            <label for="play-all" :class="[$style.tile, $style.rightJoin]">
-              <div :class="$style.tileLabel">Play all</div>
-            </label>
+              join="right"
+            >
+              Play all
+            </SegmentedOption>
           </div>
         </div>
       </li>
-      <li v-for="count in [3, 5, 7]" :key="count" :class="$style.cell" :value="count">
-        <input
-          :id="`bo${count}`"
-          v-model="bestOf"
-          type="radio"
-          name="bo"
-          :value="count"
-          :class="$style.input"
-          required
-        />
-        <label :for="`bo${count}`" :class="[$style.tile, $style.standalone]">
-          <div :class="$style.tileLabel">{{ count }} Games</div>
-        </label>
+      <li v-for="count in [3, 5, 7]" :key="count" :class="$style.cell">
+        <SegmentedOption v-model="bestOf" :input-id="`bo${count}`" name="bo" :value="count">
+          {{ count }} Games
+        </SegmentedOption>
       </li>
-
       <li :class="$style.cell">
-        <input
-          id="bo-custom"
-          v-model="bestOf"
-          type="radio"
-          name="bo"
-          value="custom"
-          :class="$style.input"
-          :checked="bestOf == 'custom'"
-        />
-        <label for="bo-custom" :class="[$style.tile, $style.standalone]">
-          <div :class="$style.tileLabel">
-            <input
-              v-model="customGameCount"
-              :class="$style.numberInput"
-              type="number"
-              aria-roledescription="Number field"
-              value="9"
-              data-hs-input-number-input=""
-              min="1"
-              max="99"
-              maxlength="2"
-            />
-            Games
-          </div>
-        </label>
+        <SegmentedOption v-model="bestOf" input-id="bo-custom" name="bo" value="custom">
+          <input
+            v-model="customGameCount"
+            :class="$style.numberInput"
+            type="number"
+            aria-roledescription="Number field"
+            value="9"
+            min="1"
+            max="99"
+            maxlength="2"
+          />
+          Games
+        </SegmentedOption>
       </li>
     </ul>
   </div>
@@ -169,6 +144,9 @@ watch(boPa, (newBoPa, oldBoPa) => {
 .bopaCell {
   flex-basis: 27.27%;
 }
+.bopaRow {
+  display: flex;
+}
 .cell {
   flex-basis: 18.18%;
 }
@@ -176,60 +154,11 @@ watch(boPa, (newBoPa, oldBoPa) => {
   display: inline-flex;
   width: 50%;
 }
-.input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-.tile {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: var(--space-4);
-  background-color: var(--color-bg-card);
-  color: var(--color-text-muted);
-  border: 2px solid var(--color-border-default);
-  cursor: pointer;
-}
-.tile:hover {
-  background-color: var(--color-bg-hover);
-  color: var(--color-text-secondary);
-}
-.standalone {
-  border-radius: var(--radius-lg);
-}
-.leftJoin {
-  border-top-left-radius: var(--radius-lg);
-  border-bottom-left-radius: var(--radius-lg);
-  border-right-width: 1px;
-}
-.rightJoin {
-  border-top-right-radius: var(--radius-lg);
-  border-bottom-right-radius: var(--radius-lg);
-  border-left-width: 1px;
-}
-.input:checked + .tile {
-  color: var(--color-accent-text);
-  border-color: var(--color-border-accent);
-}
-.tileLabel {
-  text-align: center;
-  width: 100%;
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-}
 .numberInput {
   padding: 0;
   width: 2rem;
   background-color: transparent;
-  border: 1px solid var(--color-border-default);
+  border: 1px solid var(--color-border-section);
   color: var(--color-text-primary);
   text-align: center;
   -moz-appearance: textfield;
@@ -238,8 +167,8 @@ watch(boPa, (newBoPa, oldBoPa) => {
 .numberInput::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
-.numberInput:focus {
-  outline: none;
-  border-color: var(--color-accent);
+.numberInput:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 </style>

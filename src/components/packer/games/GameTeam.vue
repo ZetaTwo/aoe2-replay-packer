@@ -11,34 +11,22 @@ const { team } = defineProps<{
 
 <template>
   <div :class="$style.team">
-    <template v-if="position == 'left'">
-      <div v-for="player in team.players" :key="player.profile" :class="$style.rowLeft">
-        <div :class="$style.name">
-          <a
-            :href="`https://aoe2insights.com/user/relic/${player.profile}`"
-            :class="$style.link"
-            target="_blank"
-            >{{ player.name }}</a
-          >
-        </div>
-        <CivIcon :civ="player.civ.toLowerCase()" :class="$style.civ" />
-        <PlayerColor :color="player.color ?? 0" :class="$style.color" />
+    <div
+      v-for="player in team.players"
+      :key="player.profile"
+      :class="[$style.row, position === 'right' ? $style.reversed : null]"
+    >
+      <div :class="$style.name">
+        <a
+          :href="`https://aoe2insights.com/user/relic/${player.profile}`"
+          :class="$style.link"
+          target="_blank"
+          >{{ player.name }}</a
+        >
       </div>
-    </template>
-    <template v-if="position == 'right'">
-      <div v-for="player in team.players" :key="player.profile" :class="$style.rowRight">
-        <PlayerColor :color="player.color ?? 0" :class="$style.color" />
-        <CivIcon :civ="player.civ.toLowerCase()" :class="$style.civ" />
-        <div :class="$style.name">
-          <a
-            :href="`https://aoe2insights.com/user/relic/${player.profile}`"
-            :class="$style.link"
-            target="_blank"
-            >{{ player.name }}</a
-          >
-        </div>
-      </div>
-    </template>
+      <CivIcon :civ="player.civ.toLowerCase()" :class="$style.civ" />
+      <PlayerColor :color="player.color ?? 0" :class="$style.color" />
+    </div>
   </div>
 </template>
 
@@ -49,17 +37,17 @@ const { team } = defineProps<{
   justify-content: stretch;
   border-radius: var(--radius-lg);
 }
-.rowLeft,
-.rowRight {
+/* Row is right-packed by default. Adding .reversed flips the visual order
+   while keeping flex-end packing, which moves the items to the left edge —
+   the layout we want for right-positioned teams. */
+.row {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-}
-.rowLeft {
   justify-content: flex-end;
 }
-.rowRight {
-  justify-content: flex-start;
+.reversed {
+  flex-direction: row-reverse;
 }
 .name {
   flex-grow: 1;
@@ -71,13 +59,10 @@ const { team } = defineProps<{
 .link {
   color: var(--color-accent-text);
 }
-.link:hover {
-  text-decoration: underline;
-}
 .civ {
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 9999px;
+  border-radius: var(--radius-full);
 }
 .color {
   width: 2.25rem;

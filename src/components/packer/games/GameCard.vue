@@ -78,7 +78,7 @@ function moveGameReplay(replayId: number, targetGame: number) {
           :id="`winner-${props.game.id}`"
           type="radio"
           :name="`winlose-${props.game.id}`"
-          :class="$style.winnerInput"
+          class="sr-only"
           :checked="props.game.outcome?.side == 'left'"
           value="left"
           @change="
@@ -100,7 +100,7 @@ function moveGameReplay(replayId: number, targetGame: number) {
           :id="`loser-${props.game.id}`"
           type="radio"
           :name="`winlose-${props.game.id}`"
-          :class="$style.winnerInput"
+          class="sr-only"
           :checked="props.game.outcome?.side == 'right'"
           value="right"
           @change="
@@ -124,7 +124,7 @@ function moveGameReplay(replayId: number, targetGame: number) {
       </p>
       <p :class="$style.muted">
         Please check that you have selected the <strong>correct file</strong>. Consider
-        <a :class="$style.link" href="https://forms.gle/NDKqE8acLdYR2JrKA" target="_blank"
+        <a href="https://forms.gle/NDKqE8acLdYR2JrKA" target="_blank"
           >reporting an issue</a
         >.
       </p>
@@ -143,33 +143,25 @@ function moveGameReplay(replayId: number, targetGame: number) {
       />
     </div>
     <div :class="$style.replaysFooter">
-      <div :class="$style.replaysCol">
-        <span :class="$style.replaysToggle">
-          <ExpandButton
-            v-model="showReplays"
-            :open-text="replayExpandText"
-            :close-text="replayExpandText"
+      <ExpandButton
+        v-model="showReplays"
+        :open-text="replayExpandText"
+        :close-text="replayExpandText"
+      />
+      <ul :class="[$style.replaysList, showReplays ? $style.open : $style.closed]">
+        <li v-for="replay in props.game.replays" :key="replay.id" :class="$style.replayItem">
+          {{ replay.file.name }} ({{ readableSize(replay.file.size) }})
+          <MoveReplayButton @click="showModal = replay.id" />
+          <MoveReplayModal
+            :show="showModal == replay.id"
+            :current-game="props.index"
+            :total-games="props.numGames"
+            :replay="replay"
+            @close="showModal = null"
+            @move="(targetGame) => moveGameReplay(replay.id, targetGame)"
           />
-        </span>
-        <ul :class="[$style.replaysList, showReplays ? $style.open : $style.closed]">
-          <li
-            v-for="replay in props.game.replays"
-            :key="replay.id"
-            :class="$style.replayItem"
-          >
-            {{ replay.file.name }} ({{ readableSize(replay.file.size) }})
-            <MoveReplayButton @click="showModal = replay.id" />
-            <MoveReplayModal
-              :show="showModal == replay.id"
-              :current-game="props.index"
-              :total-games="props.numGames"
-              :replay="replay"
-              @close="showModal = null"
-              @move="(targetGame) => moveGameReplay(replay.id, targetGame)"
-            />
-          </li>
-        </ul>
-      </div>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -183,7 +175,7 @@ function moveGameReplay(replayId: number, targetGame: number) {
 .actions {
   position: absolute;
   right: 0;
-  top: 0.25rem;
+  top: var(--space-1);
 }
 .title {
   text-align: center;
@@ -210,17 +202,6 @@ function moveGameReplay(replayId: number, targetGame: number) {
   display: inline-flex;
   width: 50%;
   height: 100%;
-}
-.winnerInput {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
 .winnerLabel {
   display: inline-flex;
@@ -249,20 +230,20 @@ function moveGameReplay(replayId: number, targetGame: number) {
 .winnerLabel:hover {
   background-color: var(--color-bg-hover);
 }
-.winnerInput:checked + .winnerLabel {
+input:checked + .winnerLabel {
   border-color: var(--color-border-accent);
   color: var(--color-accent-text);
 }
+input:focus-visible + .winnerLabel {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
 .outcomeIcon {
-  margin-top: -0.25rem;
-  margin-bottom: -0.25rem;
+  margin-top: calc(-1 * var(--space-1));
+  margin-bottom: calc(-1 * var(--space-1));
 }
 .unparseable {
-  width: 100%;
   margin-top: var(--space-4);
-}
-.link {
-  text-decoration: underline;
 }
 .spacedTop {
   margin-top: var(--space-2);
@@ -271,10 +252,10 @@ function moveGameReplay(replayId: number, targetGame: number) {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
+  gap: var(--space-12);
   justify-items: stretch;
   margin-top: var(--space-4);
-  margin-bottom: 3rem;
+  margin-bottom: var(--space-12);
   padding: 0 var(--space-6);
 }
 .teamBox {
@@ -283,22 +264,13 @@ function moveGameReplay(replayId: number, targetGame: number) {
 }
 .replaysFooter {
   display: flex;
-  justify-content: flex-end;
-}
-.replaysCol {
-  display: flex;
   flex-direction: column;
-  align-content: flex-end;
-}
-.replaysToggle {
-  display: flex;
-  justify-content: flex-end;
+  align-items: flex-end;
 }
 .replaysList {
   margin-top: var(--space-2);
   overflow: hidden;
   transition: max-height 0.2s;
-  justify-items: end;
   list-style: none;
   padding: 0;
 }
@@ -312,7 +284,6 @@ function moveGameReplay(replayId: number, targetGame: number) {
   display: flex;
   gap: var(--space-2);
   margin-bottom: var(--space-2);
-  flex-direction: row;
   align-items: center;
 }
 </style>

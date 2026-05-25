@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { watch, ref } from 'vue'
 import { MatchSetDefinition, MatchSetType } from '@/entities/matchset'
+import SegmentedOption from '@/components/common/SegmentedOption.vue'
 
 const emit = defineEmits<{
   setGames: [number]
@@ -47,18 +48,14 @@ watch(chosenSetDefinition, (newType, oldType) => {
   <div :class="$style.wrap">
     <ul :class="$style.list">
       <li v-for="setType in props.setTypes" :key="setType.label()" :class="$style.cell">
-        <input
-          :id="`${setType.type}-${setType.length}`"
+        <SegmentedOption
           v-model="chosenSetDefinition"
+          :input-id="`${setType.type}-${setType.length}`"
           name="set-definition"
-          type="radio"
           :value="setType"
-          :class="$style.input"
-          required
-        />
-        <label :for="`${setType.type}-${setType.length}`" :class="$style.tile">
-          <div :class="$style.tileLabel">{{ setType.label() }}</div>
-        </label>
+        >
+          {{ setType.label() }}
+        </SegmentedOption>
       </li>
     </ul>
   </div>
@@ -81,42 +78,5 @@ watch(chosenSetDefinition, (newType, oldType) => {
 }
 .cell {
   flex-basis: 18.18%;
-}
-.input {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-.tile {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: var(--space-4);
-  background-color: var(--color-bg-card);
-  color: var(--color-text-muted);
-  border: 2px solid var(--color-border-default);
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-}
-.tile:hover {
-  background-color: var(--color-bg-hover);
-  color: var(--color-text-secondary);
-}
-.input:checked + .tile {
-  color: var(--color-accent-text);
-  border-color: var(--color-border-accent);
-}
-.tileLabel {
-  text-align: center;
-  width: 100%;
-  font-size: var(--font-size-lg);
-  font-weight: 600;
 }
 </style>

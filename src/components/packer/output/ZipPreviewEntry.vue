@@ -33,7 +33,7 @@ const props = defineProps<{
   margin-left: var(--space-4);
   margin-right: var(--space-2);
   padding: 0.125rem var(--space-2);
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   font-weight: 500;
   border-radius: var(--radius-sm);
   background-color: var(--color-bg-subtle);

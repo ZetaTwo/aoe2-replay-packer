@@ -30,7 +30,7 @@ const props = defineProps<{
 .actions {
   position: absolute;
   right: 0;
-  top: 0.25rem;
+  top: var(--space-1);
 }
 .title {
   text-align: center;

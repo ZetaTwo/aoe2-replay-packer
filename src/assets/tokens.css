@@ -3,7 +3,6 @@
   --color-bg-page: #ffffff;
   --color-bg-card: #ffffff;
   --color-bg-subtle: #f9fafb;
-  --color-bg-input: #ffffff;
   --color-bg-hover: #f3f4f6;
 
   /* Text */
@@ -15,7 +14,6 @@
   /* Borders */
   --color-border-default: #e5e7eb;
   --color-border-section: #e5e7eb;
-  --color-border-strong: #9ca3af;
   --color-border-accent: #2563eb;
 
   /* Accent (primary actions) */
@@ -29,12 +27,8 @@
   --color-warning-text: #92400e;
   --color-error-bg: #fecaca;
   --color-error-text: #7f1d1d;
+  --color-danger: #ef4444;
   --color-unparseable-text: #ca8a04;
-
-  /* Gray scale for occasional direct use (buttons, disabled states) */
-  --color-gray-button-bg: #e5e7eb;
-  --color-gray-button-text: #111827;
-  --color-gray-button-disabled-text: #9ca3af;
 
   /* Player colors (fixed AoE2 brand values) */
   --player-color-1: #3e59f8;
@@ -47,9 +41,13 @@
   --player-color-8: #f99200;
 
   /* Radius */
-  --radius-sm: 0.125rem;
+  --radius-sm: 0.25rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
   /* Spacing */
   --space-1: 0.25rem;
@@ -59,6 +57,7 @@
   --space-6: 1.5rem;
   --space-8: 2rem;
   --space-10: 2.5rem;
+  --space-12: 3rem;
 
   /* Typography */
   --font-sans:
@@ -67,6 +66,7 @@
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+  --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
   --font-size-lg: 1.125rem;
@@ -83,8 +83,7 @@
     --color-bg-page: #111827;
     --color-bg-card: #1f2937;
     --color-bg-subtle: #374151;
-    --color-bg-input: #1f2937;
-    --color-bg-hover: #374151;
+    --color-bg-hover: #4b5563;
 
     --color-text-primary: #f9fafb;
     --color-text-secondary: #d1d5db;
@@ -92,7 +91,6 @@
     --color-text-on-accent: #000000;
 
     --color-border-default: #374151;
-    --color-border-strong: #6b7280;
     --color-border-accent: #60a5fa;
 
     --color-accent: #1d4ed8;
@@ -104,10 +102,8 @@
     --color-warning-text: #78350f;
     --color-error-bg: #f87171;
     --color-error-text: #7f1d1d;
+    --color-danger: #f87171;
     --color-unparseable-text: #fde047;
 
-    --color-gray-button-bg: #4b5563;
-    --color-gray-button-text: #f9fafb;
-    --color-gray-button-disabled-text: #9ca3af;
   }
 }

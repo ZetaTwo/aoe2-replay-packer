@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import PackerInstructions from '@/components/packer/PackerInstructions.vue'
 import PackerForm from '@/components/packer/PackerForm.vue'
-import BaseCard from '@/components/common/BaseCard.vue'
+import AppFooter from '@/components/common/AppFooter.vue'
 import tournamentsData from 'virtual:tournaments-data'
 import type { Tournament } from 'virtual:tournaments-data'
 
@@ -43,7 +43,7 @@ const tournamentTitle = getTournamentTitle(tournament)
 </script>
 
 <template>
-  <div :class="$style.container">
+  <div class="container">
     <main :class="$style.main">
       <PackerInstructions :tournament-title="tournamentTitle" />
       <PackerForm
@@ -52,32 +52,12 @@ const tournamentTitle = getTournamentTitle(tournament)
         :tournament="tournament"
       />
     </main>
-    <footer>
-      <BaseCard align="center" spacing="top">
-        <p>
-          Created by <a :class="$style.link" href="https://github.com/ZetaTwo">ZetaTwo</a> &amp;
-          <a :class="$style.link" href="https://github.com/Kjir">Beargwyn</a> -
-          <a :class="$style.link" href="https://github.com/ZetaTwo/aoe2replaypacker">Source code</a>
-          -
-          <a :class="$style.link" href="https://forms.gle/NDKqE8acLdYR2JrKA">Report an issue</a>
-        </p>
-      </BaseCard>
-    </footer>
+    <AppFooter />
   </div>
 </template>
 
 <style module>
-@media (min-width: 1024px) {
-  .container {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: var(--container-max-width);
-  }
-}
 .main {
   margin-top: var(--space-10);
-}
-.link {
-  text-decoration: underline;
 }
 </style>

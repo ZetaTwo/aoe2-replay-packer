@@ -66,7 +66,7 @@ function onChange(event: Event) {
         :accept="accept"
         multiple
         type="file"
-        :class="$style.hiddenInput"
+        class="sr-only"
         @change="onChange($event)"
       />
     </label>
@@ -87,14 +87,18 @@ function onChange(event: Event) {
   align-items: center;
   justify-content: center;
   width: 100%;
-  border: 2px dashed var(--color-border-default);
+  border: 2px dashed var(--color-border-section);
   border-radius: var(--radius-lg);
   background-color: var(--color-bg-subtle);
   cursor: pointer;
 }
 .zone:hover {
   background-color: var(--color-bg-hover);
-  border-color: var(--color-border-strong);
+  border-color: var(--color-text-muted);
+}
+.zone:focus-within {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 .content {
   display: flex;
@@ -118,10 +122,7 @@ function onChange(event: Event) {
   font-weight: 600;
 }
 .secondary {
-  font-size: 0.75rem;
+  font-size: var(--font-size-xs);
   color: var(--color-text-muted);
-}
-.hiddenInput {
-  display: none;
 }
 </style>

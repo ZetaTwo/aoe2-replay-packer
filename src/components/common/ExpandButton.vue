@@ -40,14 +40,18 @@ const { openText = 'Expand', closeText = 'Hide' } = defineProps<{
   font-size: var(--font-size-sm);
   margin-top: var(--space-2);
   padding: 0 var(--space-2);
-  border: 2px solid var(--color-border-default);
-  border-radius: 9999px;
+  border: 2px solid var(--color-border-section);
+  border-radius: var(--radius-full);
   background: transparent;
   color: var(--color-text-muted);
   cursor: pointer;
 }
 .btn:hover {
   color: var(--color-text-secondary);
+}
+.btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 .chevron {
   width: 1.5rem;
