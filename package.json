@@ -54,11 +54,6 @@
     "vitest": "^4.1.7",
     "vue-tsc": "^3.3.2",
     "yaml": "^2.9.0"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "sharp"
-    ]
   }
 }
+
