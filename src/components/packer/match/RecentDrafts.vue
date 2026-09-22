@@ -16,8 +16,8 @@ const civPresets = computed(() => props.civPresets ?? [])
 
 const presets = computed(() => [...mapPresets.value, ...civPresets.value])
 
-const mapDraftURI = defineModel<string>('mapDraft')
-const civDraftURI = defineModel<string>('civDraft')
+const mapDraftURI = defineModel<string>('mapDraft', { required: true })
+const civDraftURI = defineModel<string>('civDraft', { required: true })
 
 const currentMapDraftId = computed(() => extractDraftId(mapDraftURI.value))
 const currentCivDraftId = computed(() => extractDraftId(civDraftURI.value))

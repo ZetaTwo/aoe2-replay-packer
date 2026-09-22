@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T">
-const model = defineModel<T>()
+const model = defineModel<T>({ required: true })
 
 defineProps<{
   value: T

@@ -17,10 +17,10 @@ const props = defineProps<{
   boPa: MatchSetType | null
 }>()
 
-const player1 = defineModel<string>('player1')
-const player2 = defineModel<string>('player2')
-const mapsDraftURI = defineModel<string>('mapDraft')
-const civDraftURI = defineModel<string>('civDraft')
+const player1 = defineModel<string>('player1', { required: true })
+const player2 = defineModel<string>('player2', { required: true })
+const mapsDraftURI = defineModel<string>('mapDraft', { required: true })
+const civDraftURI = defineModel<string>('civDraft', { required: true })
 const emit = defineEmits<{
   updateMeta: [ReplayErrors, ReplayMetadata]
 }>()
