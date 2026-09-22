@@ -109,7 +109,7 @@ watch(boPa, (newBoPa, oldBoPa) => {
         </SegmentedOption>
       </li>
       <li :class="$style.cell">
-        <SegmentedOption v-model="bestOf" input-id="bo-custom" name="bo" value="custom">
+        <SegmentedOption v-model="bestOf" input-id="bo-custom" name="bo" :value="'custom' as const">
           <input
             v-model="customGameCount"
             :class="$style.numberInput"

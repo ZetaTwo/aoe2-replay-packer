@@ -1,8 +1,8 @@
-<script setup lang="ts">
-const model = defineModel<unknown>()
+<script setup lang="ts" generic="T">
+const model = defineModel<T>()
 
 defineProps<{
-  value: unknown
+  value: T
   inputId: string
   name: string
   join?: 'left' | 'right'
