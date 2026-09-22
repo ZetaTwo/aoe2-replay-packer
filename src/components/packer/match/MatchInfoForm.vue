@@ -243,7 +243,11 @@ watch(meta, () => {
           <div v-if="meta.maps" :class="$style.draftPicks">
             <p :class="$style.center">{{ meta.maps.host }} vs {{ meta.maps.guest }}</p>
             <ul :class="$style.mapList">
-              <li v-for="(map, mapIdx) in meta.maps.pickedMaps" :key="mapIdx" :class="$style.mapItem">
+              <li
+                v-for="(map, mapIdx) in meta.maps.pickedMaps"
+                :key="mapIdx"
+                :class="$style.mapItem"
+              >
                 <div :class="$style.mapImageWrap">
                   <img
                     :class="$style.mapImage"
@@ -278,7 +282,11 @@ watch(meta, () => {
             </ul>
             <p :class="$style.civVs">vs</p>
             <ul :class="$style.civList">
-              <li v-for="(civ, civIdx) in meta.civs.guestCivs" :key="civIdx" :class="$style.civItem">
+              <li
+                v-for="(civ, civIdx) in meta.civs.guestCivs"
+                :key="civIdx"
+                :class="$style.civItem"
+              >
                 <CivIcon :civ="civ.toLowerCase()" />
                 {{ civ }}
               </li>

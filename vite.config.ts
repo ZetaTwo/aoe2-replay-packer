@@ -5,20 +5,27 @@ import { imagetools } from 'vite-imagetools'
 import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
 import VueDevTools from 'vite-plugin-vue-devtools'
-import tournamentsData from './rollup-plugin-tournaments'
+import tournamentsData from './rollup-plugin-tournaments.ts'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import wasm from 'vite-plugin-wasm'
 
 export default defineConfig({
-  plugins: [vue(), VueDevTools(), imagetools(), tournamentsData(), wasm(), viteStaticCopy({
-    targets: [
-      {
-        src: "node_modules/libarchive.js/dist/libarchive.wasm",
-        dest: "assets",
-        rename: { stripBase: true },
-      }
-    ]
-  })],
+  plugins: [
+    vue(),
+    VueDevTools(),
+    imagetools(),
+    tournamentsData(),
+    wasm(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'node_modules/libarchive.js/dist/libarchive.wasm',
+          dest: 'assets',
+          rename: { stripBase: true }
+        }
+      ]
+    })
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
@@ -27,8 +34,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        spoilers: resolve(__dirname, 'spoilers.html')
+        main: resolve(import.meta.dirname, 'index.html'),
+        spoilers: resolve(import.meta.dirname, 'spoilers.html')
       },
       output: {
         manualChunks: (id) => {

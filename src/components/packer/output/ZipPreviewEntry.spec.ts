@@ -23,7 +23,9 @@ describe('ZipPreviewEntry', () => {
   })
 
   it('shows └── for the last item', () => {
-    const wrapper = mount(ZipPreviewEntry, { props: { ...baseProps, game: makeGame(), last: true } })
+    const wrapper = mount(ZipPreviewEntry, {
+      props: { ...baseProps, game: makeGame(), last: true }
+    })
     expect(wrapper.text()).toContain('└──')
   })
 

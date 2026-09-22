@@ -10,14 +10,7 @@ defineProps<{
 </script>
 
 <template>
-  <input
-    :id="inputId"
-    v-model="model"
-    type="radio"
-    :name="name"
-    :value="value"
-    class="sr-only"
-  />
+  <input :id="inputId" v-model="model" type="radio" :name="name" :value="value" class="sr-only" />
   <label
     :for="inputId"
     :class="[

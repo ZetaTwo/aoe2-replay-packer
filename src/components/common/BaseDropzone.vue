@@ -36,12 +36,7 @@ function onChange(event: Event) {
 </script>
 
 <template>
-  <div
-    :class="$style.wrapper"
-    @dragenter.prevent
-    @dragover.prevent
-    @drop.prevent="onDrop($event)"
-  >
+  <div :class="$style.wrapper" @dragenter.prevent @dragover.prevent @drop.prevent="onDrop($event)">
     <label :for="inputId" :class="$style.zone">
       <div :class="$style.content">
         <svg

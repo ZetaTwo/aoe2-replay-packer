@@ -124,9 +124,7 @@ function moveGameReplay(replayId: number, targetGame: number) {
       </p>
       <p :class="$style.muted">
         Please check that you have selected the <strong>correct file</strong>. Consider
-        <a href="https://forms.gle/NDKqE8acLdYR2JrKA" target="_blank"
-          >reporting an issue</a
-        >.
+        <a href="https://forms.gle/NDKqE8acLdYR2JrKA" target="_blank">reporting an issue</a>.
       </p>
       <p :class="[$style.muted, $style.spacedTop]">
         The uploaded file will still be included in the downloaded Zip. You can proceed with the

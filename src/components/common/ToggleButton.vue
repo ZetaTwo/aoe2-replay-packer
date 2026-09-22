@@ -38,7 +38,9 @@ const model = defineModel<boolean>()
   background-color: #ffffff;
   border: 1px solid var(--color-border-section);
   border-radius: var(--radius-full);
-  transition: transform 0.2s, border-color 0.2s;
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
 }
 input:checked ~ .track {
   background-color: var(--color-accent);

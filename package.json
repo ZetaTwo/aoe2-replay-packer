@@ -15,10 +15,12 @@
   },
   "dependencies": {
     "@date-fns/utc": "^2.1.1",
-    "aoe2rec-js": "^0.1.22",
+    "aoe2rec-js": "^0.1.23",
     "date-fns": "^4.3.0",
     "libarchive.js": "^2.0.2",
     "lodash.debounce": "^4.0.8",
+    "node-addon-api": "^8.9.2",
+    "node-gyp": "^13.0.2",
     "p-map": "^7.0.4",
     "pinia": "^3.0.4",
     "vue": "^3.5.34"
@@ -56,4 +58,3 @@
     "yaml": "^2.9.0"
   }
 }
-
