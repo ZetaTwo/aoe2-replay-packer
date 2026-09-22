@@ -191,5 +191,6 @@ export const mapNames: Record<number, string> = {
   212: 'Rampart',
   213: 'Stonefront',
   214: 'Thames',
-  215: 'Vulpine'
+  215: 'Vulpine',
+  216: 'Arabian Desert'
 }

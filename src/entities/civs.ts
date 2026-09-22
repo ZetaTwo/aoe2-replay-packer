@@ -54,5 +54,8 @@ export const civNames: Record<number, string> = {
   53: 'Khitans',
   57: 'Muisca',
   58: 'Mapuche',
-  59: 'Tupi'
+  59: 'Tupi',
+  60: 'Saxons',
+  61: 'Varangians',
+  62: 'Danes'
 }
