@@ -43,7 +43,6 @@ export default defineConfig({
             if (id.includes('unidecode')) {
               return 'vendor_unidecode'
             }
-            return 'vendor'
           }
         }
       }
