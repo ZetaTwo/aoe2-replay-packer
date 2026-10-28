@@ -6,7 +6,8 @@
     "cypress.config.*",
     "nightwatch.conf.*",
     "playwright.config.*",
-    "rollup-plugin-*.*"
+    "rollup-plugin-*.*",
+    "src/entities/tournament.ts"
   ],
   "compilerOptions": {
     "composite": true,

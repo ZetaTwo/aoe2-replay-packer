@@ -4,6 +4,7 @@ import { join as joinPath } from 'path'
 import { parse as parseYaml } from 'yaml'
 import { Dir } from 'fs'
 import { readFile, opendir } from 'fs/promises'
+import type { SetFormat, Tournament } from './src/entities/tournament.ts'
 
 const execFileAsync = promisify(execFile)
 
@@ -32,13 +33,6 @@ async function getTournamentDirectories(): Promise<Dir> {
   }
 }
 
-type SetFormat = 'bo3' | 'bo5' | 'bo7' | 'bo9' | 'pa2' | 'pa3' | 'pa5' | 'pa7';
-type Tournament = {
-  name: string,
-  maps: Record<SetFormat, string[]>,
-  civs: Record<SetFormat, string[]>,
-  drafts: 'both' | 'civ' | 'map' | 'none'
-}
 
 async function getTournamentData(): Promise<Record<string, Tournament>> {
   const tournamentsDir = await getTournamentDirectories()
