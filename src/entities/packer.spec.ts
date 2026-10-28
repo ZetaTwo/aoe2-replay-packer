@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import type { Tournament } from 'virtual:tournaments-data'
 import {
+  autofillName,
   computeScores,
   countWins,
   discordMessage,
@@ -10,6 +11,7 @@ import {
   gamesWithOtherPlayers,
   guessSetLength,
   missingReplaysWarning,
+  playerNamesFromReplays,
   presetSetDefinition,
   replayEntries,
   scoreWarning,
@@ -119,6 +121,48 @@ describe('findPlayerSides', () => {
   it('looks through later games for a name match', () => {
     const later = [playedGame(CAROL, DAVE), unparseableGame(), playedGame(BOB, ALICE)]
     expect(findPlayerSides(later, 'Alice', 'Bob')).toEqual({ left: '1', right: '2' })
+  })
+})
+
+describe('playerNamesFromReplays', () => {
+  it('takes the names from the first parsed 1v1', () => {
+    expect(
+      playerNamesFromReplays([
+        new Game(),
+        unparseableGame(),
+        playedGame(BOB, ALICE),
+        playedGame(CAROL, DAVE)
+      ])
+    ).toEqual(['Bob', 'Alice'])
+  })
+
+  it('returns null for team games and free for alls', () => {
+    const teams = makeGame(
+      makeRecording({
+        teams: [
+          [ALICE, BOB],
+          [CAROL, DAVE]
+        ]
+      })
+    )
+    const ffa = makeGame(makeRecording({ teams: [[ALICE], [BOB], [CAROL]] }))
+    expect(playerNamesFromReplays([teams])).toBeNull()
+    expect(playerNamesFromReplays([ffa])).toBeNull()
+  })
+
+  it('returns null without parsed games', () => {
+    expect(playerNamesFromReplays([new Game(), unparseableGame()])).toBeNull()
+  })
+})
+
+describe('autofillName', () => {
+  it('replaces a name that was filled in automatically', () => {
+    expect(autofillName('Player1', ['Player1'], 'Alice')).toBe('Alice')
+    expect(autofillName('Bob', ['Player1', 'Bob'], 'Alice')).toBe('Alice')
+  })
+
+  it('keeps a name the user entered', () => {
+    expect(autofillName('Carol', ['Player1', undefined], 'Alice')).toBe('Carol')
   })
 })
 

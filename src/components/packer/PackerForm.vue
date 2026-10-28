@@ -24,6 +24,7 @@ import { zipFilename } from '@/entities/game'
 import { getRandomInt } from '@/lib/maths'
 import { generateZip } from '@/lib/zip'
 import {
+  autofillName,
   computeScores,
   discordMessage as discordMessageText,
   downloadDisabledReason,
@@ -31,6 +32,7 @@ import {
   gamesWithOtherPlayers,
   guessSetLength,
   missingReplaysWarning,
+  playerNamesFromReplays,
   presetSetDefinition,
   scoreWarning,
   tournamentSetDefinitions,
@@ -63,6 +65,21 @@ const meta: Ref<ReplayMetadata> = ref({
 })
 const metaErrors: Ref<ReplayErrors> = ref({ maps: null, civs: null })
 const showResults = ref(true)
+
+// Names filled in from the replays, which a draft may still replace
+const replayNames = ref<[string, string] | null>(null)
+
+watch(
+  () => playerNamesFromReplays(gamesStore.games),
+  (names) => {
+    if (!names || meta.value.maps?.host || meta.value.civs?.host) {
+      return
+    }
+    player1.value = autofillName(player1.value, ['Player1', replayNames.value?.[0]], names[0])
+    player2.value = autofillName(player2.value, ['Player2', replayNames.value?.[1]], names[1])
+    replayNames.value = names
+  }
+)
 
 const setTypeRestrictions = computed(() =>
   props.tournament ? tournamentSetDefinitions(props.tournament) : undefined
@@ -147,6 +164,13 @@ function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
 
   meta.value = newMeta
   metaErrors.value = newErrors
+
+  const host = newMeta.maps?.host ?? newMeta.civs?.host
+  const guest = newMeta.maps?.guest ?? newMeta.civs?.guest
+  if (host && guest && replayNames.value) {
+    player1.value = autofillName(player1.value, [replayNames.value[0]], host)
+    player2.value = autofillName(player2.value, [replayNames.value[1]], guest)
+  }
 
   const preset = meta.value.maps?.preset ?? meta.value.civs?.preset
   if (!props.tournament || !preset) {

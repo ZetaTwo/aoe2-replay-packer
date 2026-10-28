@@ -87,6 +87,21 @@ export function findPlayerSides(
   return null
 }
 
+// Player names of the first parsed game, if it is a 1v1
+export function playerNamesFromReplays(games: Game[]): [string, string] | null {
+  const firstGame = games.find((game) => !game.isDummy() && !game.isUnparseable())
+  const [left, right, ...rest] = firstGame?.teams ?? []
+  if (!left || !right || rest.length > 0 || left.players.length != 1 || right.players.length != 1) {
+    return null
+  }
+  return [left.players[0]!.name, right.players[0]!.name]
+}
+
+// Replace the name only if it is still one of the automatically filled in ones
+export function autofillName(current: string, replaceable: (string | undefined)[], name: string) {
+  return replaceable.includes(current) ? name : current
+}
+
 export function computeScores(games: Game[], player1: string, player2: string): Scores {
   const wins = countWins(games)
   const sides = findPlayerSides(games, player1, player2)
