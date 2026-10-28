@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { useGamesStore } from '@/stores/games'
 import BaseIconButton from '@/components/common/BaseIconButton.vue'
 
-const gamesStore = useGamesStore()
-
-const { gameIndex, showClear = true } = defineProps<{
-  gameIndex: number
+const { showClear = true } = defineProps<{
   showClear?: boolean
+}>()
+
+const emit = defineEmits<{
+  clear: []
+  remove: []
 }>()
 </script>
 <template>
   <div :class="$style.actions">
-    <BaseIconButton v-if="showClear" title="Clear info" @click="gamesStore.clearGame(gameIndex)">
+    <BaseIconButton v-if="showClear" title="Clear info" @click="emit('clear')">
       <svg
         :class="$style.icon"
         aria-hidden="true"
@@ -26,7 +27,7 @@ const { gameIndex, showClear = true } = defineProps<{
       </svg>
       <span :class="$style.label">Clear info</span>
     </BaseIconButton>
-    <BaseIconButton title="Remove game" @click="gamesStore.removeGame(gameIndex)">
+    <BaseIconButton title="Remove game" @click="emit('remove')">
       <svg
         :class="[$style.icon, $style.danger]"
         aria-hidden="true"

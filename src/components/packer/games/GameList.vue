@@ -26,6 +26,11 @@ const { showResults = true } = defineProps<{
       :show-results="showResults"
       @set-outcome="(outcome: GameOutcome) => (game.outcome = outcome)"
       @move="(direction: 'up' | 'down') => gamesStore.moveGame(index, direction == 'up' ? -1 : 1)"
+      @clear="gamesStore.clearGame(index)"
+      @remove="gamesStore.removeGame(index)"
+      @move-replay="
+        (replayId: number, targetGame: number) => gamesStore.moveReplay(replayId, index, targetGame)
+      "
     >
     </component>
   </div>

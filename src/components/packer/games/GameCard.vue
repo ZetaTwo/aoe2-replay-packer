@@ -13,7 +13,6 @@ import { readableSize } from '@/lib/maths'
 import MoveReplayButton from './MoveReplayButton.vue'
 import MoveReplayModal from './MoveReplayModal.vue'
 import RelativeDate from '@/components/common/RelativeDate.vue'
-import { useGamesStore } from '@/stores/games'
 
 const props = defineProps<{
   index: number
@@ -25,9 +24,10 @@ const props = defineProps<{
 const emit = defineEmits<{
   setOutcome: [outcome: GameOutcome]
   move: [direction: 'up' | 'down']
+  clear: []
+  remove: []
+  moveReplay: [replayId: number, targetGame: number]
 }>()
-
-const { moveReplay } = useGamesStore()
 
 const leftName = computed(() => props.game.teams[0]?.players?.[0]?.name)
 const rightName = computed(() => {
@@ -46,7 +46,7 @@ const showModal = ref<number | null>(null)
 
 function moveGameReplay(replayId: number, targetGame: number) {
   showModal.value = null
-  moveReplay(replayId, props.index, targetGame)
+  emit('moveReplay', replayId, targetGame)
 }
 </script>
 <template>
@@ -57,7 +57,7 @@ function moveGameReplay(replayId: number, targetGame: number) {
       :bottom="props.index + 1 == props.numGames"
       @move="(direction: 'up' | 'down') => emit('move', direction)"
     />
-    <GameActions :class="$style.actions" :game-index="props.index" />
+    <GameActions :class="$style.actions" @clear="emit('clear')" @remove="emit('remove')" />
     <h3 :class="$style.title">Game {{ props.index + 1 }}</h3>
     <h4 v-if="props.game.isUnparseable()" :class="[$style.subtitle, $style.warning]">
       Unparseable game

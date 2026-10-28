@@ -7,10 +7,14 @@ const props = defineProps<{
   numGames: number
   game: Game
 }>()
+
+const emit = defineEmits<{
+  remove: []
+}>()
 </script>
 <template>
   <div>
-    <GameActions :class="$style.actions" :game-index="props.index" :show-clear="false" />
+    <GameActions :class="$style.actions" :show-clear="false" @remove="emit('remove')" />
     <h3 :class="$style.title">Game {{ props.index + 1 }}</h3>
     <h4 :class="$style.subtitle">Placeholder game</h4>
     <p :class="$style.muted">
