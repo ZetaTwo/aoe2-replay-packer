@@ -12,6 +12,9 @@ const props = defineProps<{
   gamesCount: number
 }>()
 
+const MIN_GAMES = 1
+const MAX_GAMES = 99
+
 const customGameCount = ref(9)
 const bestOf = ref<number | 'custom'>(props.gamesCount)
 const boPa = ref<MatchSetType | null>(null)
@@ -20,12 +23,12 @@ watch(customGameCount, async (newCount, oldCount) => {
   if (newCount == oldCount) {
     return
   }
-  if (newCount < 0) {
-    customGameCount.value = 0
+  if (newCount < MIN_GAMES) {
+    customGameCount.value = MIN_GAMES
     return
   }
-  if (newCount > 99) {
-    customGameCount.value = 99
+  if (newCount > MAX_GAMES) {
+    customGameCount.value = MAX_GAMES
     return
   }
   if (bestOf.value != 'custom') {
@@ -110,16 +113,34 @@ watch(boPa, (newBoPa, oldBoPa) => {
       </li>
       <li :class="$style.cell">
         <SegmentedOption v-model="bestOf" input-id="bo-custom" name="bo" :value="'custom' as const">
+          <button
+            type="button"
+            :class="$style.stepButton"
+            aria-label="Fewer games"
+            :disabled="customGameCount <= MIN_GAMES"
+            @click="customGameCount--"
+          >
+            −
+          </button>
           <input
             v-model="customGameCount"
             :class="$style.numberInput"
             type="number"
             aria-roledescription="Number field"
             value="9"
-            min="1"
-            max="99"
+            :min="MIN_GAMES"
+            :max="MAX_GAMES"
             maxlength="2"
           />
+          <button
+            type="button"
+            :class="$style.stepButton"
+            aria-label="More games"
+            :disabled="customGameCount >= MAX_GAMES"
+            @click="customGameCount++"
+          >
+            +
+          </button>
           Games
         </SegmentedOption>
       </li>
@@ -167,6 +188,18 @@ watch(boPa, (newBoPa, oldBoPa) => {
 .numberInput::-webkit-outer-spin-button {
   -webkit-appearance: none;
 }
+.stepButton {
+  padding: 0 var(--space-1);
+  background-color: transparent;
+  border: 1px solid var(--color-border-section);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+.stepButton:disabled {
+  color: var(--color-text-muted);
+  cursor: default;
+}
+.stepButton:focus-visible,
 .numberInput:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
