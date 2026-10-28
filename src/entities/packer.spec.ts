@@ -15,32 +15,20 @@ import {
   tournamentSetDefinitions,
   zipFiles
 } from './packer'
-import { Game, dummyWinner, type DummyReplay } from './game'
+import { Game } from './game'
 import { MatchSetDefinition, MatchSetType } from './matchset'
-import { makeGame, makeRecording, makeReplay } from './__tests__/recordings'
-
-const ALICE = { name: 'Alice', profile: 1 }
-const BOB = { name: 'Bob', profile: 2 }
-
-// Game between the two teams where the given player resigned
-function playedGame(left: typeof ALICE, right: typeof ALICE, loser?: typeof ALICE) {
-  return makeGame(
-    makeRecording({
-      teams: [[{ ...left, resigned: loser == left }], [{ ...right, resigned: loser == right }]]
-    })
-  )
-}
-
-function unparseableGame() {
-  const recording: DummyReplay = { dummy: true, header: { timestamp: 0 } }
-  return new Game([makeReplay(recording)])
-}
-
-function gameWithOutcome(side: 'left' | 'right') {
-  const game = unparseableGame()
-  game.outcome = dummyWinner(side)
-  return game
-}
+import {
+  ALICE,
+  BOB,
+  CAROL,
+  DAVE,
+  gameWithOutcome,
+  makeGame,
+  makeRecording,
+  makeReplay,
+  playedGame,
+  unparseableGame
+} from './__tests__/recordings'
 
 const noErrors = { maps: null, civs: null }
 
@@ -127,9 +115,7 @@ describe('findPlayerSides', () => {
   })
 
   it('looks through later games for a name match', () => {
-    const carol = { name: 'Carol', profile: 3 }
-    const dave = { name: 'Dave', profile: 4 }
-    const later = [playedGame(carol, dave), unparseableGame(), playedGame(BOB, ALICE)]
+    const later = [playedGame(CAROL, DAVE), unparseableGame(), playedGame(BOB, ALICE)]
     expect(findPlayerSides(later, 'Alice', 'Bob')).toEqual({ left: '1', right: '2' })
   })
 })

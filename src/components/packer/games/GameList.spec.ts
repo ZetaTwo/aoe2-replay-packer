@@ -5,18 +5,12 @@ import GameList from './GameList.vue'
 import GameCard from './GameCard.vue'
 import { Game } from '@/entities/game'
 import { useGamesStore } from '@/stores/games'
-import { makeGame, makeRecording } from '@/entities/__tests__/recordings'
+import { ALICE, BOB, CAROL, DAVE, playedGame } from '@/entities/__tests__/recordings'
 
 vi.mock('aoe2rec-js', () => ({ parse_rec_summary: vi.fn() }))
 
-const matchAB = () =>
-  makeGame(
-    makeRecording({ teams: [[{ name: 'Alice', profile: 1 }], [{ name: 'Bob', profile: 2 }]] })
-  )
-const matchCD = () =>
-  makeGame(
-    makeRecording({ teams: [[{ name: 'Carol', profile: 3 }], [{ name: 'Dave', profile: 4 }]] })
-  )
+const matchAB = () => playedGame(ALICE, BOB)
+const matchCD = () => playedGame(CAROL, DAVE)
 
 const ids = (games: Game[]) => games.map((game) => game.id)
 

@@ -2,11 +2,15 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import GameCard from './GameCard.vue'
 import MoveReplayModal from './MoveReplayModal.vue'
-import { Game, type DummyReplay } from '@/entities/game'
-import { makeGame, makeRecording, makeReplay } from '@/entities/__tests__/recordings'
-
-const ALICE = { name: 'Alice', profile: 1 }
-const BOB = { name: 'Bob', profile: 2 }
+import { Game } from '@/entities/game'
+import {
+  ALICE,
+  BOB,
+  makeGame,
+  makeRecording,
+  playedGame,
+  unparseableGame
+} from '@/entities/__tests__/recordings'
 
 function mountCard(game: Game, showResults = true) {
   return mount(GameCard, {
@@ -17,7 +21,7 @@ function mountCard(game: Game, showResults = true) {
 
 describe('GameCard', () => {
   it('shows the game number, map and players', () => {
-    const wrapper = mountCard(makeGame(makeRecording({ teams: [[ALICE], [BOB]] })))
+    const wrapper = mountCard(playedGame(ALICE, BOB))
     expect(wrapper.find('h3').text()).toBe('Game 2')
     expect(wrapper.text()).toContain('Arabia')
     expect(wrapper.text()).toContain('Alice')
@@ -25,7 +29,7 @@ describe('GameCard', () => {
   })
 
   it('emits the winner chosen by the user', async () => {
-    const wrapper = mountCard(makeGame(makeRecording({ teams: [[ALICE], [BOB]] })))
+    const wrapper = mountCard(playedGame(ALICE, BOB))
     await wrapper.find('input[value="right"]').trigger('change')
     const [outcome] = wrapper.emitted('setOutcome')![0]!
     expect(outcome).toMatchObject({ side: 'right', firstPlayer: { name: 'Bob' } })
@@ -37,8 +41,7 @@ describe('GameCard', () => {
   })
 
   it('warns about an unparseable game', () => {
-    const unparseable: DummyReplay = { dummy: true, header: { timestamp: 0 } }
-    const wrapper = mountCard(new Game([makeReplay(unparseable)]))
+    const wrapper = mountCard(unparseableGame())
     expect(wrapper.text()).toContain('could not be parsed')
   })
 

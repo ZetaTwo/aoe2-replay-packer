@@ -8,17 +8,23 @@ import {
   Player,
   Team,
   Replay,
-  type DummyReplay,
   extractRecordingInfo
 } from './game'
 import type { SavegameSummary } from 'aoe2rec-js'
-import { makeGame as makeRecordedGame, makeRecording, makeReplay } from './__tests__/recordings'
+import {
+  ALICE,
+  BOB,
+  makeGame,
+  makeRecording,
+  makeReplay,
+  makeUnparseable
+} from './__tests__/recordings'
 
 function makePlayer(name: string, resigned: boolean): Player {
   return new Player(1, name, name, 'Britons', 1, 1, resigned)
 }
 
-function makeGame(leftResigned: boolean, rightResigned: boolean): Game {
+function gameWithResignations(leftResigned: boolean, rightResigned: boolean): Game {
   const game = new Game()
   game.teams = [
     new Team(1, [makePlayer('Alice', leftResigned)]),
@@ -46,27 +52,27 @@ describe('Team.survivor', () => {
 
 describe('Game.setWinner', () => {
   it('sets left team as winner when right team resigned', () => {
-    const game = makeGame(false, true)
+    const game = gameWithResignations(false, true)
     game.setWinner()
     expect(game.outcome?.side).toBe('left')
     expect(game.outcome?.team_id).toBe(1)
   })
 
   it('sets right team as winner when left team resigned', () => {
-    const game = makeGame(true, false)
+    const game = gameWithResignations(true, false)
     game.setWinner()
     expect(game.outcome?.side).toBe('right')
     expect(game.outcome?.team_id).toBe(2)
   })
 
   it('sets no winner when neither team has resigned', () => {
-    const game = makeGame(false, false)
+    const game = gameWithResignations(false, false)
     game.setWinner()
     expect(game.outcome).toBeNull()
   })
 
   it('sets no winner when both teams have resigned', () => {
-    const game = makeGame(true, true)
+    const game = gameWithResignations(true, true)
     game.setWinner()
     expect(game.outcome).toBeNull()
   })
@@ -120,10 +126,7 @@ describe('Game.isDummy', () => {
   })
 
   it('is false when a replay has a dummy recording', () => {
-    const game = new Game()
-    const dummyRecording: DummyReplay = { dummy: true, header: { timestamp: 0 } }
-    game.replays.push({ recording: dummyRecording } as Replay)
-    expect(game.isDummy()).toBe(false)
+    expect(new Game([makeReplay(makeUnparseable())]).isDummy()).toBe(false)
   })
 })
 
@@ -149,9 +152,8 @@ describe('computeReplayFilename', () => {
 describe('Game.addReplay', () => {
   it('orders replays by timestamp, including unparseable ones', () => {
     const recording = makeRecording({ timestamp: 1700000000 })
-    const unparseable: DummyReplay = { dummy: true, header: { timestamp: 1700000000 - 60 } }
     const game = new Game([makeReplay(recording, 'second.aoe2record')])
-    game.addReplay(makeReplay(unparseable, 'first.aoe2record'))
+    game.addReplay(makeReplay(makeUnparseable(1700000000 - 60), 'first.aoe2record'))
     expect(game.replays.map((replay) => replay.file.name)).toEqual([
       'first.aoe2record',
       'second.aoe2record'
@@ -161,15 +163,10 @@ describe('Game.addReplay', () => {
 
 describe('Game date', () => {
   it('reads the timestamp of an unparseable replay as seconds', () => {
-    const unparseable: DummyReplay = { dummy: true, header: { timestamp: 1700000000 } }
-    const game = new Game([makeReplay(unparseable)])
+    const game = makeGame(makeUnparseable(1700000000))
     expect(game.date).toEqual(new Date(1700000000 * 1000))
   })
 })
-
-const ALICE = { name: 'Alice', profile: 1, civ: 1 }
-const BOB = { name: 'Bob', profile: 2, civ: 2 }
-const unparseable = (): DummyReplay => ({ dummy: true, header: { timestamp: 0 } })
 
 describe('extractRecordingInfo', () => {
   it('reads the map, date, duration and teams', () => {
@@ -199,7 +196,7 @@ describe('extractRecordingInfo', () => {
 })
 
 describe('Game.matchesRecording', () => {
-  const game = makeRecordedGame(makeRecording({ teams: [[ALICE], [BOB]] }))
+  const game = makeGame(makeRecording({ teams: [[ALICE], [BOB]] }))
 
   it('matches a recording of the same players, civs and map', () => {
     expect(game.matchesRecording(makeRecording({ teams: [[ALICE], [BOB]], timestamp: 5 }))).toBe(
@@ -226,7 +223,7 @@ describe('Game.matchesRecording', () => {
   })
 
   it('does not match an unparseable recording', () => {
-    expect(game.matchesRecording(unparseable())).toBe(false)
+    expect(game.matchesRecording(makeUnparseable())).toBe(false)
   })
 })
 
@@ -235,34 +232,32 @@ describe('Game.addReplay teams', () => {
     makeRecording({ teams: [[ALICE], [{ ...BOB, resigned: bobResigned }]], timestamp })
 
   it('takes the teams and outcome from the latest replay', () => {
-    const game = makeRecordedGame(recording(1000, false))
+    const game = makeGame(recording(1000, false))
     expect(game.outcome).toBeNull()
     game.addReplay(makeReplay(recording(2000, true)))
     expect(game.outcome?.firstPlayer?.name).toBe('Alice')
   })
 
   it('keeps the latest replay when adding an earlier one', () => {
-    const game = makeRecordedGame(recording(2000, true))
+    const game = makeGame(recording(2000, true))
     game.addReplay(makeReplay(recording(1000, false)))
     expect(game.teams[1]?.survivor).toBe(false)
   })
 
   it('keeps the teams when adding an unparseable replay', () => {
-    const game = makeRecordedGame(recording(1000, true))
-    game.addReplay(makeReplay(unparseable()))
+    const game = makeGame(recording(1000, true))
+    game.addReplay(makeReplay(makeUnparseable()))
     expect(game.teams).toHaveLength(2)
   })
 })
 
 describe('Game.isUnparseable', () => {
   it('is true when every replay is unparseable', () => {
-    expect(new Game([makeReplay(unparseable()), makeReplay(unparseable())]).isUnparseable()).toBe(
-      true
-    )
+    expect(makeGame(makeUnparseable(), makeUnparseable()).isUnparseable()).toBe(true)
   })
 
   it('is false for a parsed game', () => {
-    expect(makeRecordedGame().isUnparseable()).toBe(false)
+    expect(makeGame().isUnparseable()).toBe(false)
   })
 
   it('is false for a placeholder game', () => {

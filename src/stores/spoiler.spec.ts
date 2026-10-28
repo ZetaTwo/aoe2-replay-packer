@@ -2,14 +2,11 @@ import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { createPinia, setActivePinia } from 'pinia'
 import { extractRecordings } from '@/lib/archive'
 import { useSpoilerStore } from './spoiler'
+import { recFile } from '@/entities/__tests__/recordings'
 
 vi.mock('@/lib/archive', () => ({ extractRecordings: vi.fn() }))
 
 const extractMock = vi.mocked(extractRecordings)
-
-function recFile(name: string) {
-  return new File(['rec'], name)
-}
 
 describe('spoiler store', () => {
   beforeEach(() => {
