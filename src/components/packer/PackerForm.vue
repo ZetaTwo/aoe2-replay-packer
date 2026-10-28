@@ -24,6 +24,7 @@ import { MatchSetDefinition, MatchSetType } from '@/entities/matchset'
 import { zipFilename, computeReplayFilename, Player } from '@/entities/game'
 import { extractDraftUrl } from '@/entities/aoe2cm'
 import { getRandomInt } from '@/lib/maths'
+import { missingReplaysWarning } from '@/entities/packer'
 
 const props = defineProps<{
   civPresets: string[] | null
@@ -61,21 +62,9 @@ const setTypeRestrictions = computed((): MatchSetDefinition[] | undefined => {
   ].map(MatchSetDefinition.parse)
 })
 
-const downloadWarningReplayMissing = computed(() => {
-  if (boPa.value == MatchSetType.BestOf) {
-    return false
-  }
-
-  for (const game of gamesStore.games) {
-    for (const replay of game.replays) {
-      if (!replay.file) {
-        return true
-      }
-    }
-  }
-
-  return false
-})
+const downloadWarningReplayMissing = computed(() =>
+  missingReplaysWarning(gamesStore.games, boPa.value)
+)
 
 const winCount = computed(() => {
   return gamesStore.games.reduce(
