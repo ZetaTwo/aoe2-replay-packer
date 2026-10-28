@@ -409,7 +409,7 @@ function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
   </GameList>
 
   <BaseCard align="center" spacing="top">
-    <ZipPreview :games="gamesStore.games" :player1="player1" :player2="player2" :meta="meta" />
+    <ZipPreview :games="gamesStore.games" :player1="player1" :player2="player2" />
     <BaseButton
       variant="primary"
       size="lg"

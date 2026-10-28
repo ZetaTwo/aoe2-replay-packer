@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import { Game, zipFilename } from '@/entities/game'
-import type { ReplayMetadata } from '@/entities/gamemeta'
 import ZipPreviewEntry from './ZipPreviewEntry.vue'
 
 const props = defineProps<{
   games: Game[]
   player1: string
   player2: string
-  meta: ReplayMetadata
 }>()
 </script>
 
@@ -15,7 +13,7 @@ const props = defineProps<{
   <h2 :class="$style.title">Preview</h2>
   <div :class="$style.tree">
     {{ zipFilename(player1, player2) }}<br />
-    <template v-if="meta.civs || meta.maps"><span>├──metadata.json</span><br /></template>
+    <span>├──metadata.json</span><br />
     <template v-for="(game, gameIdx) in props.games" :key="game.id">
       <template v-if="game.isDummy()">
         <ZipPreviewEntry
