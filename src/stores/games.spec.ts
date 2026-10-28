@@ -39,6 +39,12 @@ describe('games store', () => {
   })
 
   describe('addRec', () => {
+    it('parses the contents of the file', async () => {
+      await useGamesStore().addRec(new File(['recording bytes'], 'game.aoe2record'))
+      const buffer = parseMock.mock.calls[0]![0] as ArrayBuffer
+      expect(new TextDecoder().decode(buffer)).toBe('recording bytes')
+    })
+
     it('dates an unparseable recording by its file modification time', async () => {
       parseMock.mockImplementation(() => {
         throw new Error('unsupported version')

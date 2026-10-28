@@ -20,32 +20,13 @@ export const useGamesStore = defineStore('games', () => {
     addGame(newGame)
   }
 
-  async function parseRec(file: File) {
-    return new Promise<SavegameSummary | DummyReplay>((resolve) => {
-      const reader = new FileReader()
-      reader.addEventListener(
-        'loadend',
-        (event) => {
-          if (!event.target || !event.target.result) {
-            console.error('Could not find target')
-            return
-          }
-          try {
-            const recording = parse_rec_summary(event.target.result as ArrayBuffer)
-            resolve(recording)
-          } catch (error) {
-            console.error('Failed to parse', error)
-            const recording: DummyReplay = {
-              header: { timestamp: file.lastModified / 1000 },
-              dummy: true
-            }
-            resolve(recording)
-          }
-        },
-        false
-      )
-      reader.readAsArrayBuffer(file)
-    })
+  async function parseRec(file: File): Promise<SavegameSummary | DummyReplay> {
+    try {
+      return parse_rec_summary(await file.arrayBuffer())
+    } catch (error) {
+      console.error('Failed to parse', error)
+      return { header: { timestamp: file.lastModified / 1000 }, dummy: true }
+    }
   }
 
   function addGame(newGame: Game) {
