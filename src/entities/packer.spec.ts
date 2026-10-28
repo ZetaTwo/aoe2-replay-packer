@@ -77,8 +77,28 @@ describe('countWins', () => {
 describe('findPlayerSides', () => {
   const games = [playedGame(ALICE, BOB, BOB)]
 
-  it('returns null when the first game has no teams', () => {
-    expect(findPlayerSides([new Game(), ...games], 'Alice', 'Bob')).toBeNull()
+  it('returns null without any parsed game', () => {
+    expect(findPlayerSides([new Game(), unparseableGame()], 'Alice', 'Bob')).toBeNull()
+  })
+
+  it('ignores games with a single team', () => {
+    const soloGame = makeGame(makeRecording({ teams: [[ALICE]] }))
+    expect(findPlayerSides([soloGame], 'Alice', 'Bob')).toBeNull()
+    expect(findPlayerSides([soloGame, ...games], 'Carol', 'Dave')).toEqual({
+      left: '1',
+      right: '2'
+    })
+  })
+
+  it('looks past a first game without teams', () => {
+    expect(findPlayerSides([unparseableGame(), ...games], 'Bob', 'Alice')).toEqual({
+      left: '2',
+      right: '1'
+    })
+    expect(findPlayerSides([new Game(), ...games], 'Carol', 'Dave')).toEqual({
+      left: '1',
+      right: '2'
+    })
   })
 
   it('keeps the team order when player 1 is in the first team', () => {
@@ -118,6 +138,17 @@ describe('computeScores', () => {
   it('scores each player by name, whichever team they played in', () => {
     const games = [playedGame(ALICE, BOB, BOB), playedGame(BOB, ALICE, BOB), playedGame(ALICE, BOB)]
     expect(computeScores(games, 'Bob', 'Alice')).toEqual({ left: 0, right: 2 })
+  })
+
+  it('counts parsed games when the first replay is unparseable', () => {
+    const games = [
+      gameWithOutcome('right'),
+      playedGame(ALICE, BOB, BOB),
+      playedGame(ALICE, BOB, ALICE),
+      playedGame(BOB, ALICE, BOB),
+      playedGame(ALICE, BOB, BOB)
+    ]
+    expect(computeScores(games, 'Alice', 'Bob')).toEqual({ left: 3, right: 2 })
   })
 
   it('adds manually set outcomes', () => {

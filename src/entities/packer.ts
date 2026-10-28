@@ -40,15 +40,13 @@ export function findPlayerSides(
   player1: string,
   player2: string
 ): PlayerSides | null {
-  if ((games[0]?.teams?.length ?? 0) < 2) {
-    return null
-  }
-
   const playerNameIsSimilarTo = (draftPlayer: string) => (player: Player) =>
     player.name.toLowerCase().includes(draftPlayer.toLowerCase()) ||
     draftPlayer.toLowerCase().includes(player.name.toLowerCase())
 
-  const parsedGames = games.filter((game) => !game.isUnparseable() && !game.isDummy())
+  const parsedGames = games.filter(
+    (game) => !game.isUnparseable() && !game.isDummy() && game.teams.length >= 2
+  )
 
   for (const game of parsedGames) {
     const team1 = game.teams[0]
