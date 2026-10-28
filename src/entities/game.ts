@@ -166,10 +166,6 @@ export class Game {
     })
   }
 
-  addRecording(file: File, recording: SavegameSummary | DummyReplay) {
-    this.addReplay(new Replay(file, recording))
-  }
-
   addReplay(replay: Replay) {
     this.replays = [...this.replays, replay].sort(
       (replayA, replayB) =>
@@ -193,10 +189,12 @@ export class Replay {
   id: number
   file: File
   recording: SavegameSummary | DummyReplay
-  constructor(file: File, recording: SavegameSummary | DummyReplay) {
+  contentHash: string
+  constructor(file: File, recording: SavegameSummary | DummyReplay, contentHash = '') {
     this.id = replayCounter++
     this.file = file
     this.recording = recording
+    this.contentHash = contentHash
   }
 }
 

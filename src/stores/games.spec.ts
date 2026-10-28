@@ -195,4 +195,51 @@ describe('games store', () => {
       expect(replayNames(store)).toEqual([['rec0.aoe2record', 'rec1.aoe2record'], [], []])
     })
   })
+
+  describe('duplicates', () => {
+    it('skips a file that was already added', async () => {
+      const store = useGamesStore()
+      await store.addRec(recFile('game.aoe2record'))
+      await store.addRec(recFile('game.aoe2record'))
+      expect(store.realGamesCount).toBe(1)
+      expect(store.games[0]?.replays).toHaveLength(1)
+      expect(store.skippedDuplicates).toEqual(['game.aoe2record'])
+    })
+
+    it('recognizes a renamed copy by its contents', async () => {
+      const store = useGamesStore()
+      await store.addRec(recFile('game.aoe2record', undefined, 'same'))
+      await store.addRec(recFile('copy of game.aoe2record', undefined, 'same'))
+      expect(store.realGamesCount).toBe(1)
+      expect(store.skippedDuplicates).toEqual(['copy of game.aoe2record'])
+    })
+
+    it('skips duplicates added at the same time, e.g. from an archive', async () => {
+      extractMock.mockResolvedValue([
+        recFile('a.aoe2record', undefined, 'same'),
+        recFile('b.aoe2record', undefined, 'same')
+      ])
+      const store = useGamesStore()
+      await store.expandArchive(new File(['zip'], 'replays.zip'))
+      expect(store.games[0]?.replays).toHaveLength(1)
+      expect(store.skippedDuplicates).toHaveLength(1)
+    })
+
+    it('allows adding a file again after its game was removed', async () => {
+      const store = useGamesStore()
+      await store.addRec(recFile('game.aoe2record'))
+      store.removeGame(0)
+      await store.addRec(recFile('game.aoe2record'))
+      expect(store.realGamesCount).toBe(1)
+      expect(store.skippedDuplicates).toEqual([])
+    })
+
+    it('clears the skipped files', async () => {
+      const store = useGamesStore()
+      await store.addRec(recFile())
+      await store.addRec(recFile())
+      store.clearSkippedDuplicates()
+      expect(store.skippedDuplicates).toEqual([])
+    })
+  })
 })

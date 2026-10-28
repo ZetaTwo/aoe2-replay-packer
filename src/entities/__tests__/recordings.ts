@@ -89,8 +89,9 @@ export function gameWithOutcome(side: 'left' | 'right') {
   return game
 }
 
-export function recFile(name = 'game.aoe2record', lastModified?: number) {
-  return new File(['rec'], name, { lastModified })
+// Files with different names get different contents, so they aren't duplicates
+export function recFile(name = 'game.aoe2record', lastModified?: number, contents = name) {
+  return new File([contents], name, { lastModified })
 }
 
 // Queue one parse result per file, in the order the files get parsed

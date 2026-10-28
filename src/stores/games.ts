@@ -3,26 +3,44 @@ import { defineStore } from 'pinia'
 import { parse_rec_summary, SavegameSummary } from 'aoe2rec-js'
 import { Game, Replay, type DummyReplay } from '@/entities/game'
 import { extractRecordings } from '@/lib/archive'
+import { sha256 } from '@/lib/hash'
 
 export const useGamesStore = defineStore('games', () => {
   const games: Ref<Game[]> = ref([new Game(), new Game(), new Game()])
+  const skippedDuplicates: Ref<string[]> = ref([])
 
   async function addRec(file: File) {
-    const recording = await parseRec(file)
-    const gameTypes = Object.groupBy(games.value, (game) => (game.isDummy() ? 'dummy' : 'real'))
-    const existingGame = (gameTypes.real ?? []).find((game) => game.matchesRecording(recording))
-    if (existingGame) {
-      existingGame.addRecording(file, recording)
+    const contents = await file.arrayBuffer()
+    const contentHash = await sha256(contents)
+    // No awaits from here on, so files added in parallel can't both pass the duplicate check
+    const isDuplicate = games.value.some((game) =>
+      game.replays.some((replay) => replay.contentHash == contentHash)
+    )
+    if (isDuplicate) {
+      skippedDuplicates.value = [...skippedDuplicates.value, file.name]
       return
     }
 
-    const newGame = new Game([new Replay(file, recording)])
-    addGame(newGame)
+    const replay = new Replay(file, parseRec(file, contents), contentHash)
+    const gameTypes = Object.groupBy(games.value, (game) => (game.isDummy() ? 'dummy' : 'real'))
+    const existingGame = (gameTypes.real ?? []).find((game) =>
+      game.matchesRecording(replay.recording)
+    )
+    if (existingGame) {
+      existingGame.addReplay(replay)
+      return
+    }
+
+    addGame(new Game([replay]))
   }
 
-  async function parseRec(file: File): Promise<SavegameSummary | DummyReplay> {
+  function clearSkippedDuplicates() {
+    skippedDuplicates.value = []
+  }
+
+  function parseRec(file: File, contents: ArrayBuffer): SavegameSummary | DummyReplay {
     try {
-      return parse_rec_summary(await file.arrayBuffer())
+      return parse_rec_summary(contents)
     } catch (error) {
       console.error('Failed to parse', error)
       return { header: { timestamp: file.lastModified / 1000 }, dummy: true }
@@ -103,8 +121,9 @@ export const useGamesStore = defineStore('games', () => {
   const hasGames = computed(() => realGamesCount.value > 0)
   return {
     addRec,
-    parseRec,
     games,
+    skippedDuplicates,
+    clearSkippedDuplicates,
     hasGames,
     clearGame,
     removeGame,
