@@ -28,6 +28,7 @@ import {
   discordMessage as discordMessageText,
   downloadDisabledReason,
   draftMissingWarning,
+  gamesWithOtherPlayers,
   guessSetLength,
   missingReplaysWarning,
   presetSetDefinition,
@@ -93,6 +94,8 @@ watch([leftScore, rightScore], ([newLeftScore, newRightScore], [oldLeftScore, ol
 const downloadWarningScore = computed(() =>
   scoreWarning(scores.value, gamesStore.games.length, boPa.value)
 )
+
+const gamesWithDifferentPlayers = computed(() => gamesWithOtherPlayers(gamesStore.games))
 
 const downloadWarningCivDraftMissing = computed(() =>
   draftMissingWarning(props.civPresets, civDraft.value)
@@ -231,6 +234,12 @@ function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
     </BaseAlert>
     <BaseAlert v-if="downloadWarningMapDraftMissing">
       WARNING: You have not provided a map draft link.
+    </BaseAlert>
+    <BaseAlert v-if="gamesWithDifferentPlayers.length > 0">
+      WARNING: Not all games have the same players. Check game{{
+        gamesWithDifferentPlayers.length > 1 ? 's' : ''
+      }}
+      {{ gamesWithDifferentPlayers.join(', ') }}.
     </BaseAlert>
     <BaseAlert v-if="downloadWarningScore">
       WARNING: The score does not make sense for a best-of set.

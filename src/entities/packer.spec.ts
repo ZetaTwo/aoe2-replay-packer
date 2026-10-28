@@ -7,6 +7,7 @@ import {
   downloadDisabledReason,
   draftMissingWarning,
   findPlayerSides,
+  gamesWithOtherPlayers,
   guessSetLength,
   missingReplaysWarning,
   presetSetDefinition,
@@ -27,7 +28,8 @@ import {
   makeRecording,
   makeReplay,
   playedGame,
-  unparseableGame
+  unparseableGame,
+  type PlayerSpec
 } from './__tests__/recordings'
 
 const noErrors = { maps: null, civs: null }
@@ -159,6 +161,42 @@ describe('scoreWarning', () => {
 
   it('never warns for play all', () => {
     expect(scoreWarning({ left: 3, right: 0 }, 3, MatchSetType.PlayAll)).toBe(false)
+  })
+})
+
+describe('gamesWithOtherPlayers', () => {
+  it('is empty when all games have the same players', () => {
+    const games = [playedGame(ALICE, BOB), playedGame(BOB, ALICE), playedGame(ALICE, BOB)]
+    expect(gamesWithOtherPlayers(games)).toEqual([])
+  })
+
+  it('lists the games with other players than most games', () => {
+    const games = [playedGame(ALICE, CAROL), playedGame(ALICE, BOB), playedGame(BOB, ALICE)]
+    expect(gamesWithOtherPlayers(games)).toEqual([1])
+  })
+
+  it('compares team games by all their players', () => {
+    const teamGame = (players: PlayerSpec[][]) => makeGame(makeRecording({ teams: players }))
+    const games = [
+      teamGame([
+        [ALICE, BOB],
+        [CAROL, DAVE]
+      ]),
+      teamGame([
+        [CAROL, DAVE],
+        [BOB, ALICE]
+      ]),
+      teamGame([
+        [ALICE, BOB],
+        [CAROL, { name: 'Eve', profile: 5 }]
+      ])
+    ]
+    expect(gamesWithOtherPlayers(games)).toEqual([3])
+  })
+
+  it('ignores placeholder and unparseable games', () => {
+    const games = [playedGame(ALICE, BOB), new Game(), unparseableGame(), playedGame(ALICE, BOB)]
+    expect(gamesWithOtherPlayers(games)).toEqual([])
   })
 })
 

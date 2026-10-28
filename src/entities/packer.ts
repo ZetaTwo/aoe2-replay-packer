@@ -104,6 +104,31 @@ export function scoreWarning(scores: Scores, gamesCount: number, boPa: MatchSetT
   return 2 * scores.left > gamesCount + 1 || 2 * scores.right > gamesCount + 1
 }
 
+// Numbers of the games whose players differ from the most common set of players
+export function gamesWithOtherPlayers(games: Game[]) {
+  const signatures = games.map((game) =>
+    game.isDummy() || game.isUnparseable()
+      ? null
+      : game.teams
+          .flatMap((team) => team.players.map((player) => player.profile))
+          .sort()
+          .join(',')
+  )
+  const counts = new Map<string, number>()
+  for (const signature of signatures) {
+    if (signature != null) {
+      counts.set(signature, (counts.get(signature) ?? 0) + 1)
+    }
+  }
+  const mostCommon = [...counts].reduce<[string, number] | null>(
+    (best, entry) => (best == null || entry[1] > best[1] ? entry : best),
+    null
+  )?.[0]
+  return signatures.flatMap((signature, idx) =>
+    signature != null && signature != mostCommon ? [idx + 1] : []
+  )
+}
+
 export function draftMissingWarning(presets: string[] | null, draftUri: string) {
   return (presets?.length ?? 0) > 0 && draftUri.length == 0
 }
