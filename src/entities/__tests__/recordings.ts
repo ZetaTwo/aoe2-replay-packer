@@ -17,7 +17,7 @@ export function makeRecording({
   timestamp?: number
   duration?: number
 } = {}): SavegameSummary {
-  let playerNumber = 1
+  let playerNumber = 0
   return {
     header: {
       timestamp,
@@ -25,15 +25,18 @@ export function makeRecording({
     },
     duration,
     teams: teams.map((players, teamIdx) => ({
-      players: players.map((player) => ({
-        player_number: playerNumber++,
-        name: player.name,
-        profile_id: player.profile ?? playerNumber * 100,
-        civ_id: player.civ ?? 1,
-        color_id: playerNumber - 2,
-        resigned: player.resigned ?? false,
-        resolved_team_id: teamIdx + 1
-      }))
+      players: players.map((player) => {
+        playerNumber++
+        return {
+          player_number: playerNumber,
+          name: player.name,
+          profile_id: player.profile ?? playerNumber * 100,
+          civ_id: player.civ ?? 1,
+          color_id: playerNumber - 1,
+          resigned: player.resigned ?? false,
+          resolved_team_id: teamIdx + 1
+        }
+      })
     }))
   } as unknown as SavegameSummary
 }

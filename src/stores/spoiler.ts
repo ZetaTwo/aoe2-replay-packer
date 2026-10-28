@@ -1,6 +1,6 @@
 import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
-import webworker from 'libarchive.js/dist/worker-bundle.js?url'
+import { extractRecordings } from '@/lib/archive'
 
 export const useSpoilerStore = defineStore('spoiler', () => {
   const recordings: Ref<File[]> = ref([])
@@ -14,13 +14,7 @@ export const useSpoilerStore = defineStore('spoiler', () => {
   }
 
   async function expandArchive(file: File) {
-    const { Archive } = await import('libarchive.js')
-    Archive.init({ workerUrl: webworker })
-    const archiveData = await Archive.open(file)
-    const files: { string: File } = await archiveData.extractFiles()
-    Object.values(files)
-      .filter((rec) => rec.name.endsWith('.aoe2record'))
-      .forEach((rec) => addRecording(rec))
+    recordings.value.push(...(await extractRecordings(file)))
   }
 
   return {

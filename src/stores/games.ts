@@ -2,7 +2,7 @@ import { computed, ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 import { parse_rec_summary, SavegameSummary } from 'aoe2rec-js'
 import { Game, Replay, type DummyReplay } from '@/entities/game'
-import webworker from 'libarchive.js/dist/worker-bundle.js?url'
+import { extractRecordings } from '@/lib/archive'
 
 export const useGamesStore = defineStore('games', () => {
   const games: Ref<Game[]> = ref([new Game(), new Game(), new Game()])
@@ -94,22 +94,8 @@ export const useGamesStore = defineStore('games', () => {
     }
   }
 
-  // TODO: file issues to add these to the lib
-  type CompressedFile = { name: string; extract: () => Promise<File> }
-  type ArchiveEntry = { file: CompressedFile; path: string }
-
   async function expandArchive(file: File) {
-    const { Archive } = await import('libarchive.js')
-    Archive.init({ workerUrl: webworker })
-    const archiveData = await Archive.open(file)
-
-    const filesList: ArchiveEntry[] = await archiveData.getFilesArray()
-    const recFiles = await Promise.all(
-      filesList
-        .filter((f) => f.file.name.endsWith('.aoe2record'))
-        .sort((a, b) => a.file.name.localeCompare(b.file.name))
-        .map((f) => f.file.extract())
-    )
+    const recFiles = await extractRecordings(file)
     await Promise.all(recFiles.map((rec) => addRec(rec)))
   }
 
