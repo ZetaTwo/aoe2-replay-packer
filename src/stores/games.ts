@@ -5,7 +5,6 @@ import { Game, Replay, type DummyReplay } from '@/entities/game'
 import webworker from 'libarchive.js/dist/worker-bundle.js?url'
 
 export const useGamesStore = defineStore('games', () => {
-  const recordings: Ref<Record<string, SavegameSummary | DummyReplay>> = ref({})
   const games: Ref<Game[]> = ref([new Game(), new Game(), new Game()])
 
   async function addRec(file: File) {
@@ -33,12 +32,10 @@ export const useGamesStore = defineStore('games', () => {
           }
           try {
             const recording = parse_rec_summary(event.target.result as ArrayBuffer)
-            recordings.value = { ...recordings.value, [file.name]: recording }
             resolve(recording)
           } catch (error) {
             console.error('Failed to parse', error)
             const recording: DummyReplay = { header: { timestamp: file.lastModified }, dummy: true }
-            recordings.value = { ...recordings.value, [file.name]: recording }
             resolve(recording)
           }
         },
@@ -132,8 +129,8 @@ export const useGamesStore = defineStore('games', () => {
     await Promise.all(recFiles.map((rec) => addRec(rec)))
   }
 
-  const hasGames = computed(() => Object.values(recordings.value).length > 0)
   const realGamesCount = computed(() => games.value.filter((game) => !game.isDummy()).length)
+  const hasGames = computed(() => realGamesCount.value > 0)
   return {
     addRec,
     parseRec,
