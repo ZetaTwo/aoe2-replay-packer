@@ -111,36 +111,38 @@ watch(boPa, (newBoPa, oldBoPa) => {
           {{ count }} Games
         </SegmentedOption>
       </li>
-      <li :class="$style.cell">
+      <li :class="$style.customCell">
         <SegmentedOption v-model="bestOf" input-id="bo-custom" name="bo" :value="'custom' as const">
-          <button
-            type="button"
-            :class="$style.stepButton"
-            aria-label="Fewer games"
-            :disabled="customGameCount <= MIN_GAMES"
-            @click="customGameCount--"
-          >
-            −
-          </button>
-          <input
-            v-model="customGameCount"
-            :class="$style.numberInput"
-            type="number"
-            aria-roledescription="Number field"
-            value="9"
-            :min="MIN_GAMES"
-            :max="MAX_GAMES"
-            maxlength="2"
-          />
-          <button
-            type="button"
-            :class="$style.stepButton"
-            aria-label="More games"
-            :disabled="customGameCount >= MAX_GAMES"
-            @click="customGameCount++"
-          >
-            +
-          </button>
+          <span :class="$style.stepper">
+            <button
+              type="button"
+              :class="$style.stepButton"
+              aria-label="Fewer games"
+              :disabled="customGameCount <= MIN_GAMES"
+              @click="customGameCount--"
+            >
+              −
+            </button>
+            <input
+              v-model="customGameCount"
+              :class="$style.numberInput"
+              type="number"
+              aria-roledescription="Number field"
+              value="9"
+              :min="MIN_GAMES"
+              :max="MAX_GAMES"
+              maxlength="2"
+            />
+            <button
+              type="button"
+              :class="$style.stepButton"
+              aria-label="More games"
+              :disabled="customGameCount >= MAX_GAMES"
+              @click="customGameCount++"
+            >
+              +
+            </button>
+          </span>
           Games
         </SegmentedOption>
       </li>
@@ -163,36 +165,56 @@ watch(boPa, (newBoPa, oldBoPa) => {
   margin: 0;
 }
 .bopaCell {
-  flex-basis: 27.27%;
+  flex-basis: 26.27%;
 }
 .bopaRow {
   display: flex;
 }
 .cell {
-  flex-basis: 18.18%;
+  flex-basis: 17.5%;
+}
+/* Wider to fit the stepper and "Games" on one line */
+.customCell {
+  flex-basis: 21.7%;
 }
 .half {
   display: inline-flex;
   width: 50%;
 }
+/* Exactly one line tall including the border, so the tile is as tall as the others */
+.stepper {
+  display: inline-flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  height: 1lh;
+  vertical-align: top;
+  border: 1px solid var(--color-border-section);
+}
 .numberInput {
   padding: 0;
   width: 2rem;
   background-color: transparent;
-  border: 1px solid var(--color-border-section);
+  border: 0;
+  border-left: 1px solid var(--color-border-section);
+  border-right: 1px solid var(--color-border-section);
   color: var(--color-text-primary);
+  font: inherit;
   text-align: center;
   -moz-appearance: textfield;
 }
 .numberInput::-webkit-inner-spin-button,
 .numberInput::-webkit-outer-spin-button {
   -webkit-appearance: none;
+  margin: 0;
 }
 .stepButton {
-  padding: 0 var(--space-1);
+  padding: 0 3px;
   background-color: transparent;
-  border: 1px solid var(--color-border-section);
-  color: var(--color-text-primary);
+  border: 0;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-size: 0.85em;
+  line-height: 1;
   cursor: pointer;
 }
 .stepButton:disabled {
