@@ -75,4 +75,117 @@ describe('games store', () => {
       expect(store.realGamesCount).toBe(2)
     })
   })
+
+  describe('games', () => {
+    // Recordings of distinct matches, in chronological order
+    const matchAB = (timestamp = 1000) => makeRecording({ teams: [[ALICE], [BOB]], timestamp })
+    const matchCD = (timestamp = 2000) => makeRecording({ teams: [[CAROL], [DAVE]], timestamp })
+
+    async function addRecordings(...recordings: ReturnType<typeof makeRecording>[]) {
+      const store = useGamesStore()
+      for (const [idx, recording] of recordings.entries()) {
+        parseMock.mockReturnValueOnce(recording)
+        await store.addRec(recFile(`rec${idx}.aoe2record`))
+      }
+      return store
+    }
+
+    const replayNames = (store: ReturnType<typeof useGamesStore>) =>
+      store.games.map((game) => game.replays.map((replay) => replay.file.name))
+
+    it('starts with three placeholder games', () => {
+      const store = useGamesStore()
+      expect(store.games).toHaveLength(3)
+      expect(store.games.every((game) => game.isDummy())).toBe(true)
+    })
+
+    it('fills placeholder games with new games', async () => {
+      const store = await addRecordings(matchAB())
+      expect(replayNames(store)).toEqual([['rec0.aoe2record'], [], []])
+    })
+
+    it('adds games beyond the placeholders', async () => {
+      const store = await addRecordings(
+        matchAB(1),
+        matchCD(2),
+        makeRecording({ teams: [[ALICE], [CAROL]], timestamp: 3 }),
+        makeRecording({ teams: [[BOB], [DAVE]], timestamp: 4 })
+      )
+      expect(store.games).toHaveLength(4)
+      expect(store.realGamesCount).toBe(4)
+    })
+
+    it('orders games by date', async () => {
+      const store = await addRecordings(matchCD(2000), matchAB(1000))
+      expect(replayNames(store)).toEqual([['rec1.aoe2record'], ['rec0.aoe2record'], []])
+    })
+
+    it('groups a recording of the same match into its game', async () => {
+      const store = await addRecordings(matchAB(1000), matchCD(2000), matchAB(1500))
+      expect(replayNames(store)).toEqual([
+        ['rec0.aoe2record', 'rec2.aoe2record'],
+        ['rec1.aoe2record'],
+        []
+      ])
+    })
+
+    it('clears a game, leaving a placeholder at the end', async () => {
+      const store = await addRecordings(matchAB(), matchCD())
+      store.clearGame(0)
+      expect(replayNames(store)).toEqual([['rec1.aoe2record'], [], []])
+    })
+
+    it('removes a game', async () => {
+      const store = await addRecordings(matchAB(), matchCD())
+      store.removeGame(0)
+      expect(replayNames(store)).toEqual([['rec1.aoe2record'], []])
+    })
+
+    it('sets the number of games, adding or dropping placeholders', async () => {
+      const store = await addRecordings(matchAB())
+      store.setGamesNumber(5)
+      expect(store.games).toHaveLength(5)
+      store.setGamesNumber(2)
+      expect(replayNames(store)).toEqual([['rec0.aoe2record'], []])
+    })
+
+    it('moves a game up or down', async () => {
+      const store = await addRecordings(matchAB(), matchCD())
+      store.moveGame(1, -1)
+      expect(replayNames(store).slice(0, 2)).toEqual([['rec1.aoe2record'], ['rec0.aoe2record']])
+    })
+
+    it('ignores moving a game out of the list', async () => {
+      const store = await addRecordings(matchAB())
+      store.moveGame(0, -1)
+      store.moveGame(2, 1)
+      expect(replayNames(store)).toEqual([['rec0.aoe2record'], [], []])
+    })
+
+    it('moves a replay into another game', async () => {
+      const store = await addRecordings(matchAB(1000), matchAB(1500), matchCD(2000))
+      const replayId = store.games[0]!.replays[1]!.id
+      store.moveReplay(replayId, 0, 1)
+      expect(replayNames(store)).toEqual([
+        ['rec0.aoe2record'],
+        ['rec1.aoe2record', 'rec2.aoe2record'],
+        []
+      ])
+    })
+
+    it('moves a replay into a new game', async () => {
+      const store = await addRecordings(matchAB(1000), matchAB(1500))
+      const replayId = store.games[0]!.replays[1]!.id
+      store.moveReplay(replayId, 0, -1)
+      expect(replayNames(store)).toEqual([['rec0.aoe2record'], ['rec1.aoe2record'], []])
+    })
+
+    it('turns a game emptied by a move into a placeholder at the end', async () => {
+      const store = await addRecordings(matchAB(1000), matchCD(2000))
+      const replayId = store.games[0]!.replays[0]!.id
+      store.moveReplay(replayId, 0, 1)
+      // Replays within a game stay in chronological order
+      expect(replayNames(store)).toEqual([['rec0.aoe2record', 'rec1.aoe2record'], [], []])
+    })
+  })
 })
