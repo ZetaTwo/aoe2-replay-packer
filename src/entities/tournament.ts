@@ -12,7 +12,7 @@ export function getTournament(params: URLSearchParams, tournaments: Record<strin
   return tournamentId ? tournaments[tournamentId] : undefined
 }
 
-// Presets from the URL plus those of the tournament, as [civ presets, map presets]
+// Returns [civ presets, map presets]
 export function getPresets(
   params: URLSearchParams,
   tournament?: Tournament

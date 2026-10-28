@@ -4,7 +4,7 @@ import webworker from 'libarchive.js/dist/worker-bundle.js?url'
 type CompressedFile = { name: string; extract: () => Promise<File> }
 type ArchiveEntry = { file: CompressedFile; path: string }
 
-// Recordings anywhere in the archive, sorted by file name
+// Includes recordings in subfolders
 export async function extractRecordings(archive: File): Promise<File[]> {
   const { Archive } = await import('libarchive.js')
   Archive.init({ workerUrl: webworker })

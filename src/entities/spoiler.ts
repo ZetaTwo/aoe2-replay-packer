@@ -11,7 +11,6 @@ export function paddedRecordName(name: string) {
   return `${baseName}_padded${RECORD_EXTENSION}`
 }
 
-// Pad every recording to the same size, at least TARGET_SIZE
 export function paddedSize(recordings: Blob[]) {
   if (recordings.length == 0) {
     return 0
