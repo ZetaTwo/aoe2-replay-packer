@@ -5,7 +5,7 @@ import BaseAlert from '@/components/common/BaseAlert.vue'
 
 const gamesStore = useGamesStore()
 
-function onFiles(files: FileList) {
+function onFiles(files: File[]) {
   gamesStore.clearSkippedDuplicates()
   for (const file of files) {
     if (file.name.endsWith('.aoe2record')) {

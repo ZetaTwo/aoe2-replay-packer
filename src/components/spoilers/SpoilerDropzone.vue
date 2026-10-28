@@ -4,7 +4,7 @@ import BaseDropzone from '@/components/common/BaseDropzone.vue'
 
 const spoilerStore = useSpoilerStore()
 
-function onFiles(files: FileList) {
+function onFiles(files: File[]) {
   spoilerStore.clearRecordings()
   for (const file of files) {
     if (file.name.endsWith('.aoe2record')) {

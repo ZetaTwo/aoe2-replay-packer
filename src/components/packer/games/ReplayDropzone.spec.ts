@@ -10,10 +10,6 @@ import { makeRecording, recFile } from '@/entities/__tests__/recordings'
 
 vi.mock('aoe2rec-js', () => ({ parse_rec_summary: vi.fn() }))
 
-function fileList(...files: File[]) {
-  return files as unknown as FileList
-}
-
 describe('ReplayDropzone', () => {
   beforeEach(() => {
     setActivePinia(createPinia())
@@ -27,7 +23,7 @@ describe('ReplayDropzone', () => {
     const wrapper = mount(ReplayDropzone)
     const rec = recFile('game.aoe2record')
     const archive = new File(['zip'], 'replays.zip')
-    wrapper.findComponent(BaseDropzone).vm.$emit('files', fileList(rec, archive))
+    wrapper.findComponent(BaseDropzone).vm.$emit('files', [rec, archive])
     expect(addRec).toHaveBeenCalledWith(rec)
     expect(expandArchive).toHaveBeenCalledWith(archive)
   })
@@ -37,12 +33,12 @@ describe('ReplayDropzone', () => {
     const wrapper = mount(ReplayDropzone)
     const dropzone = wrapper.findComponent(BaseDropzone)
 
-    dropzone.vm.$emit('files', fileList(recFile('a.aoe2record'), recFile('a.aoe2record')))
+    dropzone.vm.$emit('files', [recFile('a.aoe2record'), recFile('a.aoe2record')])
     await vi.waitFor(() =>
       expect(wrapper.text()).toContain('Skipped files that were already added: a.aoe2record')
     )
 
-    dropzone.vm.$emit('files', fileList(recFile('b.aoe2record')))
+    dropzone.vm.$emit('files', [recFile('b.aoe2record')])
     await nextTick()
     expect(wrapper.text()).not.toContain('Skipped files')
     await vi.waitFor(() => expect(store.games[0]?.replays).toHaveLength(2))

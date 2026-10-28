@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useId } from 'vue'
+import { filesFromEntries } from '@/lib/files'
 
 withDefaults(
   defineProps<{
@@ -13,16 +14,25 @@ withDefaults(
 )
 
 const emit = defineEmits<{
-  files: [files: FileList]
+  files: [files: File[]]
 }>()
 
 const inputId = useId()
 
-function onDrop(event: DragEvent) {
-  if (!event?.dataTransfer?.files) {
+async function onDrop(event: DragEvent) {
+  const dataTransfer = event?.dataTransfer
+  if (!dataTransfer) {
     return
   }
-  emit('files', event.dataTransfer.files)
+  // The entries can only be read while the drop event is being handled
+  const entries = Array.from(dataTransfer.items ?? [])
+    .map((item) => item.webkitGetAsEntry())
+    .filter((entry) => entry != null)
+  if (entries.length == 0) {
+    emit('files', Array.from(dataTransfer.files))
+    return
+  }
+  emit('files', await filesFromEntries(entries))
 }
 
 function onChange(event: Event) {
@@ -30,7 +40,7 @@ function onChange(event: Event) {
   if (!target.files) {
     return
   }
-  emit('files', target.files)
+  emit('files', Array.from(target.files))
   target.value = ''
 }
 </script>
