@@ -134,9 +134,10 @@ function setExpectedGamesCount(count: number) {
 }
 
 async function downloadZip() {
-  const files = zipFiles(gamesStore.games, player1.value, player2.value, meta.value, () =>
-    getRandomInt(1e5, 5e5)
-  )
+  const files = zipFiles(gamesStore.games, player1.value, player2.value, meta.value, {
+    padding: () => getRandomInt(1e5, 5e5),
+    pickBase: (replays) => replays[getRandomInt(0, replays.length)]!
+  })
   if (!files) {
     console.error('Could not find any valid replay files')
     return

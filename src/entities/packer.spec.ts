@@ -18,7 +18,7 @@ import {
   tournamentSetDefinitions,
   zipFiles
 } from './packer'
-import { Game } from './game'
+import { Game, Replay } from './game'
 import { MatchSetDefinition, MatchSetType } from './matchset'
 import {
   ALICE,
@@ -397,10 +397,11 @@ describe('replayEntries', () => {
 
 describe('zipFiles', () => {
   const meta = { maps: null, civs: null, player1_score: 2, player2_score: 1 }
+  const firstBase = { padding: () => 10, pickBase: (replays: File[]) => replays[0]! }
 
   it('packs the replays, padded placeholders and the metadata', async () => {
     const replay = makeReplay(makeRecording(), 'a.aoe2record')
-    const files = zipFiles([new Game([replay]), new Game()], 'Alice', 'Bob', meta, () => 10)!
+    const files = zipFiles([new Game([replay]), new Game()], 'Alice', 'Bob', meta, firstBase)!
 
     expect(files.map((file) => file.name)).toEqual([
       'Alice_vs_Bob_G1.aoe2record',
@@ -412,7 +413,33 @@ describe('zipFiles', () => {
     expect(JSON.parse(await files[2]!.content.text())).toEqual(meta)
   })
 
+  it('bases each placeholder on the replay picked from all replays', async () => {
+    const short = makeReplay(makeRecording(), 'short.aoe2record')
+    const long = new Replay(
+      new File(['a much longer recording'], 'long.aoe2record'),
+      makeRecording()
+    )
+    const games = [new Game([short]), new Game([long]), new Game(), new Game()]
+    const offered: string[][] = []
+    const picks = [long.file, short.file]
+    const files = zipFiles(games, 'Alice', 'Bob', meta, {
+      padding: () => 0,
+      pickBase: (replays) => {
+        offered.push(replays.map((file) => file.name))
+        return picks.shift()!
+      }
+    })!
+
+    expect(offered).toEqual([
+      ['short.aoe2record', 'long.aoe2record'],
+      ['short.aoe2record', 'long.aoe2record']
+    ])
+    const trailer = 4 + 'DUMMYREC'.length
+    expect(files[2]!.content.size).toBe(long.file.size + trailer)
+    expect(files[3]!.content.size).toBe(short.file.size + trailer)
+  })
+
   it('returns null without any replay to base the placeholders on', () => {
-    expect(zipFiles([new Game()], 'Alice', 'Bob', meta, () => 10)).toBeNull()
+    expect(zipFiles([new Game()], 'Alice', 'Bob', meta, firstBase)).toBeNull()
   })
 })

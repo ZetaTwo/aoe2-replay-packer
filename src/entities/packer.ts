@@ -238,11 +238,11 @@ export function zipFiles(
   player1: string,
   player2: string,
   meta: ReplayMetadata,
-  placeholderPadding: () => number
+  placeholder: { padding: () => number; pickBase: (replays: File[]) => File }
 ): ZipFile[] | null {
   const entries = replayEntries(games, player1, player2)
-  const placeholderBase = entries.find((entry) => entry.kind == 'replay')?.file
-  if (!placeholderBase) {
+  const replays = entries.flatMap((entry) => (entry.kind == 'replay' ? [entry.file] : []))
+  if (replays.length == 0) {
     return null
   }
 
@@ -252,7 +252,7 @@ export function zipFiles(
       content:
         entry.kind == 'replay'
           ? entry.file
-          : padBlob(placeholderBase, placeholderPadding(), 'DUMMYREC')
+          : padBlob(placeholder.pickBase(replays), placeholder.padding(), 'DUMMYREC')
     })),
     {
       name: 'metadata.json',
