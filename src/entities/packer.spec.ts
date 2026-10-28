@@ -10,8 +10,10 @@ import {
   guessSetLength,
   missingReplaysWarning,
   presetSetDefinition,
+  replayEntries,
   scoreWarning,
-  tournamentSetDefinitions
+  tournamentSetDefinitions,
+  zipFiles
 } from './packer'
 import { Game, dummyWinner, type DummyReplay } from './game'
 import { MatchSetDefinition, MatchSetType } from './matchset'
@@ -254,5 +256,47 @@ Civ draft: <https://aoe2cm.net/draft/iFSPX>`)
 
   it('defaults to best of before the set type is chosen', () => {
     expect(discordMessage({ ...message, boPa: null })).toContain('\nBest of 3\n')
+  })
+})
+
+describe('replayEntries', () => {
+  it('names each replay and placeholder game', () => {
+    const twoReplays = new Game([
+      makeReplay(makeRecording(), 'a.aoe2record'),
+      makeReplay(makeRecording(), 'b.aoe2record')
+    ])
+    const entries = replayEntries([twoReplays, new Game()], 'Alice', 'Bob')
+    expect(entries.map(({ kind, filename }) => [kind, filename])).toEqual([
+      ['replay', 'Alice_vs_Bob_G1a.aoe2record'],
+      ['replay', 'Alice_vs_Bob_G1b.aoe2record'],
+      ['placeholder', 'Alice_vs_Bob_G2.aoe2record']
+    ])
+    expect(entries.map((entry) => entry.kind == 'replay' && entry.file.name)).toEqual([
+      'a.aoe2record',
+      'b.aoe2record',
+      false
+    ])
+  })
+})
+
+describe('zipFiles', () => {
+  const meta = { maps: null, civs: null, player1_score: 2, player2_score: 1 }
+
+  it('packs the replays, padded placeholders and the metadata', async () => {
+    const replay = makeReplay(makeRecording(), 'a.aoe2record')
+    const files = zipFiles([new Game([replay]), new Game()], 'Alice', 'Bob', meta, () => 10)!
+
+    expect(files.map((file) => file.name)).toEqual([
+      'Alice_vs_Bob_G1.aoe2record',
+      'Alice_vs_Bob_G2.aoe2record',
+      'metadata.json'
+    ])
+    expect(files[0]!.content).toBe(replay.file)
+    expect(files[1]!.content.size).toBe(replay.file.size + 10 + 4 + 'DUMMYREC'.length)
+    expect(JSON.parse(await files[2]!.content.text())).toEqual(meta)
+  })
+
+  it('returns null without any replay to base the placeholders on', () => {
+    expect(zipFiles([new Game()], 'Alice', 'Bob', meta, () => 10)).toBeNull()
   })
 })

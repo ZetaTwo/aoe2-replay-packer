@@ -1,8 +1,9 @@
 import type { Tournament } from 'virtual:tournaments-data'
-import type { Game, Player } from './game'
-import type { ReplayErrors } from './gamemeta'
+import { computeReplayFilename, type Game, type Player } from './game'
+import type { ReplayErrors, ReplayMetadata } from './gamemeta'
 import { MatchSetDefinition, MatchSetType } from './matchset'
 import { extractDraftUrl } from './aoe2cm'
+import { padBlob, type ZipFile } from '@/lib/zip'
 
 type Side = 'left' | 'right'
 export type Scores = Record<Side, number>
@@ -170,4 +171,50 @@ export function discordMessage({
 ${boPaLabel} ${gamesCount}
 Map draft: <${extractDraftUrl(mapDraft)}>
 Civ draft: <${extractDraftUrl(civDraft)}>`
+}
+
+export type ReplayEntry =
+  { kind: 'replay'; filename: string; file: File } | { kind: 'placeholder'; filename: string }
+
+export function replayEntries(games: Game[], player1: string, player2: string): ReplayEntry[] {
+  return games.flatMap((game, gameIdx): ReplayEntry[] => {
+    if (game.isDummy()) {
+      const filename = computeReplayFilename(player1, player2, game, gameIdx, 0)
+      return [{ kind: 'placeholder', filename }]
+    }
+    return game.replays.map((replay, replayIdx) => ({
+      kind: 'replay',
+      filename: computeReplayFilename(player1, player2, game, gameIdx, replayIdx),
+      file: replay.file
+    }))
+  })
+}
+
+// Placeholders are a real replay padded to a random size, so file sizes don't reveal which games were played
+export function zipFiles(
+  games: Game[],
+  player1: string,
+  player2: string,
+  meta: ReplayMetadata,
+  placeholderPadding: () => number
+): ZipFile[] | null {
+  const entries = replayEntries(games, player1, player2)
+  const placeholderBase = entries.find((entry) => entry.kind == 'replay')?.file
+  if (!placeholderBase) {
+    return null
+  }
+
+  return [
+    ...entries.map((entry) => ({
+      name: entry.filename,
+      content:
+        entry.kind == 'replay'
+          ? entry.file
+          : padBlob(placeholderBase, placeholderPadding(), 'DUMMYREC')
+    })),
+    {
+      name: 'metadata.json',
+      content: new Blob([JSON.stringify(meta)], { type: 'application/json' })
+    }
+  ]
 }

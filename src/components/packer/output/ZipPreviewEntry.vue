@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import { Game, computeReplayFilename } from '@/entities/game'
-
-const props = defineProps<{
-  player1: string
-  player2: string
-  game: Game
-  gameIdx: number
-  replayIdx: number
+defineProps<{
+  filename: string
+  placeholder: boolean
   last: boolean
 }>()
 </script>
@@ -15,16 +10,8 @@ const props = defineProps<{
   <span>
     <span v-if="last">└──</span>
     <span v-else>├──</span>
-    <span>{{
-      computeReplayFilename(
-        props.player1,
-        props.player2,
-        props.game,
-        props.gameIdx,
-        props.replayIdx
-      )
-    }}</span>
-    <span v-if="game.isDummy()" :class="$style.badge">dummy file</span>
+    <span>{{ filename }}</span>
+    <span v-if="placeholder" :class="$style.badge">dummy file</span>
   </span>
 </template>
 

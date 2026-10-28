@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import { Game, zipFilename } from '@/entities/game'
+import { replayEntries } from '@/entities/packer'
 import ZipPreviewEntry from './ZipPreviewEntry.vue'
 
 const props = defineProps<{
@@ -7,6 +9,8 @@ const props = defineProps<{
   player1: string
   player2: string
 }>()
+
+const entries = computed(() => replayEntries(props.games, props.player1, props.player2))
 </script>
 
 <template>
@@ -14,27 +18,12 @@ const props = defineProps<{
   <div :class="$style.tree">
     {{ zipFilename(player1, player2) }}<br />
     <span>├──metadata.json</span><br />
-    <template v-for="(game, gameIdx) in props.games" :key="game.id">
-      <template v-if="game.isDummy()">
-        <ZipPreviewEntry
-          :game="game"
-          :player1="player1"
-          :player2="player2"
-          :game-idx="gameIdx"
-          :replay-idx="0"
-          :last="gameIdx == props.games.length - 1"
-        /><br />
-      </template>
-      <template v-for="(replay, replayIdx) in game.replays" v-else :key="replay.id">
-        <ZipPreviewEntry
-          :game="game"
-          :player1="player1"
-          :player2="player2"
-          :game-idx="gameIdx"
-          :replay-idx="replayIdx"
-          :last="gameIdx == props.games.length - 1 && replayIdx == game.replays.length - 1"
-        /><br />
-      </template>
+    <template v-for="(entry, entryIdx) in entries" :key="entry.filename">
+      <ZipPreviewEntry
+        :filename="entry.filename"
+        :placeholder="entry.kind == 'placeholder'"
+        :last="entryIdx == entries.length - 1"
+      /><br />
     </template>
   </div>
 </template>
