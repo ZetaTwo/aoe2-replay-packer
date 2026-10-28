@@ -258,9 +258,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -271,9 +269,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -284,9 +280,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -297,9 +291,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -310,9 +302,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -323,9 +313,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -336,9 +324,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -349,9 +335,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -362,9 +346,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -375,9 +357,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       },
       {
@@ -388,9 +368,7 @@
         "hidden": false,
         "executingPlayer": "NONE",
         "parallel": false,
-        "categories": [
-          "default"
-        ],
+        "categories": ["default"],
         "poolId": "default"
       }
     ],

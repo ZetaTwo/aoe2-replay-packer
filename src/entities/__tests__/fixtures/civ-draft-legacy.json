@@ -221,9 +221,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "dfa1e248-c1bc-4f82-9417-4fb6768ef881",
@@ -233,9 +231,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "fbef5e2f-022b-45ea-823d-59d1452153fa",
@@ -245,9 +241,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "c316eb5a-f1b1-4c00-8956-528d7b00d02f",
@@ -257,9 +251,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "ce555875-98d4-4b19-bba2-d5df58cea3fe",
@@ -269,9 +261,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "a44fe7c2-89ea-498c-821f-6f1089f43027",
@@ -281,9 +271,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "c51b041b-a426-460a-9bc8-73ad15434536",
@@ -293,9 +281,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "da68bd9e-4406-4dd0-b0e5-194328e95d86",
@@ -305,9 +291,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "78e1a93c-a8da-4756-9722-95a685705c62",
@@ -317,9 +301,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "4d0c8e27-8f32-423b-ad79-2f6cc77e3418",
@@ -329,9 +311,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "7313ca4b-3d08-4bfa-8159-f826cbe057d4",
@@ -341,9 +321,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "ad5126f6-73d3-4484-a411-16823dc6d9b2",
@@ -353,9 +331,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "a7ce74cc-fa86-421d-8611-8894ed4f571e",
@@ -365,9 +341,7 @@
         "hidden": true,
         "executingPlayer": "HOST",
         "parallel": true,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "041765e8-5be5-4a8b-b1ea-a48e6f9292cd",
@@ -377,9 +351,7 @@
         "hidden": true,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "85a379f1-1d1d-49a2-b177-b314c57a795b",
@@ -389,9 +361,7 @@
         "hidden": false,
         "executingPlayer": "NONE",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "07460dc9-dea8-422e-bd28-eaf380472f3c",
@@ -401,9 +371,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "ccae7ac8-d131-4d81-9d82-10e612919c23",
@@ -413,9 +381,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "f3b717c6-d94c-4412-bae0-475ac1e9498a",
@@ -425,9 +391,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "5b0880cc-3556-422e-b017-1c62acf57798",
@@ -437,9 +401,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "f19052a0-4ab9-4362-ac32-5dfe07ad80c1",
@@ -449,9 +411,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "8b1f38d9-e9b6-4e60-b873-8bd7f09f9b74",
@@ -461,9 +421,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "b5c72c27-896e-4c5b-b493-0e4c0bf8079b",
@@ -473,9 +431,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "a7ece3e9-4d29-448d-9df3-81f9ec6dbd27",
@@ -485,9 +441,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "a253a9e4-c71f-4dd9-9bd2-38ba03a6167c",
@@ -497,9 +451,7 @@
         "hidden": true,
         "executingPlayer": "HOST",
         "parallel": true,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "347f8898-a059-4c9a-9aae-8650f9ca4ad0",
@@ -509,9 +461,7 @@
         "hidden": true,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "df7009d9-67d6-49d5-b759-e6b9e435890d",
@@ -521,9 +471,7 @@
         "hidden": false,
         "executingPlayer": "NONE",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       }
     ],
     "categoryLimits": {

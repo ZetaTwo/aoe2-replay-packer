@@ -1,4 +1,4 @@
-//import type { InjectionKey } from 'vue'
+import type { InjectionKey } from 'vue'
+import type { Aoe2CmApi } from '@/entities/aoe2cm'
 
-// TODO: continue this refactoring
-//const aoe2cmApiKey: InjectionKey<string> = Symbol('aoe2cmApi')
+export const aoe2cmApiKey: InjectionKey<Aoe2CmApi> = Symbol('aoe2cmApi')

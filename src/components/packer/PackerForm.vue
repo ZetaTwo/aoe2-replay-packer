@@ -22,7 +22,7 @@ import type { ReplayMetadata, ReplayErrors } from '@/entities/gamemeta'
 import { MatchSetDefinition, MatchSetType } from '@/entities/matchset'
 
 import { zipFilename, computeReplayFilename, Player } from '@/entities/game'
-import { extractDraftUrl } from '@/entities/draft'
+import { extractDraftUrl } from '@/entities/aoe2cm'
 import { getRandomInt } from '@/lib/maths'
 
 const props = defineProps<{

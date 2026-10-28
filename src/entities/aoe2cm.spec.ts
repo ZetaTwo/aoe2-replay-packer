@@ -1,6 +1,16 @@
-import { describe, it, expect } from 'vitest'
-import { getPresetPool, parseCivDraft, parseMapDraft } from './aoe2cm'
-import type { Aoe2CmDraft, Aoe2CmEvent } from './aoe2cm'
+import { afterEach, describe, it, expect, vi } from 'vitest'
+import {
+  extractDraftId,
+  extractDraftUrl,
+  fetchAoe2CmApi,
+  getDraftTypeLabel,
+  getPresetPool,
+  getRecentDrafts,
+  mapImageUrl,
+  parseCivDraft,
+  parseMapDraft
+} from './aoe2cm'
+import type { Aoe2CmDraft, Aoe2CmEvent, Aoe2CmRecentDraft } from './aoe2cm'
 import mapDraftJson from './__tests__/fixtures/map-draft.json'
 import mapDraftLegacyJson from './__tests__/fixtures/map-draft-legacy.json'
 import civDraftJson from './__tests__/fixtures/civ-draft.json'
@@ -194,5 +204,168 @@ describe('parseCivDraft with civs as draft options', () => {
     delete preset.encodedCivilisations
     const draft = { ...civDraftLegacyJson, preset } as unknown as Aoe2CmDraft
     expect(parseCivDraft('wnbeA', draft, null).ok).toBe(true)
+  })
+})
+
+describe('extractDraftId', () => {
+  it('extracts the draft ID from a full URL', () => {
+    expect(extractDraftId('https://aoe2cm.net/draft/abc123')).toBe('abc123')
+  })
+
+  it('returns the input as-is when it is not a URL', () => {
+    expect(extractDraftId('abc123')).toBe('abc123')
+  })
+
+  it('returns empty string for undefined', () => {
+    expect(extractDraftId(undefined)).toBe('')
+  })
+
+  it('returns empty string for empty string', () => {
+    expect(extractDraftId('')).toBe('')
+  })
+})
+
+describe('extractDraftUrl', () => {
+  it('returns normalized URL from a full URL', () => {
+    expect(extractDraftUrl('https://aoe2cm.net/draft/abc123')).toBe(
+      'https://aoe2cm.net/draft/abc123'
+    )
+  })
+
+  it('constructs URL from a bare draft ID', () => {
+    expect(extractDraftUrl('abc123')).toBe('https://aoe2cm.net/draft/abc123')
+  })
+
+  it('returns empty string for undefined', () => {
+    expect(extractDraftUrl(undefined)).toBe('')
+  })
+
+  it('returns empty string for empty string', () => {
+    expect(extractDraftUrl('')).toBe('')
+  })
+})
+
+describe('getDraftTypeLabel', () => {
+  const mockDraft = (presetId: string): Aoe2CmRecentDraft => ({
+    draftId: 'draft1',
+    presetId,
+    ts: 0,
+    title: 'Test',
+    nameHost: 'Host',
+    nameGuest: 'Guest'
+  })
+
+  it('returns "Maps:" for a map preset', () => {
+    expect(getDraftTypeLabel(mockDraft('map-preset'), ['map-preset'], [])).toBe('Maps:')
+  })
+
+  it('returns "Civs:" for a civ preset', () => {
+    expect(getDraftTypeLabel(mockDraft('civ-preset'), [], ['civ-preset'])).toBe('Civs:')
+  })
+
+  it('returns empty string for unknown preset', () => {
+    expect(getDraftTypeLabel(mockDraft('unknown'), ['other'], ['another'])).toBe('')
+  })
+
+  it('prefers map label when preset appears in both lists', () => {
+    expect(getDraftTypeLabel(mockDraft('preset'), ['preset'], ['preset'])).toBe('Maps:')
+  })
+})
+
+describe('getRecentDrafts', () => {
+  const presetDraft = (draftId: string, ts: number) => ({
+    draftId,
+    ts,
+    host: 'Host',
+    guest: 'Guest'
+  })
+
+  it('converts preset drafts and makes up a title', () => {
+    expect(getRecentDrafts([{ presetId: 'p1', drafts: [presetDraft('d1', 100)] }], 0, 10)).toEqual([
+      {
+        draftId: 'd1',
+        presetId: 'p1',
+        ts: 100,
+        title: 'Host vs Guest',
+        nameHost: 'Host',
+        nameGuest: 'Guest'
+      }
+    ])
+  })
+
+  it('drops drafts older than the minimum timestamp', () => {
+    const drafts = [presetDraft('old', 99), presetDraft('edge', 100), presetDraft('new', 101)]
+    const result = getRecentDrafts([{ presetId: 'p1', drafts }], 100, 10)
+    expect(result.map(({ draftId }) => draftId)).toEqual(['new', 'edge'])
+  })
+
+  it('merges presets, sorts newest first and limits the count', () => {
+    const result = getRecentDrafts(
+      [
+        { presetId: 'maps', drafts: [presetDraft('m1', 1), presetDraft('m3', 3)] },
+        { presetId: 'civs', drafts: [presetDraft('c2', 2), presetDraft('c4', 4)] }
+      ],
+      0,
+      3
+    )
+    expect(result.map(({ draftId, presetId }) => [draftId, presetId])).toEqual([
+      ['c4', 'civs'],
+      ['m3', 'maps'],
+      ['c2', 'civs']
+    ])
+  })
+
+  it('returns nothing when there are no drafts', () => {
+    expect(getRecentDrafts([{ presetId: 'p1', drafts: [] }], 0, 10)).toEqual([])
+  })
+})
+
+describe('mapImageUrl', () => {
+  it('returns absolute URLs as-is', () => {
+    expect(mapImageUrl('https://example.com/map.png')).toBe('https://example.com/map.png')
+  })
+
+  it('resolves relative paths against aoe2cm.net', () => {
+    expect(mapImageUrl('images/maps/arabia.png')).toBe('https://aoe2cm.net/images/maps/arabia.png')
+  })
+
+  it('returns a placeholder when there is no image', () => {
+    expect(mapImageUrl(null)).toBe('https://aoe2cm.net/TODO.png')
+    expect(mapImageUrl('')).toBe('https://aoe2cm.net/TODO.png')
+  })
+})
+
+describe('fetchAoe2CmApi', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  function stubFetch(response: Partial<Response>) {
+    const fetchMock = vi.fn().mockResolvedValue(response)
+    vi.stubGlobal('fetch', fetchMock)
+    return fetchMock
+  }
+
+  it('fetches a draft', async () => {
+    const fetchMock = stubFetch({ ok: true, json: async () => mapDraftJson })
+    expect(await fetchAoe2CmApi.getDraft('zxvoQ')).toEqual(mapDraftJson)
+    expect(fetchMock).toHaveBeenCalledWith('https://aoe2cm.net/api/draft/zxvoQ')
+  })
+
+  it('returns null for a missing draft', async () => {
+    stubFetch({ ok: false })
+    expect(await fetchAoe2CmApi.getDraft('nope')).toBeNull()
+  })
+
+  it('fetches the drafts of a preset', async () => {
+    const drafts = [{ draftId: 'd1', ts: 1, host: 'Host', guest: 'Guest' }]
+    const fetchMock = stubFetch({ ok: true, json: async () => drafts })
+    expect(await fetchAoe2CmApi.getPresetDrafts('qrZfn')).toEqual(drafts)
+    expect(fetchMock).toHaveBeenCalledWith('https://aoe2cm.net/api/preset/qrZfn/drafts')
+  })
+
+  it('returns null for a missing preset', async () => {
+    stubFetch({ ok: false })
+    expect(await fetchAoe2CmApi.getPresetDrafts('nope')).toBeNull()
   })
 })

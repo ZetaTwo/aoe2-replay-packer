@@ -1,7 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import pMap from 'p-map'
-import { type draft, type draftV2, getDraftTypeLabel, extractDraftId } from '@/entities/draft'
+import {
+  type Aoe2CmRecentDraft,
+  extractDraftId,
+  fetchAoe2CmApi,
+  getDraftTypeLabel,
+  getRecentDrafts
+} from '@/entities/aoe2cm'
+import { aoe2cmApiKey } from '@/stores/keys'
 
 const MAX_CONCURRENT_API_REQUESTS = 4
 const MAX_DRAFT_AGE_SECONDS = 60 * 60 * 24
@@ -22,46 +29,19 @@ const civDraftURI = defineModel<string>('civDraft', { required: true })
 const currentMapDraftId = computed(() => extractDraftId(mapDraftURI.value))
 const currentCivDraftId = computed(() => extractDraftId(civDraftURI.value))
 
-const fetchDraftsFromPresetIds = async (presetId: string, maxAgeSeconds: number) => {
-  const presetURL = `https://aoe2cm.net/api/preset/${presetId}/drafts`
-  const response = await fetch(presetURL)
-  if (!response.ok) {
-    return []
-  }
-  const minTs = Date.now() - maxAgeSeconds * 1000
-  const drafts = ((await response.json()) as draftV2[])
-    .filter((draft) => draft.ts >= minTs)
-    .map((draft) => {
-      return {
-        draftId: draft.draftId,
-        presetId: presetId,
-        ts: draft.ts,
-        // The preset-specific endpoint does not return a title so we make up a sensible one
-        title: `${draft.host} vs ${draft.guest}`,
-        nameHost: draft.host,
-        nameGuest: draft.guest
-      }
-    })
-  return drafts
-}
+const aoe2cmApi = inject(aoe2cmApiKey, fetchAoe2CmApi)
 
-const recentDrafts = await (async () => {
-  const drafts = (
-    await pMap(
-      presets.value,
-      (presetId) => fetchDraftsFromPresetIds(presetId, MAX_DRAFT_AGE_SECONDS),
-      {
-        concurrency: MAX_CONCURRENT_API_REQUESTS
-      }
-    )
-  )
-    .flat(1)
-    .sort((a, b) => b.ts - a.ts)
-    .slice(0, MAX_DRAFT_ITEMS)
-  return drafts
-})()
+const recentDrafts = getRecentDrafts(
+  await pMap(
+    presets.value,
+    async (presetId) => ({ presetId, drafts: (await aoe2cmApi.getPresetDrafts(presetId)) ?? [] }),
+    { concurrency: MAX_CONCURRENT_API_REQUESTS }
+  ),
+  Date.now() - MAX_DRAFT_AGE_SECONDS * 1000,
+  MAX_DRAFT_ITEMS
+)
 
-function selectDraft(draft: draft) {
+function selectDraft(draft: Aoe2CmRecentDraft) {
   if (mapPresets.value.includes(draft.presetId)) {
     if (mapDraftURI.value == draft.draftId) {
       mapDraftURI.value = ''

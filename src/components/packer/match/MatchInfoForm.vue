@@ -1,12 +1,18 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { inject, ref, watch } from 'vue'
 import type { Ref } from 'vue'
-import { parseCivDraft, parseMapDraft } from '@/entities/aoe2cm'
+import {
+  extractDraftId,
+  fetchAoe2CmApi,
+  mapImageUrl,
+  parseCivDraft,
+  parseMapDraft
+} from '@/entities/aoe2cm'
 import type { ReplayMetadata, ReplayErrors } from '@/entities/gamemeta'
 import { MatchSetType } from '@/entities/matchset'
 import debounce from 'lodash.debounce'
 import CivIcon from '@/components/common/CivIcon.vue'
-import { extractDraftId } from '@/entities/draft'
+import { aoe2cmApiKey } from '@/stores/keys'
 
 const props = defineProps<{
   expectedGamesCount: number
@@ -36,16 +42,7 @@ const errors: Ref<ReplayErrors> = ref({
   civs: null
 })
 
-function mapImageUrl(imageUri: string | null) {
-  if (!imageUri) {
-    return 'https://aoe2cm.net/TODO.png' // TODO: get URL to question mark map icon
-  }
-  if (URL.canParse(imageUri)) {
-    return imageUri
-  } else {
-    return `https://aoe2cm.net/${imageUri}`
-  }
-}
+const aoe2cmApi = inject(aoe2cmApiKey, fetchAoe2CmApi)
 
 const debouncedFetchMaps = debounce(async () => {
   meta.value.maps = null
@@ -57,13 +54,13 @@ const debouncedFetchMaps = debounce(async () => {
     return
   }
 
-  const response = await fetch(`https://aoe2cm.net/api/draft/${draftId}`)
-  if (!response.ok) {
+  const draft = await aoe2cmApi.getDraft(draftId)
+  if (!draft) {
     errors.value.maps = `Map draft not found, ID/URL invalid`
     emit('updateMeta', errors.value, meta.value)
     return
   }
-  const result = parseMapDraft(draftId, await response.json(), props.mapPresets)
+  const result = parseMapDraft(draftId, draft, props.mapPresets)
   if (!result.ok) {
     errors.value.maps = result.error
     emit('updateMeta', errors.value, meta.value)
@@ -89,14 +86,14 @@ const debouncedFetchCivs = debounce(async () => {
     return
   }
 
-  const response = await fetch(`https://aoe2cm.net/api/draft/${draftId}`)
-  if (!response.ok) {
+  const draft = await aoe2cmApi.getDraft(draftId)
+  if (!draft) {
     errors.value.civs = `Civ draft not found, ID/URL invalid`
     emit('updateMeta', errors.value, meta.value)
     return
   }
 
-  const result = parseCivDraft(draftId, await response.json(), props.civPresets)
+  const result = parseCivDraft(draftId, draft, props.civPresets)
   if (!result.ok) {
     errors.value.civs = result.error
     emit('updateMeta', errors.value, meta.value)

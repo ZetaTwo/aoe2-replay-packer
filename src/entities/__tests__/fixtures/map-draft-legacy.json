@@ -224,9 +224,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "4cc28b76-c028-473d-bba6-3fd09b07daf5",
@@ -236,9 +234,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "db1dc4f2-bb0f-488f-9618-aa7f23e17069",
@@ -248,9 +244,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "d1a6d1e0-84ba-4d58-b44b-cfe7b63ea6ba",
@@ -260,9 +254,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "3b101ea7-dbf7-471d-bf5a-b87007272e8c",
@@ -272,9 +264,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "6660e855-0159-402a-937c-827f199685d7",
@@ -284,9 +274,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "65d7b09d-b243-4437-9c17-e9b36a413f05",
@@ -296,9 +284,7 @@
         "hidden": false,
         "executingPlayer": "GUEST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "f287fb61-0038-4df3-ab8c-e8d8389a609b",
@@ -308,9 +294,7 @@
         "hidden": false,
         "executingPlayer": "HOST",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       },
       {
         "id": "6bfeeedb-dfe4-47f2-8fb6-1d6b86df8f14",
@@ -320,9 +304,7 @@
         "hidden": false,
         "executingPlayer": "NONE",
         "parallel": false,
-        "categories": [
-          "default"
-        ]
+        "categories": ["default"]
       }
     ],
     "categoryLimits": {

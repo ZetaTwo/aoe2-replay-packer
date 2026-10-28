@@ -1,6 +1,8 @@
 import type { MapDraft, CivDraft } from './gamemeta'
 import { civNames } from './civs'
 
+export const AOE2CM_URL = 'https://aoe2cm.net'
+
 export type Aoe2CmEvent = {
   actionType: string
   chosenOptionId: string
@@ -176,7 +178,124 @@ export function parseCivDraft(
   }
 }
 
-// TODO: continue work on this refactoring
-/*interface Aoe2CmApi {
-  getDraft(draftUri: string): string
-}*/
+enum DraftType {
+  Unknown,
+  Map,
+  Civ
+}
+
+export type Aoe2CmRecentDraft = {
+  draftId: string
+  presetId: string
+  ts: number
+  title: string
+  nameHost: string
+  nameGuest: string
+}
+
+export type Aoe2CmPresetDraft = {
+  draftId: string
+  ts: number
+  host: string
+  guest: string
+}
+
+function getDraftType(draft: Aoe2CmRecentDraft, mapPresets: string[], civPresets: string[]) {
+  if (mapPresets.includes(draft.presetId)) {
+    return DraftType.Map
+  } else if (civPresets.includes(draft.presetId)) {
+    return DraftType.Civ
+  } else {
+    return DraftType.Unknown
+  }
+}
+
+export function getDraftTypeLabel(
+  draft: Aoe2CmRecentDraft,
+  mapPresets: string[],
+  civPresets: string[]
+) {
+  const draftType = getDraftType(draft, mapPresets, civPresets)
+  if (draftType == DraftType.Civ) {
+    return 'Civs:'
+  } else if (draftType == DraftType.Map) {
+    return 'Maps:'
+  } else {
+    return ''
+  }
+}
+
+export const extractDraftId = (url?: string) => {
+  if (!url) {
+    return ''
+  }
+  try {
+    const parsed_url = new URL(url)
+    return parsed_url.pathname.split('/').at(2) ?? ''
+  } catch {
+    return url
+  }
+}
+
+export const extractDraftUrl = (url?: string) => {
+  if (!url) {
+    return ''
+  }
+  const draftId = extractDraftId(url)
+  if (!draftId) {
+    return ''
+  }
+  return `${AOE2CM_URL}/draft/${draftId}`
+}
+
+export function getRecentDrafts(
+  presetDrafts: { presetId: string; drafts: Aoe2CmPresetDraft[] }[],
+  minTs: number,
+  maxItems: number
+): Aoe2CmRecentDraft[] {
+  return presetDrafts
+    .flatMap(({ presetId, drafts }) =>
+      drafts
+        .filter((draft) => draft.ts >= minTs)
+        .map((draft) => ({
+          draftId: draft.draftId,
+          presetId: presetId,
+          ts: draft.ts,
+          // The preset-specific endpoint does not return a title so we make up a sensible one
+          title: `${draft.host} vs ${draft.guest}`,
+          nameHost: draft.host,
+          nameGuest: draft.guest
+        }))
+    )
+    .sort((a, b) => b.ts - a.ts)
+    .slice(0, maxItems)
+}
+
+export function mapImageUrl(imageUri: string | null) {
+  if (!imageUri) {
+    return `${AOE2CM_URL}/TODO.png` // TODO: get URL to question mark map icon
+  }
+  if (URL.canParse(imageUri)) {
+    return imageUri
+  } else {
+    return `${AOE2CM_URL}/${imageUri}`
+  }
+}
+
+export interface Aoe2CmApi {
+  getDraft(draftId: string): Promise<Aoe2CmDraft | null>
+  getPresetDrafts(presetId: string): Promise<Aoe2CmPresetDraft[] | null>
+}
+
+async function fetchJson<T>(url: string): Promise<T | null> {
+  const response = await fetch(url)
+  if (!response.ok) {
+    return null
+  }
+  return (await response.json()) as T
+}
+
+export const fetchAoe2CmApi: Aoe2CmApi = {
+  getDraft: (draftId) => fetchJson(`${AOE2CM_URL}/api/draft/${draftId}`),
+  getPresetDrafts: (presetId) => fetchJson(`${AOE2CM_URL}/api/preset/${presetId}/drafts`)
+}
