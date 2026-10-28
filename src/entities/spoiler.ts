@@ -28,9 +28,9 @@ export function padRecording(recording: Blob, targetSize: number) {
 
 // Packer file names are <match>_G<n>.aoe2record, so the common prefix ends in "_G"
 export function spoilerZipName(names: string[]) {
-  let zipName = commonPrefix(names) || 'padded-recordings.zip'
+  let zipName = commonPrefix(names) || 'padded-recordings'
   if (zipName.endsWith('_G')) {
     zipName = zipName.substring(0, zipName.length - 2)
   }
-  return zipName
+  return `${zipName}.zip`
 }

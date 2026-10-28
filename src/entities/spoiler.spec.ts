@@ -43,7 +43,7 @@ describe('padRecording', () => {
 describe('spoilerZipName', () => {
   it('uses the match name of packer file names', () => {
     expect(spoilerZipName(['Alice_vs_Bob_G1.aoe2record', 'Alice_vs_Bob_G2.aoe2record'])).toBe(
-      'Alice_vs_Bob'
+      'Alice_vs_Bob.zip'
     )
   })
 
