@@ -274,6 +274,23 @@ Civ draft: <https://aoe2cm.net/draft/iFSPX>`)
   it('defaults to best of before the set type is chosen', () => {
     expect(discordMessage({ ...message, boPa: null })).toContain('\nBest of 3\n')
   })
+
+  it('leaves out the line of a missing map draft', () => {
+    expect(discordMessage({ ...message, mapDraft: '' })).toBe(`Alice || 2 - 1 || Bob
+Best of 3
+Civ draft: <https://aoe2cm.net/draft/iFSPX>`)
+  })
+
+  it('leaves out the line of a missing civ draft', () => {
+    expect(discordMessage({ ...message, civDraft: '' })).toBe(`Alice || 2 - 1 || Bob
+Best of 3
+Map draft: <https://aoe2cm.net/draft/zxvoQ>`)
+  })
+
+  it('leaves out both draft lines without drafts', () => {
+    expect(discordMessage({ ...message, mapDraft: '', civDraft: '' })).toBe(`Alice || 2 - 1 || Bob
+Best of 3`)
+  })
 })
 
 describe('replayEntries', () => {

@@ -165,10 +165,14 @@ export function discordMessage({
 }) {
   const boPaLabel = boPa?.toString() ?? 'Best of' // TODO: should there be a default value?
   const scorePreview = showResults ? `|| ${scores.left} - ${scores.right} ||` : 'vs'
-  return `${player1} ${scorePreview} ${player2}
-${boPaLabel} ${gamesCount}
-Map draft: <${extractDraftUrl(mapDraft)}>
-Civ draft: <${extractDraftUrl(civDraft)}>`
+  const mapDraftUrl = extractDraftUrl(mapDraft)
+  const civDraftUrl = extractDraftUrl(civDraft)
+  return [
+    `${player1} ${scorePreview} ${player2}`,
+    `${boPaLabel} ${gamesCount}`,
+    ...(mapDraftUrl ? [`Map draft: <${mapDraftUrl}>`] : []),
+    ...(civDraftUrl ? [`Civ draft: <${civDraftUrl}>`] : [])
+  ].join('\n')
 }
 
 export type ReplayEntry =
