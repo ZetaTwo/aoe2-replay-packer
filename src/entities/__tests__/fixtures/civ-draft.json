@@ -1,0 +1,613 @@
+{
+  "nextAction": 28,
+  "events": [
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Saracens",
+      "isRandomlyChosen": false,
+      "offset": 2003
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Wei",
+      "isRandomlyChosen": false,
+      "offset": 4002
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Muisca",
+      "isRandomlyChosen": false,
+      "offset": 6002
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Khmer",
+      "isRandomlyChosen": false,
+      "offset": 8003
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Britons",
+      "isRandomlyChosen": false,
+      "offset": 10004
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Mapuche",
+      "isRandomlyChosen": false,
+      "offset": 12002
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Incas",
+      "isRandomlyChosen": false,
+      "offset": 14002
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Bohemians",
+      "isRandomlyChosen": false,
+      "offset": 16002
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Goths",
+      "isRandomlyChosen": false,
+      "offset": 18004
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "ban",
+      "chosenOptionId": "Lithuanians",
+      "isRandomlyChosen": false,
+      "offset": 20002
+    },
+    {
+      "player": "NONE",
+      "action": "PAUSE",
+      "offset": 22001
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "Spanish",
+      "isRandomlyChosen": false,
+      "offset": 44247
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Persians",
+      "isRandomlyChosen": false,
+      "offset": 54001
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Malay",
+      "isRandomlyChosen": false,
+      "offset": 67575
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "Cumans",
+      "isRandomlyChosen": false,
+      "offset": 87339
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "Burgundians",
+      "isRandomlyChosen": false,
+      "offset": 94466
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Koreans",
+      "isRandomlyChosen": false,
+      "offset": 123653
+    },
+    {
+      "player": "NONE",
+      "action": "PAUSE",
+      "offset": 125656
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "pick",
+      "chosenOptionId": "Varangians",
+      "isRandomlyChosen": false,
+      "offset": 151335
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "pick",
+      "chosenOptionId": "Bengalis",
+      "isRandomlyChosen": false,
+      "offset": 178941
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "pick",
+      "chosenOptionId": "Magyars",
+      "isRandomlyChosen": false,
+      "offset": 202350
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "pick",
+      "chosenOptionId": "Armenians",
+      "isRandomlyChosen": false,
+      "offset": 220271
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "pick",
+      "chosenOptionId": "Italians",
+      "isRandomlyChosen": false,
+      "offset": 220848
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "pick",
+      "chosenOptionId": "Japanese",
+      "isRandomlyChosen": false,
+      "offset": 250968
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "pick",
+      "chosenOptionId": "Wu",
+      "isRandomlyChosen": false,
+      "offset": 259268
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "pick",
+      "chosenOptionId": "Vikings",
+      "isRandomlyChosen": false,
+      "offset": 269843
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "pick",
+      "chosenOptionId": "Burmese",
+      "isRandomlyChosen": false,
+      "offset": 273454
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "pick",
+      "chosenOptionId": "Mongols",
+      "isRandomlyChosen": false,
+      "offset": 291653
+    }
+  ],
+  "fixedNames": false,
+  "private": false,
+  "nameHost": "Benanji",
+  "nameGuest": "Wean Dinchester",
+  "preset": {
+    "name": "The Bastion S2 - CIV Draft - Pa3",
+    "presetId": "LfBAe",
+    "pools": [
+      {
+        "id": "default",
+        "name": "Default",
+        "encodedCivilisations": "7e3e3fffffffefff"
+      }
+    ],
+    "turns": [
+      {
+        "id": "116f921f-7a2c-4040-922e-2371afa5a84c",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "e275579a-3ff6-43fd-9d6d-c77facfca60d",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "01fa7e1f-1bb2-4ae1-8708-0b80c15342b4",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "1b5ec001-ab4a-4173-8444-6b1ea4e3094c",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "63cd4eb4-3342-4fa5-8f5f-5744ef2626f2",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "8c9320a5-0a9e-4343-a0be-d40215efee7d",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "fe1f9fff-3f88-4f76-b1b3-e5039cc26176",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "3a6a2a4a-ec2a-42a5-aec3-ad356391e8ee",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "e2df37e6-0aec-40d9-8a26-1d28a7b30032",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "c85c5c38-a029-478a-9069-f72e6d1f0689",
+        "player": "NONE",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "40f272a2-3e9f-4917-86e3-fe561c87cf25",
+        "player": "NONE",
+        "action": "PAUSE",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "b4630230-a7a6-4630-acb8-9e64295d37f2",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "f6a99e2f-45b0-4760-a07f-828d39934369",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "afd91d36-7c61-4b2b-9920-5d538d6d6aa4",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "f15f630b-7d5e-4703-872b-ed58ff02077f",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "adfaeffd-4b5f-4c43-9c98-810f28457bd3",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "b099a9a5-c92b-4bb2-952a-82dc8d528d89",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "d49b2900-3643-4eea-aa66-3c1af88c1888",
+        "player": "NONE",
+        "action": "PAUSE",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "6d9f207e-00de-453a-a7ac-7d6a5520682c",
+        "player": "HOST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "16283eb1-1d7a-4c3c-8b5a-13e1ed1532b5",
+        "player": "GUEST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "d0b20204-13cc-4249-8977-377370d6f964",
+        "player": "GUEST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "89ccf88c-57eb-4225-b7f1-ae2a23a312a2",
+        "player": "HOST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "1fdbf84b-4b86-4b3f-8e47-244040f8a77c",
+        "player": "HOST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "fec26ef8-81b0-4215-8988-1408129b24d2",
+        "player": "GUEST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "d4fda18d-a614-4da4-aa39-8285f2b94c55",
+        "player": "GUEST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "2c487527-4e72-4c5a-b9b2-53d0c3dc8c78",
+        "player": "HOST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "7f3a939f-107b-40aa-96b7-718aacf49874",
+        "player": "HOST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "d9877fe8-01b9-45ff-808e-a1a2f4a11022",
+        "player": "GUEST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      }
+    ],
+    "categoryLimits": {
+      "pick": {},
+      "ban": {}
+    }
+  },
+  "hostConnected": false,
+  "guestConnected": false,
+  "hostReady": true,
+  "guestReady": true,
+  "startTimestamp": 0
+}

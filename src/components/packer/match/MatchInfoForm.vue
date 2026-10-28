@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import type { Ref } from 'vue'
-import type { Aoe2CmEvent, Aoe2CmDraftOption, Aoe2CmPreset } from '@/entities/aoe2cm'
+import { parseCivDraft, parseMapDraft } from '@/entities/aoe2cm'
 import type { ReplayMetadata, ReplayErrors } from '@/entities/gamemeta'
 import { MatchSetType } from '@/entities/matchset'
 import debounce from 'lodash.debounce'
 import CivIcon from '@/components/common/CivIcon.vue'
 import { extractDraftId } from '@/entities/draft'
-import { civNames } from '@/entities/civs'
 
 const props = defineProps<{
   expectedGamesCount: number
@@ -48,13 +47,6 @@ function mapImageUrl(imageUri: string | null) {
   }
 }
 
-function getPresetPool(draft: { preset: Aoe2CmPreset }) {
-  if ('pools' in draft.preset) {
-    return draft.preset.pools[0]
-  }
-  return draft.preset
-}
-
 const debouncedFetchMaps = debounce(async () => {
   meta.value.maps = null
   errors.value.maps = null
@@ -71,45 +63,15 @@ const debouncedFetchMaps = debounce(async () => {
     emit('updateMeta', errors.value, meta.value)
     return
   }
-  const json = await response.json()
-  const firstPool = getPresetPool(json)
-  if ('encodedCivilisations' in firstPool) {
-    errors.value.maps = 'This does not seem to be a map draft'
+  const result = parseMapDraft(draftId, await response.json(), props.mapPresets)
+  if (!result.ok) {
+    errors.value.maps = result.error
     emit('updateMeta', errors.value, meta.value)
     return
   }
-  if (props.mapPresets && !props.mapPresets.includes(json.preset.presetId)) {
-    const validPresetsString = props.mapPresets.join(', ')
-    errors.value.maps = `The draft preset (${json.preset.presetId}) is not a map draft from the required presets [${validPresetsString}]`
-    emit('updateMeta', errors.value, meta.value)
-    return
-  }
-
-  const availableMaps = (Object.values(firstPool.draftOptions) as [Aoe2CmDraftOption]).reduce(
-    (map, draftMap) => {
-      map[draftMap.id] = { name: draftMap.name, image: draftMap.imageUrls.emblem }
-      return map
-    },
-    {} as Record<string, { name: string; image: string }>
-  )
-
-  const picks = json.events.filter((event: Aoe2CmEvent) => event.actionType == 'pick')
-  const snipes = json.events.filter((event: Aoe2CmEvent) => event.actionType == 'snipe')
-
-  const pickedMaps: [string] = picks.map((event: Aoe2CmEvent) => event.chosenOptionId)
-  const snipedMaps: [string] = snipes.map((event: Aoe2CmEvent) => event.chosenOptionId)
-
-  const resultMaps = Array.from(new Set(pickedMaps).difference(new Set(snipedMaps)))
 
   meta.value = {
-    maps: {
-      draft: draftId,
-      preset: json.preset.presetId,
-      host: json.nameHost,
-      guest: json.nameGuest,
-      availableMaps: availableMaps,
-      pickedMaps: resultMaps
-    },
+    maps: result.value,
     civs: meta.value.civs,
     player1_score: meta.value.player1_score,
     player2_score: meta.value.player2_score
@@ -134,57 +96,16 @@ const debouncedFetchCivs = debounce(async () => {
     return
   }
 
-  const json = await response.json()
-  const civNamesSet = new Set(Object.values(civNames))
-  const firstPool = getPresetPool(json)
-  console.log({ json })
-  if (
-    !('encodedCivilisations' in firstPool) &&
-    firstPool.draftOptions.every(({ id }: { id: string }) => !civNamesSet.has(id))
-  ) {
-    errors.value.civs = 'This does not seem to be a civ draft'
+  const result = parseCivDraft(draftId, await response.json(), props.civPresets)
+  if (!result.ok) {
+    errors.value.civs = result.error
     emit('updateMeta', errors.value, meta.value)
     return
   }
-
-  if (props.civPresets && !props.civPresets.includes(json.preset.presetId)) {
-    const validPresetsString = props.civPresets.join(', ')
-    errors.value.civs = `The draft preset (${json.preset.presetId}) is not a civ draft from the required presets [${validPresetsString}]`
-    emit('updateMeta', errors.value, meta.value)
-    return
-  }
-
-  const picks = json.events.filter((event: Aoe2CmEvent) => event.actionType == 'pick')
-  const snipes = json.events.filter((event: Aoe2CmEvent) => event.actionType == 'snipe')
-  const pickedCivsHost: [string] = picks
-    .filter((event: Aoe2CmEvent) => event.player == 'HOST')
-    .map((event: Aoe2CmEvent) => event.chosenOptionId)
-
-  const snipedCivsHost: [string] = snipes
-    .filter((event: Aoe2CmEvent) => event.player == 'HOST')
-    .map((event: Aoe2CmEvent) => event.chosenOptionId)
-
-  const pickedCivsGuest: [string] = picks
-    .filter((event: Aoe2CmEvent) => event.player == 'GUEST')
-    .map((event: Aoe2CmEvent) => event.chosenOptionId)
-
-  const snipedCivsGuest: [string] = snipes
-    .filter((event: Aoe2CmEvent) => event.player == 'GUEST')
-    .map((event: Aoe2CmEvent) => event.chosenOptionId)
-
-  const resultCivsHost = Array.from(new Set(pickedCivsHost).difference(new Set(snipedCivsGuest)))
-  const resultCivsGuest = Array.from(new Set(pickedCivsGuest).difference(new Set(snipedCivsHost)))
 
   meta.value = {
     maps: meta.value.maps,
-    civs: {
-      draft: draftId,
-      preset: json.preset.presetId,
-      host: json.nameHost,
-      guest: json.nameGuest,
-      hostCivs: resultCivsHost,
-      guestCivs: resultCivsGuest
-    },
+    civs: result.value,
     player1_score: meta.value.player1_score,
     player2_score: meta.value.player2_score
   }

@@ -1,0 +1,338 @@
+{
+  "nextAction": 9,
+  "events": [
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "Comeer",
+      "isRandomlyChosen": false,
+      "offset": 3791
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Chile Con Carne",
+      "isRandomlyChosen": false,
+      "offset": 8748
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "pick",
+      "chosenOptionId": "Festa_da_Pólvora",
+      "isRandomlyChosen": false,
+      "offset": 21500
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "pick",
+      "chosenOptionId": "Castra",
+      "isRandomlyChosen": false,
+      "offset": 24723
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "Pez Panino",
+      "isRandomlyChosen": false,
+      "offset": 38234
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Thames",
+      "isRandomlyChosen": false,
+      "offset": 48366
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Monte Pascoal",
+      "isRandomlyChosen": false,
+      "offset": 61052
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "Winged",
+      "isRandomlyChosen": false,
+      "offset": 66697
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "pick",
+      "chosenOptionId": "Drumlin",
+      "isRandomlyChosen": false,
+      "offset": 68699
+    }
+  ],
+  "fixedNames": false,
+  "private": false,
+  "nameHost": "Snowshawnskate",
+  "nameGuest": "Antymon",
+  "preset": {
+    "name": "TCC3 BO3 maps",
+    "presetId": "OrFMd",
+    "draftOptions": [
+      {
+        "id": "Castra",
+        "name": "Castra",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/0Vs097gG/TCC3-Castra.png",
+          "emblem": "https://i.ibb.co/0Vs097gG/TCC3-Castra.png",
+          "animated_left": "https://i.ibb.co/0Vs097gG/TCC3-Castra.png",
+          "animated_right": "https://i.ibb.co/0Vs097gG/TCC3-Castra.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Chile Con Carne",
+        "name": "Chile Con Carne",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/cScdc0h9/TCC3-Chile-con-carne.png",
+          "emblem": "https://i.ibb.co/cScdc0h9/TCC3-Chile-con-carne.png",
+          "animated_left": "https://i.ibb.co/cScdc0h9/TCC3-Chile-con-carne.png",
+          "animated_right": "https://i.ibb.co/cScdc0h9/TCC3-Chile-con-carne.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Comeer",
+        "name": "Comeer",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/S4hfMrW0/TCC3-Comeer.png",
+          "emblem": "https://i.ibb.co/S4hfMrW0/TCC3-Comeer.png",
+          "animated_left": "https://i.ibb.co/S4hfMrW0/TCC3-Comeer.png",
+          "animated_right": "https://i.ibb.co/S4hfMrW0/TCC3-Comeer.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Drumlin",
+        "name": "Drumlin",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/4gsxL9t4/TCC3-Drumlin.png",
+          "emblem": "https://i.ibb.co/4gsxL9t4/TCC3-Drumlin.png",
+          "animated_left": "https://i.ibb.co/4gsxL9t4/TCC3-Drumlin.png",
+          "animated_right": "https://i.ibb.co/4gsxL9t4/TCC3-Drumlin.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Festa_da_Pólvora",
+        "name": "Festa_da_Pólvora",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/QFkJxr9j/TCC3-Festa-da-P-lvora.png",
+          "emblem": "https://i.ibb.co/QFkJxr9j/TCC3-Festa-da-P-lvora.png",
+          "animated_left": "https://i.ibb.co/QFkJxr9j/TCC3-Festa-da-P-lvora.png",
+          "animated_right": "https://i.ibb.co/QFkJxr9j/TCC3-Festa-da-P-lvora.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Loonsche Duynen",
+        "name": "Loonsche Duynen",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/zWXLZ1yY/TCC3-Loonsche-Duinen-v1.png",
+          "emblem": "https://i.ibb.co/zWXLZ1yY/TCC3-Loonsche-Duinen-v1.png",
+          "animated_left": "https://i.ibb.co/zWXLZ1yY/TCC3-Loonsche-Duinen-v1.png",
+          "animated_right": "https://i.ibb.co/zWXLZ1yY/TCC3-Loonsche-Duinen-v1.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Monte Pascoal",
+        "name": "Monte Pascoal",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/xqkdgnrS/TCC3-Monte-Pascoal.png",
+          "emblem": "https://i.ibb.co/xqkdgnrS/TCC3-Monte-Pascoal.png",
+          "animated_left": "https://i.ibb.co/xqkdgnrS/TCC3-Monte-Pascoal.png",
+          "animated_right": "https://i.ibb.co/xqkdgnrS/TCC3-Monte-Pascoal.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Pez Panino",
+        "name": "Pez Panino",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/qMKLGZnP/TCC3-Pez-Panino.png",
+          "emblem": "https://i.ibb.co/qMKLGZnP/TCC3-Pez-Panino.png",
+          "animated_left": "https://i.ibb.co/qMKLGZnP/TCC3-Pez-Panino.png",
+          "animated_right": "https://i.ibb.co/qMKLGZnP/TCC3-Pez-Panino.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Tepui",
+        "name": "Tepui",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/8DzjnTRS/TCC3-Tepui.png",
+          "emblem": "https://i.ibb.co/8DzjnTRS/TCC3-Tepui.png",
+          "animated_left": "https://i.ibb.co/8DzjnTRS/TCC3-Tepui.png",
+          "animated_right": "https://i.ibb.co/8DzjnTRS/TCC3-Tepui.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Thames",
+        "name": "Thames",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/wND9Dj11/TCC3-Thames.png",
+          "emblem": "https://i.ibb.co/wND9Dj11/TCC3-Thames.png",
+          "animated_left": "https://i.ibb.co/wND9Dj11/TCC3-Thames.png",
+          "animated_right": "https://i.ibb.co/wND9Dj11/TCC3-Thames.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      },
+      {
+        "id": "Winged",
+        "name": "Winged",
+        "imageUrls": {
+          "unit": "https://i.ibb.co/JL5KhQV/TCC3-Winged.png",
+          "emblem": "https://i.ibb.co/JL5KhQV/TCC3-Winged.png",
+          "animated_left": "https://i.ibb.co/JL5KhQV/TCC3-Winged.png",
+          "animated_right": "https://i.ibb.co/JL5KhQV/TCC3-Winged.png"
+        },
+        "i18nPrefix": "civs.",
+        "category": "default"
+      }
+    ],
+    "turns": [
+      {
+        "id": "97550c78-0bd0-46a6-8cd5-8bc9e1c9a0b0",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ]
+      },
+      {
+        "id": "4cc28b76-c028-473d-bba6-3fd09b07daf5",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ]
+      },
+      {
+        "id": "db1dc4f2-bb0f-488f-9618-aa7f23e17069",
+        "player": "GUEST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ]
+      },
+      {
+        "id": "d1a6d1e0-84ba-4d58-b44b-cfe7b63ea6ba",
+        "player": "HOST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ]
+      },
+      {
+        "id": "3b101ea7-dbf7-471d-bf5a-b87007272e8c",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ]
+      },
+      {
+        "id": "6660e855-0159-402a-937c-827f199685d7",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ]
+      },
+      {
+        "id": "65d7b09d-b243-4437-9c17-e9b36a413f05",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ]
+      },
+      {
+        "id": "f287fb61-0038-4df3-ab8c-e8d8389a609b",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ]
+      },
+      {
+        "id": "6bfeeedb-dfe4-47f2-8fb6-1d6b86df8f14",
+        "player": "NONE",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ]
+      }
+    ],
+    "categoryLimits": {
+      "pick": {},
+      "ban": {}
+    }
+  },
+  "hostConnected": false,
+  "guestConnected": false,
+  "hostReady": true,
+  "guestReady": true,
+  "startTimestamp": 0
+}

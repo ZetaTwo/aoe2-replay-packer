@@ -1,0 +1,407 @@
+{
+  "nextAction": 11,
+  "events": [
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "ZeWall",
+      "isRandomlyChosen": false,
+      "offset": 8799
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Valley",
+      "isRandomlyChosen": false,
+      "offset": 19502
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "pick",
+      "chosenOptionId": "Basmo",
+      "isRandomlyChosen": false,
+      "offset": 34247
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "pick",
+      "chosenOptionId": "Nomad",
+      "isRandomlyChosen": false,
+      "offset": 45488
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "Vulpine",
+      "isRandomlyChosen": false,
+      "offset": 51792
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Moats",
+      "isRandomlyChosen": false,
+      "offset": 58422
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Typhoon",
+      "isRandomlyChosen": false,
+      "offset": 68066
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "Monte Pascoal",
+      "isRandomlyChosen": false,
+      "offset": 83427
+    },
+    {
+      "player": "HOST",
+      "executingPlayer": "HOST",
+      "actionType": "ban",
+      "chosenOptionId": "Seychelles",
+      "isRandomlyChosen": false,
+      "offset": 83989
+    },
+    {
+      "player": "GUEST",
+      "executingPlayer": "GUEST",
+      "actionType": "ban",
+      "chosenOptionId": "Badlands",
+      "isRandomlyChosen": false,
+      "offset": 89577
+    },
+    {
+      "player": "NONE",
+      "executingPlayer": "NONE",
+      "actionType": "pick",
+      "chosenOptionId": "Copenhagen",
+      "isRandomlyChosen": false,
+      "offset": 91581
+    }
+  ],
+  "fixedNames": false,
+  "private": false,
+  "nameHost": "Benanji",
+  "nameGuest": "Wean Dinchester",
+  "preset": {
+    "name": "The Bastion S2 - MAP Draft - Pa3",
+    "presetId": "qrZfn",
+    "pools": [
+      {
+        "id": "default",
+        "name": "Default",
+        "draftOptions": [
+          {
+            "id": "Badlands",
+            "name": "Badlands",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Badlands.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Badlands.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Badlands.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Badlands.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Basmo",
+            "name": "Basmo",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Basmo.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Basmo.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Basmo.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Basmo.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Copenhagen",
+            "name": "Copenhagen",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Copenhagen.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Copenhagen.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Copenhagen.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Copenhagen.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Moats",
+            "name": "Moats",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Moats.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Moats.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Moats.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Moats.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Monte Pascoal",
+            "name": "Monte Pascoal",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Monte_Pascoal.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Monte_Pascoal.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Monte_Pascoal.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Monte_Pascoal.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Nomad",
+            "name": "Nomad",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Nomad.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Nomad.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Nomad.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Nomad.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Seychelles",
+            "name": "Seychelles",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Seychelles.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Seychelles.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Seychelles.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Seychelles.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Shoals",
+            "name": "Shoals",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Shoals.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Shoals.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Shoals.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Shoals.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Typhoon",
+            "name": "Typhoon",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Typhoon.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Typhoon.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Typhoon.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Typhoon.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Valley",
+            "name": "Valley",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Valley.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Valley.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Valley.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Valley.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "Vulpine",
+            "name": "Vulpine",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Vulpine.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Vulpine.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Vulpine.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_Vulpine.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          },
+          {
+            "id": "ZeWall",
+            "name": "ZeWall",
+            "imageUrls": {
+              "unit": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_ZeWall.png",
+              "emblem": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_ZeWall.png",
+              "animated_left": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_ZeWall.png",
+              "animated_right": "https://ljdejjmgsxsvxpepdafe.supabase.co/storage/v1/object/public/maps/ca/S10/A2G_S10_ZeWall.png"
+            },
+            "i18nPrefix": "civs.",
+            "category": "default"
+          }
+        ]
+      }
+    ],
+    "turns": [
+      {
+        "id": "0a617b9c-885c-4e77-944b-5df14999f164",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "21e0a84a-bdaf-4daa-b582-fb952f5c3da1",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "9fdf1030-bc02-4fb9-adc4-74b5ed885c04",
+        "player": "GUEST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "6fab29e8-7a77-42b1-a907-428582417a4f",
+        "player": "HOST",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "a84c35b5-f6a3-4413-891b-430645d8e068",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "1dd2cbac-ab41-47d4-96c0-fdb3d22f6b03",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "8de211f9-bb08-46ad-bdfc-2b853d924545",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "6b157e64-43bf-4440-b757-b6d2d7e7e493",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "a5211c50-67cd-4def-976d-0407e29da41b",
+        "player": "HOST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "HOST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "0c2d99b3-9b3b-448b-bbfd-83f39ccfad4e",
+        "player": "GUEST",
+        "action": "BAN",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "GUEST",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      },
+      {
+        "id": "728def62-31f9-4dbf-980e-dcc359bef4ae",
+        "player": "NONE",
+        "action": "PICK",
+        "exclusivity": "GLOBAL",
+        "hidden": false,
+        "executingPlayer": "NONE",
+        "parallel": false,
+        "categories": [
+          "default"
+        ],
+        "poolId": "default"
+      }
+    ],
+    "categoryLimits": {
+      "pick": {},
+      "ban": {}
+    }
+  },
+  "hostConnected": false,
+  "guestConnected": false,
+  "hostReady": true,
+  "guestReady": true,
+  "startTimestamp": 0
+}
