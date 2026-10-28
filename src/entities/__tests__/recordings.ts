@@ -1,5 +1,5 @@
 import type { SavegameSummary } from 'aoe2rec-js'
-import { Game, Replay } from '../game'
+import { Game, Replay, type DummyReplay } from '../game'
 
 type PlayerSpec = { name: string; profile?: number; civ?: number; resigned?: boolean }
 
@@ -38,7 +38,10 @@ export function makeRecording({
   } as unknown as SavegameSummary
 }
 
-export function makeReplay(recording = makeRecording(), name = 'game.aoe2record') {
+export function makeReplay(
+  recording: SavegameSummary | DummyReplay = makeRecording(),
+  name = 'game.aoe2record'
+) {
   return new Replay(new File(['rec'], name), recording)
 }
 

@@ -11,6 +11,7 @@ import {
   type DummyReplay
 } from './game'
 import type { SavegameSummary } from 'aoe2rec-js'
+import { makeRecording, makeReplay } from './__tests__/recordings'
 
 function makePlayer(name: string, resigned: boolean): Player {
   return new Player(1, name, name, 'Britons', 1, 1, resigned)
@@ -141,5 +142,26 @@ describe('computeReplayFilename', () => {
     expect(computeReplayFilename('Playe<>r 3', ' Pl ay::er 4 ', game1, 2, 28)).toBe(
       'Player3_vs_Player4_G3bc.aoe2record'
     )
+  })
+})
+
+describe('Game.addReplay', () => {
+  it('orders replays by timestamp, including unparseable ones', () => {
+    const recording = makeRecording({ timestamp: 1700000000 })
+    const unparseable: DummyReplay = { dummy: true, header: { timestamp: 1700000000 - 60 } }
+    const game = new Game([makeReplay(recording, 'second.aoe2record')])
+    game.addReplay(makeReplay(unparseable, 'first.aoe2record'))
+    expect(game.replays.map((replay) => replay.file.name)).toEqual([
+      'first.aoe2record',
+      'second.aoe2record'
+    ])
+  })
+})
+
+describe('Game date', () => {
+  it('reads the timestamp of an unparseable replay as seconds', () => {
+    const unparseable: DummyReplay = { dummy: true, header: { timestamp: 1700000000 } }
+    const game = new Game([makeReplay(unparseable)])
+    expect(game.date).toEqual(new Date(1700000000 * 1000))
   })
 })

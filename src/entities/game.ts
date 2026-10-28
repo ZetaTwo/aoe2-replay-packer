@@ -99,7 +99,7 @@ export class Game {
     const recording = this.replays[0]?.recording
     if (recording) {
       if ('dummy' in recording) {
-        this.date = new Date(recording.header.timestamp)
+        this.date = new Date(recording.header.timestamp * 1000)
         return
       }
       const { date, mapName, duration, teams } = extractRecordingInfo(recording)

@@ -37,4 +37,16 @@ describe('games store', () => {
       expect(store.hasGames).toBe(false)
     })
   })
+
+  describe('addRec', () => {
+    it('dates an unparseable recording by its file modification time', async () => {
+      parseMock.mockImplementation(() => {
+        throw new Error('unsupported version')
+      })
+      const store = useGamesStore()
+      await store.addRec(new File(['rec'], 'broken.aoe2record', { lastModified: 1700000000000 }))
+      expect(store.games[0]?.isUnparseable()).toBe(true)
+      expect(store.games[0]?.date).toEqual(new Date(1700000000000))
+    })
+  })
 })
