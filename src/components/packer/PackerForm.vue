@@ -19,12 +19,21 @@ import BaseAlert from '@/components/common/BaseAlert.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import { useGamesStore } from '@/stores/games'
 import type { ReplayMetadata, ReplayErrors } from '@/entities/gamemeta'
-import { MatchSetDefinition, MatchSetType } from '@/entities/matchset'
+import { MatchSetType } from '@/entities/matchset'
 
-import { zipFilename, computeReplayFilename, Player } from '@/entities/game'
-import { extractDraftUrl } from '@/entities/aoe2cm'
+import { zipFilename, computeReplayFilename } from '@/entities/game'
 import { getRandomInt } from '@/lib/maths'
-import { missingReplaysWarning } from '@/entities/packer'
+import {
+  computeScores,
+  discordMessage as discordMessageText,
+  downloadDisabledReason,
+  draftMissingWarning,
+  guessSetLength,
+  missingReplaysWarning,
+  presetSetDefinition,
+  scoreWarning,
+  tournamentSetDefinitions
+} from '@/entities/packer'
 
 const props = defineProps<{
   civPresets: string[] | null
@@ -53,114 +62,17 @@ const meta: Ref<ReplayMetadata> = ref({
 const metaErrors: Ref<ReplayErrors> = ref({ maps: null, civs: null })
 const showResults = ref(true)
 
-const setTypeRestrictions = computed((): MatchSetDefinition[] | undefined => {
-  if (!props.tournament) {
-    return
-  }
-  return [
-    ...new Set([...Object.keys(props.tournament.maps), ...Object.keys(props.tournament.civs)])
-  ].map(MatchSetDefinition.parse)
-})
+const setTypeRestrictions = computed(() =>
+  props.tournament ? tournamentSetDefinitions(props.tournament) : undefined
+)
 
 const downloadWarningReplayMissing = computed(() =>
   missingReplaysWarning(gamesStore.games, boPa.value)
 )
 
-const winCount = computed(() => {
-  return gamesStore.games.reduce(
-    (count, game) => {
-      const outcome = game.outcome
-      if (outcome) {
-        const winnerProfile = outcome.firstPlayer?.profile
-        if (winnerProfile) {
-          count.players[winnerProfile] = (count.players[winnerProfile] ?? 0) + 1
-        } else if (outcome.side == 'left') {
-          count.left += 1
-        } else if (outcome.side == 'right') {
-          count.right += 1
-        }
-      }
-      return count
-    },
-    { left: 0, right: 0, players: {} } as {
-      left: number
-      right: number
-      players: Record<Player['profile'], number>
-    }
-  )
-})
-
-const playerSides = computed(() => {
-  if ((gamesStore.games[0]?.teams?.length ?? 0) < 2) {
-    return null
-  }
-
-  const playerNameIsSimilarTo = (draftPlayer: Ref<string>) => (player: Player) =>
-    player.name.toLowerCase().includes(draftPlayer.value.toLowerCase()) ||
-    draftPlayer.value.toLowerCase().includes(player.name.toLowerCase())
-
-  for (const game of gamesStore.games) {
-    if (game.isUnparseable() || game.isDummy()) {
-      continue
-    }
-
-    const team1 = game.teams[0]
-    const team2 = game.teams[1]
-
-    if (!team1 || !team2) {
-      continue
-    }
-
-    const profile1 = team1.asGameWinner('left').firstPlayer?.profile
-    const profile2 = team2.asGameWinner('right').firstPlayer?.profile
-
-    const team1players = team1.players
-    const team2players = team2.players
-
-    if (team1players.find(playerNameIsSimilarTo(player1))) {
-      return { left: profile1, right: profile2 }
-    }
-
-    if (team1players.find(playerNameIsSimilarTo(player2))) {
-      return { left: profile2, right: profile1 }
-    }
-
-    if (team2players.find(playerNameIsSimilarTo(player2))) {
-      return { left: profile1, right: profile2 }
-    }
-
-    if (team2players.find(playerNameIsSimilarTo(player1))) {
-      return { left: profile2, right: profile1 }
-    }
-  }
-
-  for (const game of gamesStore.games) {
-    if (game.isUnparseable() || game.isDummy()) {
-      continue
-    }
-
-    const team1 = game.teams[0]
-    const team2 = game.teams[game.teams.length - 1]
-    if (!team1 || !team2) {
-      continue
-    }
-
-    return {
-      left: team1.asGameWinner('left').firstPlayer?.profile,
-      right: team2.asGameWinner('left').firstPlayer?.profile
-    }
-  }
-
-  return null
-})
-
-const leftScore = computed(() => {
-  return (winCount.value.players[playerSides?.value?.left ?? ''] ?? 0) + winCount.value.left
-})
-
-const rightScore = computed(() => {
-  return (winCount.value.players[playerSides?.value?.right ?? ''] ?? 0) + winCount.value.right
-})
+const scores = computed(() => computeScores(gamesStore.games, player1.value, player2.value))
+const leftScore = computed(() => scores.value.left)
+const rightScore = computed(() => scores.value.right)
 
 watch([leftScore, rightScore], ([newLeftScore, newRightScore], [oldLeftScore, oldRightScore]) => {
   if (newLeftScore == oldLeftScore && newRightScore == oldRightScore) {
@@ -177,75 +89,21 @@ watch([leftScore, rightScore], ([newLeftScore, newRightScore], [oldLeftScore, ol
   meta.value.player2_score = newRightScore
 })
 
-const downloadWarningScore = computed(() => {
-  if (boPa.value == MatchSetType.PlayAll) {
-    return false
-  }
+const downloadWarningScore = computed(() =>
+  scoreWarning(scores.value, gamesStore.games.length, boPa.value)
+)
 
-  if (2 * leftScore.value > gamesStore.games.length + 1) {
-    return true
-  }
-  if (2 * rightScore.value > gamesStore.games.length + 1) {
-    return true
-  }
+const downloadWarningCivDraftMissing = computed(() =>
+  draftMissingWarning(props.civPresets, civDraft.value)
+)
 
-  return false
-})
+const downloadWarningMapDraftMissing = computed(() =>
+  draftMissingWarning(props.mapPresets, mapDraft.value)
+)
 
-const downloadWarningCivDraftMissing = computed(() => {
-  if (!props.civPresets || props.civPresets.length == 0) {
-    return false
-  }
-
-  if (civDraft.value.length > 0) {
-    return false
-  }
-
-  return true
-})
-
-const downloadWarningMapDraftMissing = computed(() => {
-  if (!props.mapPresets || props.mapPresets.length == 0) {
-    return false
-  }
-
-  if (mapDraft.value.length > 0) {
-    return false
-  }
-
-  return true
-})
-
-const downloadDisabledMessage = computed(() => {
-  if (metaErrors.value.civs || metaErrors.value.maps) {
-    return 'The draft links have some issues'
-  }
-
-  // Force civ draft entry if preset is specified
-  /*if (props.civPresets && !meta.value.civs) {
-    return false
-  }*/
-
-  // Force map draft entry if preset is specified
-  /*if (props.mapPresets && !meta.value.maps) {
-    return false
-  }*/
-
-  // If Best of/Play all and number of games was not selected
-  if (boPa.value == null || expectedGamesCount.value == 0) {
-    return 'You must choose the type of set (e.g. Best of 5)'
-  }
-
-  for (const game of gamesStore.games) {
-    for (const replay of game.replays) {
-      if (replay.file) {
-        return null
-      }
-    }
-  }
-
-  return 'Replays are missing'
-})
+const downloadDisabledMessage = computed(() =>
+  downloadDisabledReason(metaErrors.value, boPa.value, expectedGamesCount.value, gamesStore.games)
+)
 
 const downloadEnabled = computed(() => downloadDisabledMessage.value == null)
 
@@ -313,24 +171,22 @@ function downloadZip() {
     })
 }
 
-const discordMessage = computed(() => {
-  const boPaLabel = boPa.value?.toString() ?? 'Best of' // TODO: should there be a default value?
-  const scorePreview = showResults.value ? `|| ${leftScore.value} - ${rightScore.value} ||` : 'vs'
-  return `${player1.value} ${scorePreview} ${player2.value}
-${boPaLabel} ${expectedGamesCount.value}
-Map draft: <${extractDraftUrl(mapDraft.value)}>
-Civ draft: <${extractDraftUrl(civDraft.value)}>`
-})
+const discordMessage = computed(() =>
+  discordMessageText({
+    player1: player1.value,
+    player2: player2.value,
+    scores: scores.value,
+    showResults: showResults.value,
+    boPa: boPa.value,
+    gamesCount: expectedGamesCount.value,
+    mapDraft: mapDraft.value,
+    civDraft: civDraft.value
+  })
+)
 
 function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
-  // Guess set length based on map draft
   if (!props.tournament && newMeta?.maps?.pickedMaps?.length) {
-    const numOfMaps = newMeta.maps.pickedMaps.length
-    if (numOfMaps % 2 == 0) {
-      setExpectedGamesCount(numOfMaps + 1)
-    } else {
-      setExpectedGamesCount(numOfMaps)
-    }
+    setExpectedGamesCount(guessSetLength(newMeta.maps.pickedMaps.length))
   }
 
   meta.value = newMeta
@@ -341,13 +197,7 @@ function updateMeta(newErrors: ReplayErrors, newMeta: ReplayMetadata) {
     return
   }
 
-  const presetToSetType: Record<string, MatchSetDefinition> = Object.fromEntries(
-    [...Object.entries(props.tournament.maps), ...Object.entries(props.tournament.civs)].flatMap(
-      ([setType, presets]) => presets.map((preset) => [preset, MatchSetDefinition.parse(setType)])
-    )
-  )
-
-  const setDefinition = presetToSetType[preset]
+  const setDefinition = presetSetDefinition(props.tournament, preset)
   if (!setDefinition) {
     console.error('Preset is not in the tournament set, but it should')
     return
