@@ -49,6 +49,27 @@ describe('MatchSetPicker', () => {
     expect(wrapper.emitted('setGames')).toEqual([[9], [99], [1]])
   })
 
+  it('waits while the custom number of games is cleared to type a new one', async () => {
+    const wrapper = mountPicker()
+    await radio(wrapper, 'bo-custom').setValue()
+    const input = wrapper.find<HTMLInputElement>('input[type="number"]')
+    await input.setValue('')
+    expect(input.element.value).toBe('')
+    await input.setValue('2')
+    expect(wrapper.emitted('setGames')).toEqual([[9], [2]])
+  })
+
+  it('restores the last custom number of games when left blank', async () => {
+    const wrapper = mountPicker()
+    await radio(wrapper, 'bo-custom').setValue()
+    const input = wrapper.find<HTMLInputElement>('input[type="number"]')
+    await input.setValue('4')
+    await input.setValue('')
+    await input.trigger('blur')
+    expect(input.element.value).toBe('4')
+    expect(wrapper.emitted('setGames')).toEqual([[9], [4], [4]])
+  })
+
   it('steps the custom number of games with the buttons', async () => {
     const wrapper = mountPicker()
     await radio(wrapper, 'bo-custom').setValue()

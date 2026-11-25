@@ -16,11 +16,19 @@ const MIN_GAMES = 1
 const MAX_GAMES = 99
 
 const customGameCount = ref(9)
+const lastValidCount = ref(customGameCount.value)
 const bestOf = ref<number | 'custom'>(props.gamesCount)
 const boPa = ref<MatchSetType | null>(null)
 
+// A blank field is mid-edit, so it is left alone until it loses focus
+function restoreBlankCount() {
+  if (!Number.isFinite(customGameCount.value)) {
+    customGameCount.value = lastValidCount.value
+  }
+}
+
 watch(customGameCount, async (newCount, oldCount) => {
-  if (newCount == oldCount) {
+  if (newCount == oldCount || !Number.isFinite(newCount)) {
     return
   }
   if (newCount < MIN_GAMES) {
@@ -31,6 +39,7 @@ watch(customGameCount, async (newCount, oldCount) => {
     customGameCount.value = MAX_GAMES
     return
   }
+  lastValidCount.value = newCount
   if (bestOf.value != 'custom') {
     return
   }
@@ -132,6 +141,7 @@ watch(boPa, (newBoPa, oldBoPa) => {
               :min="MIN_GAMES"
               :max="MAX_GAMES"
               maxlength="2"
+              @blur="restoreBlankCount"
             />
             <button
               type="button"
